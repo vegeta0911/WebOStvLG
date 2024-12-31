@@ -1,0 +1,3 @@
+Le plugin lgWebOSTV permet de piloter des TV connectées Lg sous WebOS.
+
+
