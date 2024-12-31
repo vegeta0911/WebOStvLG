@@ -1,0 +1,103 @@
+{
+    "commands":[{
+			"name" :"Home",
+			"configuration" : { 
+				"request" :"Accueil",
+				"parameters" :"connect_input home",
+				"dashicon" :"<i class='fas fa-home'></i>",
+				"description" :"Accueil",
+				"group" :"remote"				
+			},
+			"type" :"action",
+			"subtype" :"other"			
+		},{
+			"name" :"Ok",
+			"configuration" : { 
+				"request" :"connect_input ok",
+				"parameters" :"connect_input ok",
+				"dashicon" :"<i class='fas fa-sign-in-alt'></i>",
+				"description" :"Ok",
+				"group" :"remote"				
+			},
+			"type" :"action",
+			"subtype" :"other"			
+		},{
+			"name" :"Up",
+			"configuration" : { 
+				"request" :"connect_input up",
+				"parameters" :"connect_input up",
+				"dashicon" :"<i class='fas  fa-arrow-up'></i>",
+				"description" :"connect_input up",
+				"group" :"remote"				
+			},
+			"type" :"action",
+			"subtype" :"other"			
+		},{
+			"name" :"Down",
+			"configuration" : { 
+				"request" :"Down",
+				"parameters" :"connect_input down",
+				"dashicon" :"<i class='fas  fa-arrow-down'></i>",
+				"description" :"Down",
+				"group" :"remote"				
+			},
+			"type" :"action",
+			"subtype" :"other"			
+		},{
+			"name" :"Left",
+			"configuration" : { 
+				"request" :"Left",
+				"parameters" :"connect_input left",
+				"dashicon" :"<i class='fas  fa-arrow-left'></i>",
+				"description" :"Left",
+				"group" :"remote"				
+			},
+			"type" :"action",
+			"subtype" :"other"			
+		},{
+			"name" :"Right",
+			"configuration" : { 
+				"request" :"Right",
+				"parameters" :"connect_input right",
+				"dashicon" :"<i class='fas  fa-arrow-right'></i>",
+				"description" :"Right",
+				"group" :"remote"				
+			},
+			"type" :"action",
+			"subtype" :"other"			
+		},{
+			"name" :"Back",
+			"configuration" : { 
+				"request" :"connect_input back",
+				"parameters" :"connect_input back",
+				"dashicon" :"<i class='fas fa-undo'></i>",
+				"description" :"connect_input back",
+				"group" :"remote"				
+			},
+			"type" :"action",
+			"subtype" :"other"			
+		},{
+			"name" :"Info",
+			"configuration" : { 
+				"request" :"Info",
+				"parameters" :"connect_input info",
+				"description" :"Info",
+				"dashicon" :"<i class='fas fa-info'></i>",
+				"group" :"remote"				
+			},
+			"type" :"action",
+			"subtype" :"other"			
+		},{
+			"name" :"Dash",
+			"configuration" : { 
+				"request" :"Dash",
+				"parameters" :"connect_input dash",
+				"description" :"Dash",
+				"dashicon" :"Dash",
+				"group" :"remote"				
+			},
+			"type" :"action",
+			"subtype" :"other"			
+		}
+    ]
+}

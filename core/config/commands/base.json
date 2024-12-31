@@ -1,0 +1,138 @@
+{
+    "commands":[{
+			"name" :"Eteindre",
+			"icon" :"icon fas fa-tv fa-lg",
+			"color":"red",
+			"configuration" : { 
+				"request" :"--name MyTV off",
+				"parameters" :"Arreter la TV",
+				"dashicon" :"<i style='color: red;' class='icon kiko-digital-tv fa-lg'></i>",
+				"description" :"Eteindre la TV",
+				"group" :"base"				
+			},
+			"type" :"action",
+			"subtype" :"other"			
+		},
+		{
+			"name" :"Allumer",
+			"icon" :"icon fas fa-tv fa-lg",
+			"color":"green",
+			"configuration" : { 
+				"request" :"--name MyTV on",
+				"parameters" :"Allumer la TV",
+				"dashicon" :"<i style='color: green;' class='icon kiko-digital-tv fa-lg'></i>",
+				"description" :"Allumer la TV",
+				"group" :"base"				
+			},
+			"type" :"action",
+			"subtype" :"other"			
+		},{
+			"name" :"Channel up",
+			"icon" :"icon fas fa-plus fa-lg",
+			"color":"blue",
+			"configuration" : { 
+				"request" :"--name MyTV inputChannelUp",
+				"parameters" :"Channel up",
+				"dashicon" :"<i class='fas fa-plus fa-lg'></i>",
+				"description" :"Channel up",
+				"group" :"base"				
+			},
+			"type" :"action",
+			"subtype" :"other"			
+		},{
+			"name" :"Channel down",
+			"icon" :"icon fas fa-minus fa-lg",
+			"color":"blue",
+			"configuration" : { 
+				"request" :"--name MyTV inputChannelDown",
+				"parameters" :"Channel down",
+				"dashicon" :"<i class='fas fa-minus fa-lg'></i>",
+				"description" :"Channel down",
+				"group" :"base"				
+			},
+			"type" :"action",
+			"subtype" :"other"			
+		},{
+			"name" :"Mute",
+			"icon" :"icon fas fa-volume-mute fa-lg",
+			"color":"orange",
+			"configuration" : { 
+				"request" :"--name MyTV mute 1",
+				"parameters" :"Couper le son",
+				"dashicon" :"<i style='color:orange;' class='icon fas fa-volume-mute fa-lg'></i>",
+				"description" :"Couper le son",
+				"group" :"base"				
+			},
+			"type" :"action",
+			"subtype" :"other"			
+		},{
+			"name" :"Vol+",
+			"icon" :"icon fas fa-volume-up fa-lg",
+			"color":"orange",
+			"configuration" : { 
+				"request" :"--name MyTV volumeUp",
+				"parameters" :"Augmenter le Volume",
+				"dashicon" :"<i style='color:orange;' class='icon fas fa-volume-up fa-lg'></i>",
+				"description" :"Augmenter le Volume",
+				"group" :"base"				
+			},
+			"type" :"action",
+			"subtype" :"other"			
+		},{
+			"name" :"Vol-",
+			"icon" :"icon fas fa-volume-down fa-lg",
+			"color":"orange",
+			"configuration" : { 
+				"request" :"--name MyTV volumeDown",
+				"parameters" :"Baisser le Volume",
+				"dashicon" :"<i style='color:orange;' class='icon fas fa-volume-down fa-lg'></i>",
+				"description" :"Baisser le Volume",
+				"group" :"base"				
+			},
+			"type" :"action",
+			"subtype" :"other"			
+		},{
+			"name" :"Activer la 3D",
+			"icon" :"icon fas fa-vr-cardboard fa-lg",
+			"color":"green",
+			"configuration" : { 
+				"request" :"--name MyTV input3DOn",
+				"parameters" :"Activer la 3D",
+				"description" :"Activer la 3D",
+				"dashicon" :"3D on",
+				"group" :"base"				
+			},
+			"type" :"action",
+			"subtype" :"other"			
+		},{
+			"name" :"désactiver la 3D",
+			"icon" :"icon fas fa-vr-cardboard fa-lg",
+			"color":"red",
+			"configuration" : { 
+				"request" :"--name MyTV input3DOff",
+				"parameters" :"désactiver la 3D",
+				"description" :"désactiver la 3D",
+				"dashicon" :"3D off",
+				"group" :"base"				
+			},
+			"type" :"action",
+			"subtype" :"other"			
+		},{
+			"name" :"Envoyer un message sur la TV",
+			"icon" :"icon fas fa-comment fa-lg",
+			"color":"yellow",
+			"configuration" : { 
+				"request" :"--name MyTV notification ",
+				"parameters" :"Envoyer un message sur la TV",
+				"description" :"Envoyer un message sur la TV",
+				"dashicon" :"<i style='color:orange;' class='icon fas fa-comment fa-lg'></i>",
+				"message":"#message#",
+                "retain" : 1,
+				"group" :"base"				
+			},
+			"type" :"action",
+			"subtype" :"message"			
+		}
+		
+    ]
+}
