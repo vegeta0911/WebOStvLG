@@ -99,7 +99,7 @@ class WebOStvLG extends eqLogic {
         }
         $lgtvauth = shell_exec($execpython .' auth '. $this->getConfiguration('addr') .' MyTV'); //.'"'.$tv_info['tv_name'].'"');
         
-        if($lg_path.'lgtv' != ''){
+        if($lg_path.'/lgtv' != ''){
             $remove = shell_exec('rm -R '.$lg_path.'/lgtv');
         }
         $lgtvcopy = exec('cp -R /var/www/.lgtv'.' '.$lg_path.'/lgtv');
