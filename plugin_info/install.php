@@ -25,9 +25,7 @@ function WebOStvLG_update() {
 }
 
 function WebOStvLG_remove() {
-    //$ressource_path = realpath(dirname(__FILE__) . '/../../ressources');
-    // FICHIERS INUTILES
-//    if (file_exists($ressource_path . "/arduidom.py")) ;
+    shell_exec('rm -R ' . realpath(dirname(__FILE__) . '/../../resources').
 }
 
 ?>
