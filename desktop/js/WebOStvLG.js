@@ -75,13 +75,13 @@ function addCmdToTable(_cmd) {
     jeedom.cmd.changeType($('#table_cmd tbody tr:last'), init(_cmd.subType));
 }
 
-if(version_WebOStvLG != '4' && conf_mode_WebOStvLG!='standalone'){
+if(version_WebOStvLG != '4'){
   bootbox.alert({
     message: "<h2>Bienvenue sur WebOStvLG !</h2> <br/><br/>Je me permets de soliciter <u>votre aide</u> !<br/><br/> Accepteriez vous de laisser un avis sur le Marquet de JEEDOM <a href='https://market.jeedom.com/index.php?v=d&p=market_display&id=4554'><u>CLIQUEZ ICI POUR LE FAIRE</u></a> ? <br/><br/>Et de plus : je cherche à <b>faire connaître</b> l'application WebOStvLG , et qui mieux que <b>VOUS</b> pour en faire la promotion ! Je compte sur vous pour en parler autour de vous !<br/><br/><i>Ce message ne s'affichera plus , soyez tranquille</i>",
   })
   $.ajax({
     type: 'POST',
-    url: base_url + '/plugins/jardin/core/ajax/WebOStvLG.ajax.php',
+    url: base_url + '/plugins/WebOStvLG/core/ajax/WebOStvLG.ajax.php',
     data: {
         action: 'set_version_WebOStvLG',
         version_WebOStvLG: init('4'),
@@ -98,3 +98,4 @@ if(version_WebOStvLG != '4' && conf_mode_WebOStvLG!='standalone'){
     }
   })
 }
+
