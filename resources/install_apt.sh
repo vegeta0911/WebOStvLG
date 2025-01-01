@@ -22,6 +22,7 @@ step 80 "Install the required python packages"
 try ${VENV_DIR}/bin/python3 -m pip install  -r ${BASE_DIR}/requirements.txt 
 
 step 90 "Summary of installed packages"
+chown -R $USER:$USER /var/www/html/plugins
 ${VENV_DIR}/bin/python3 -m pip freeze
 
 post
