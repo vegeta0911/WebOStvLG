@@ -129,7 +129,7 @@ class WebOStvLG extends eqLogic {
 		log::add('WebOStvLG', 'debug','loadCmdFromConf 2');
 		$content = file_get_contents(__DIR__ . '/../config/commands/' . $type . '.json');
 		
-		log::add('WebOStvLG', 'debug','content' . print_r($content,true));
+		//log::add('WebOStvLG', 'debug','content' . print_r($content,true));
 		
 		if (!is_json($content)) {
 			log::add('WebOStvLG','debug', 'no json content');
@@ -138,7 +138,7 @@ class WebOStvLG extends eqLogic {
 		log::add('WebOStvLG', 'debug','loadCmdFromConf 4 ');
 		$device = json_decode($content, true);
 		log::add('WebOStvLG', 'debug','loadCmdFromConf 5 ');
-		log::add('WebOStvLG', 'debug',print_r($device,true));
+		//log::add('WebOStvLG', 'debug',print_r($device,true));
 		if (!is_array($device) || !isset($device['commands'])) {
 			log::add('WebOStvLG','debug', 'no array');
 			return true;
@@ -185,7 +185,6 @@ class WebOStvLG extends eqLogic {
             foreach ($ret["payload"]["apps"] as $inputs) {
                 
                 $name = str_replace("LG ", "LG", $inputs["title"]);
-                //$name = str_replace("'", " ", $nameicon);
                 $name1 = str_replace(" ", "_", $name);
                 $name2 = str_replace("'", "_", $name1);
                 $name3 = str_replace("&", " ", $name2);
@@ -200,7 +199,7 @@ class WebOStvLG extends eqLogic {
                 log::add('WebOStvLG', 'debug', '| NEW APP FOUND:' . $name);
                 
                 if($name == "Live TV" || $name != "Mode Expo." && $name != "InputCommon" && $name != "DvrPopup" && substr($name,0,4) != "Live" && $name != "Local Control Panel" && $name != "User Agreement" && $name != "QML Factorywin" && $name != "Publicité" && $name != "Thirdparty Login" && $name != "Viewer" && $name != "Service clientèle"){
-                    log::add('WebOStvLG', 'debug', '| NEW APP :' . substr($name,0,4));
+                    //log::add('WebOStvLG', 'debug', '| NEW APP :' . substr($name,0,4));
                 $webosTvCmd = $this->getCmd(null, $name);
                 if ( !is_object($webosTvCmd) ) {
                     $webosTvCmd = new WebOStvLGCmd();
@@ -243,11 +242,11 @@ class WebOStvLG extends eqLogic {
 				//$inputs["label"] = str_replace("'", " ", $inputs["label"]);
 				//$inputs["label"] = str_replace("&", " ", $inputs["label"]);
 				log::add('webosTv', 'debug', '| NEW INPUT FOUND:' . $inputs["label"]);
-				if ($inputs["icon"] != "") {
+				/*if ($inputs["icon"] != "") {
 					log::add('WebOStvLG', 'debug', '| Download icon of Input (' . $inputs["icon"] . ") : " );
 					$downcheck = file_put_contents(realpath(dirname(__FILE__)) . "/../template/images/icons_inputs/" . $inputs["label"] . ".png", fopen($inputs["icon"], 'r'));
 
-				}
+				}*/
 				$webosTvCmd = $this->getCmd(null, $inputs["label"]);
 				if ( !is_object($webosTvCmd) ) {
 					log::add('WebOStvLG', 'debug','no exist');
@@ -281,7 +280,7 @@ class WebOStvLG extends eqLogic {
             $ret = json_decode($json, true);
             if ($ret["payload"]["channelList"] != "") {
                 foreach ($ret["payload"]["channelList"] as $inputs) {
-                    log::add('WebOStvLG','debug','Channel : ' . print_r($inputs, true));
+                    //log::add('WebOStvLG','debug','Channel : ' . print_r($inputs, true));
                     if ($inputs["channelName"] != "") {
                         $WebOStvLGCmd = $this->getCmd(null, $inputs["channelName"]);
                         if ( !is_object($WebOStvLGCmd) ) {
