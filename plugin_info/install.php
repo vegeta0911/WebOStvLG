@@ -25,7 +25,6 @@ function WebOStvLG_update() {
 }
 
 function WebOStvLG_remove() {
-    shell_exec('rm -R ' . realpath(dirname(__FILE__) . '/../../resources').
 }
 
 ?>
