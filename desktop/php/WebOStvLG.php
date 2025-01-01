@@ -49,6 +49,13 @@ $eqLogics = eqLogic::byType('WebOStvLG');
         <form class="form-horizontal">
             <fieldset>
                 <legend><i class="fa fa-arrow-circle-left eqLogicAction cursor" data-action="returnToThumbnailDisplay"></i> {{Général}}<i class='fa fa-cogs eqLogicAction pull-right cursor expertModeVisible' data-action='configure'></i></legend>
+                <div class="alert alert-info">
+                {{Comment Faire :<br/>
+                    - Activez le LG CONNECT APPS dans le menu de la tv, Menu / Réseau / LG CONNECT APPS / ACTIVE<br/>
+		    - Cliquez sur enregistrer, si il y a un message d'erreur merci de renseigner l'adresse IP, la TV vous demandera une confirmation de connexion<br/>
+                    - Rajouter les blocs de commandes de votre choix en les choisissant au dessus<br/>
+	        }}
+                </div>
                 <div class="form-group">
                     <label class="col-lg-2 control-label">{{Nom de la TV}}</label>
                     <div class="col-lg-3">
@@ -140,13 +147,6 @@ $eqLogics = eqLogic::byType('WebOStvLG');
         </form>
 
         <legend>Commandes</legend>
-        <div class="alert alert-info">
-         {{Comment Faire :<br/>
-            - Activez le LG CONNECT APPS dans le menu de la tv, Menu / Réseau / LG CONNECT APPS / ACTIVE<br/>
-			- Cliquez sur enregistrer apres  bien avoir mis l'adresse IP, la TV vous demandera une confirmation de connexion<br/>
-            - Rajouter les blocs de commandes de votre choix en les choisissant au dessus<br/>
-			}}
-        </div>
         <form class="form-horizontal">
             <fieldset>
                 <div class="form-actions">
