@@ -4,6 +4,12 @@ if (!isConnect('admin')) {
 }
 
 global $listCmdWebOStvLG;
+
+$internalAddr=config::byKey('internalAddr');
+$internalComplement=config::byKey('internalComplement');
+$externalAddr=config::byKey('externalAddr');
+$externalComplement=config::byKey('externalComplement');
+
 $base_url='';
 if($_SERVER['SERVER_NAME'] == $internalAddr){
     $base_url=$internalComplement;
