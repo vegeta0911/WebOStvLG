@@ -1,9 +1,6 @@
 # Documentation du Plugin LG WebOS
 
-  
 
-Activer le plugin
-===
 Comme n’importe quel plugin JEEDOM, il est nécessaire d’activer le plugin pour qu’il fonctionne
 
 === Description
