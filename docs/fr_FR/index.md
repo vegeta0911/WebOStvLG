@@ -9,6 +9,8 @@ alors la premiere étape qui va tout faire a votre place c'est a dire remplir l'
 tout ça en **sauvegardant** ! 
 
 sinon si la premiere étape ne fonctionne pas :(, alors remplir la section adresse ip puis sauvegarder.
+
+
   ![enter image description here](https://raw.githubusercontent.com/vegeta0911/WebOStvLG/refs/heads/beta/docs/images/WebOStvLG_screensqhot0.PNG)
 
 === Configuration
