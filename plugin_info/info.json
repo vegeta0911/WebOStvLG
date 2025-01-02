@@ -11,5 +11,22 @@
 	"documentation" : "https://github.com/bobox59/lgwebostv/blob/master/doc/#language#/index.asciidoc",
 	"whiteListFolders": [
 		"/core/template/images"
-	]
+	],
+	"os" : {
+		"min" : 11
+        },
+	"language": [
+		"fr_FR"
+	],
+    "compatibility" : [
+        "miniplus",              
+        "smart",
+        "rpi",          
+        "docker",            
+        "diy",               
+        "luna",        
+        "v4",         
+        "Atlas"
+     ]
+	
 }
