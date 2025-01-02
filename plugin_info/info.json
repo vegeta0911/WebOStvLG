@@ -12,13 +12,13 @@
 	"whiteListFolders": [
 		"/core/template/images"
 	],
-	"os" : {
+	"os" : [
 		"min" : 11
-        },
+	],
 	"language": [
 		"fr_FR"
 	],
-    "compatibility" : [
+        "compatibility" : [
         "miniplus",              
         "smart",
         "rpi",          
