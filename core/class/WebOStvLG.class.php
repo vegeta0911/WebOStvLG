@@ -182,10 +182,6 @@ class WebOStvLG extends eqLogic {
 			$webosTvCmd->setConfiguration('request', $command['configuration']['request']);
 			$webosTvCmd->setConfiguration('parameters', $command['configuration']['parameters']);
 			$webosTvCmd->setConfiguration('group', $command['configuration']['group']);
-			if (array_key_exists('icon', $command)) {
-				if ($command['icon'] != '')
-					$webosTvCmd->setDisplay('icon', '<i  style="color:'.$command["color"].'" class="'.$command["icon"].'"></i>');
-			}
 			$webosTvCmd->save();
 		}
         log::add('WebOStvLG', 'debug','exist:'. $command['configuration']['group']);
