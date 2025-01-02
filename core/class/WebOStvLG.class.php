@@ -84,7 +84,7 @@ class WebOStvLG extends eqLogic {
         $execpython = self::PYTHON_PATH .' /var/www/html/plugins/WebOStvLG/resources/venv/bin/lgtv';
         $lgtvscan = shell_exec($execpython .' scan');
         $datascan = json_decode($lgtvscan,true);
-       
+        $tv_info = $datascan['list'][0];
 
         if($this->getConfiguration('key') == ''){
         if($datascan['result'] != 'ok'){
@@ -92,7 +92,7 @@ class WebOStvLG extends eqLogic {
             throw new Exception(__('Je ne trouve pas de TV LG',__FILE__));
         }
         
-        $tv_info = $datascan['list'][0];
+       
         
         if($this->getConfiguration('addr') == ''){
           $this->setConfiguration('addr', $tv_info["address"]);
