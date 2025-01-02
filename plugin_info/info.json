@@ -13,7 +13,7 @@
 		"/core/template/images"
 	],
 	"os": {
-	   "min" : 11,
+	   "min" : 11
 	},
 	"language": [
 		"fr_FR"
