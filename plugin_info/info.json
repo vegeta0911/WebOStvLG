@@ -12,9 +12,9 @@
 	"whiteListFolders": [
 		"/core/template/images"
 	],
-	"os" : [
-		"min" : 11
-	],
+	"os": {
+	   "min" : 11,
+	},
 	"language": [
 		"fr_FR"
 	],
