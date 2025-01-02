@@ -1,6 +1,6 @@
 {
 	"id": "WebOStvLG",
-	"name": "WebOS TV LG",
+	"name": "LG WebOS",
 	"description" : "Plugin pour commander les TVs LG connectées (Modeles WebOS apres 2012). Basé sur le plugin LG TV",
 	"licence": "AGPL",
 	"author": "Vegeta0911",
