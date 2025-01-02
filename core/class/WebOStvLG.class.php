@@ -108,6 +108,7 @@ class WebOStvLG extends eqLogic {
             $remove = shell_exec('rm -R '.self::LG_PATH.'/3rdparty/lgtv');
         }
         $lgtvcopy = exec('cp -R /var/www/.lgtv'.' '.self::LG_PATH.'/3rdparty/lgtv');
+	$json_data = file_put_contents(self::LG_PATH.'/3rdparty/lgtv/scan.json', json_encode($datascan, JSON_PRETTY_PRINT));
         }
         $lgtvjson = file_get_contents(self::LG_PATH.'/3rdparty/lgtv/config.json');
         $lgtvjsonin = json_decode($lgtvjson, true);
