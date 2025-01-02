@@ -22,6 +22,7 @@ require_once dirname(__FILE__) . '/../../../../core/php/core.inc.php';
 class WebOStvLG extends eqLogic {
     const PYTHON_PATH = __DIR__ . '/../../resources/venv/bin/python3';
     const EXEC_LG = self::PYTHON_PATH .' /var/www/html/plugins/WebOStvLG/resources/venv/bin/lgtv';
+    const LG_PATH = __DIR__ . '/../..';
     /*     * *************************Attributs****************************** */
 
 
@@ -83,37 +84,43 @@ class WebOStvLG extends eqLogic {
         $execpython = self::PYTHON_PATH .' /var/www/html/plugins/WebOStvLG/resources/venv/bin/lgtv';
         $lgtvscan = shell_exec($execpython .' scan');
         $datascan = json_decode($lgtvscan,true);
-        $lg_path = realpath(dirname(__FILE__) . '/../../3rdparty');
-        
+        $tv_info = $datascan['list'][0];
+
         if($this->getConfiguration('key') == ''){
         if($datascan['result'] != 'ok'){
         
             throw new Exception(__('Je ne trouve pas de TV LG',__FILE__));
         }
         
-        $tv_info = $datascan['list'][0];
-         
+       
+        
         if($this->getConfiguration('addr') == ''){
           $this->setConfiguration('addr', $tv_info["address"]);
           $this->save(true);
         }
-        $lgtvauth = shell_exec($execpython .' auth '. $this->getConfiguration('addr') .' MyTV'); //.'"'.$tv_info['tv_name'].'"');
         
-        if($lg_path.'lgtv' != ''){
-            $remove = shell_exec('rm -R '.$lg_path.'/lgtv');
+        
+
+        $lgtvauth = shell_exec($execpython .' auth '. $this->getConfiguration('addr') .' '.json_encode($tv_info['tv_name'],true)); 
+
+        log::add('WebOStvLG','debug','scan2 : ' . $execpython .' auth '. $this->getConfiguration('addr') .' '.json_encode($tv_info['tv_name'],true));
+        if(self::LG_PATH.'/3rdparty/lgtv' != ''){
+            $remove = shell_exec('rm -R '.self::LG_PATH.'/3rdparty/lgtv');
         }
-        $lgtvcopy = exec('cp -R /var/www/.lgtv'.' '.$lg_path.'/lgtv');
+        $lgtvcopy = exec('cp -R /var/www/.lgtv'.' '.self::LG_PATH.'/3rdparty/lgtv');
+	$json_data = file_put_contents(self::LG_PATH.'/3rdparty/lgtv/scan.json', json_encode($datascan, JSON_PRETTY_PRINT));
         }
-        $lgtvjson = file_get_contents($lg_path.'/lgtv/config.json');
+        $lgtvjson = file_get_contents(self::LG_PATH.'/3rdparty/lgtv/config.json');
         $lgtvjsonin = json_decode($lgtvjson, true);
-        
-        if ($lgtvjsonin["MyTV"]["key"] != "") {
-                $this->setConfiguration('key', $lgtvjsonin["MyTV"]["key"]);
-                $this->setConfiguration('mac', $lgtvjsonin["MyTV"]["mac"]);
+    
+        //log::add('WebOStvLG','debug','scan1 : ' . json_encode($lgtvjsonin[$tv_info['tv_name']],true));
+        if ($lgtvjsonin[$tv_info['tv_name']]["key"] != "") {
+                $this->setConfiguration('key', $lgtvjsonin[$tv_info['tv_name']]["key"]);
+                $this->setConfiguration('mac', $lgtvjsonin[$tv_info['tv_name']]["mac"]);
 
                 //print("OK, la clé est " . $ret["client-key"]);
             log::add('WebOStvLG','debug','lgtvauth: ' . print_r($lgtvjson,true));
-        }	
+        }
     }
 	
 	public function getGroups() {
@@ -129,8 +136,6 @@ class WebOStvLG extends eqLogic {
 		log::add('WebOStvLG', 'debug','loadCmdFromConf 2');
 		$content = file_get_contents(__DIR__ . '/../config/commands/' . $type . '.json');
 		
-		//log::add('WebOStvLG', 'debug','content' . print_r($content,true));
-		
 		if (!is_json($content)) {
 			log::add('WebOStvLG','debug', 'no json content');
 			return;
@@ -143,9 +148,25 @@ class WebOStvLG extends eqLogic {
 			log::add('WebOStvLG','debug', 'no array');
 			return true;
 		}
+        
+        $lgtvscan = file_get_contents(self::LG_PATH.'/3rdparty/lgtv/scan.json');
+        $lgtvscanin = json_decode($lgtvscan, true);
+         
+        foreach($device['commands'] as $key => &$modif){
+
+            if (isset($modif['configuration']['request'])) {
+
+                // Modifier la valeur de 'request' pour chaque commande
+                $modif['configuration']['request'] = $modif['configuration']['modif'].'"'.$lgtvscanin["list"][0]["tv_name"].'"'.$modif['configuration']['modif1']; // Remplacez par la valeur souhaitée
+                //log::add('WebOStvLG', 'debug','modification jsom type :'. $modif['configuration']['request']);
+            }
+        }
+        // Sauvegarder les modifications dans le fichier JSON
+        file_put_contents(__DIR__ . '/../config/commands/' . $type . '.json', json_encode($device, JSON_PRETTY_PRINT));
+        log::add('WebOStvLG', 'debug','modification jsom type 1:'. $modif['configuration']['request']);
 
 		foreach ($device['commands'] as $command) { 
-            
+
 			$webosTvCmd = $this->getCmd(null, $command['name']);
 			if ( !is_object($webosTvCmd) ) {
 				log::add('WebOStvLG', 'debug','no exist');
@@ -161,10 +182,6 @@ class WebOStvLG extends eqLogic {
 			$webosTvCmd->setConfiguration('request', $command['configuration']['request']);
 			$webosTvCmd->setConfiguration('parameters', $command['configuration']['parameters']);
 			$webosTvCmd->setConfiguration('group', $command['configuration']['group']);
-			if (array_key_exists('icon', $command)) {
-				if ($command['icon'] != '')
-					$webosTvCmd->setDisplay('icon', '<i  style="color:'.$command["color"].'" class="'.$command["icon"].'"></i>');
-			}
 			$webosTvCmd->save();
 		}
         log::add('WebOStvLG', 'debug','exist:'. $command['configuration']['group']);
@@ -181,7 +198,10 @@ class WebOStvLG extends eqLogic {
         }
         if (is_json($json)) {
             $ret = json_decode($json, true);
-           
+            
+            $lgtvscan = file_get_contents(self::LG_PATH.'/3rdparty/lgtv/scan.json');
+            $lgtvscanin = json_decode($lgtvscan, true);
+
             foreach ($ret["payload"]["apps"] as $inputs) {
                 
                 $name = str_replace("LG ", "LG", $inputs["title"]);
@@ -213,7 +233,7 @@ class WebOStvLG extends eqLogic {
                         continue;
                 }
                 $webosTvCmd->setConfiguration('dashicon', $name4);
-                $webosTvCmd->setConfiguration('request', '--name MyTV startApp ' . $inputs["id"]);
+                $webosTvCmd->setConfiguration('request', '--name "'.$lgtvscanin["list"][0]["tv_name"].'" startApp ' . $inputs["id"]);
                 $webosTvCmd->setConfiguration('parameters', 'startApp ' . $inputs["id"]);
                 $webosTvCmd->setConfiguration('group', 'apps');
                 $webosTvCmd->save();	
@@ -236,17 +256,17 @@ class WebOStvLG extends eqLogic {
 		}
 		log::add('WebOStvLG', 'debug', '|  json: listInputs' );	
 		$ret = json_decode($json, true);
+        
+        $lgtvscan = file_get_contents(self::LG_PATH.'/3rdparty/lgtv/scan.json');
+        $lgtvscanin = json_decode($lgtvscan, true);
+
 		foreach ($ret["payload"]["devices"] as $inputs) {
-		  //  //log::add('webosTv', 'debug', '$inputs:' . print_r($inputs, true));
+		  
 			if (array_key_exists('label', $inputs)) {
 				//$inputs["label"] = str_replace("'", " ", $inputs["label"]);
 				//$inputs["label"] = str_replace("&", " ", $inputs["label"]);
 				log::add('webosTv', 'debug', '| NEW INPUT FOUND:' . $inputs["label"]);
-				/*if ($inputs["icon"] != "") {
-					log::add('WebOStvLG', 'debug', '| Download icon of Input (' . $inputs["icon"] . ") : " );
-					$downcheck = file_put_contents(realpath(dirname(__FILE__)) . "/../template/images/icons_inputs/" . $inputs["label"] . ".png", fopen($inputs["icon"], 'r'));
-
-				}*/
+				
 				$webosTvCmd = $this->getCmd(null, $inputs["label"]);
 				if ( !is_object($webosTvCmd) ) {
 					log::add('WebOStvLG', 'debug','no exist');
@@ -259,7 +279,7 @@ class WebOStvLG extends eqLogic {
 				}
 				log::add('WebOStvLG', 'debug','exist');
 				$webosTvCmd->setConfiguration('dashicon', $inputs["label"]);
-				$webosTvCmd->setConfiguration('request', '--name MyTV setInput ' . $inputs["id"]);
+				$webosTvCmd->setConfiguration('request', '--name "'.$lgtvscanin["list"][0]["tv_name"].'" setInput ' . $inputs["id"]);
 				$webosTvCmd->setConfiguration('parameters', 'Passer sur l entree ' . $inputs["label"]);
 				$webosTvCmd->setConfiguration('group', 'inputs');
 				$webosTvCmd->save();				
@@ -278,6 +298,9 @@ class WebOStvLG extends eqLogic {
         if (is_json($json)) {
             log::add('WebOStvLG', 'debug', '|  json: listChannels '.$json_in );
             $ret = json_decode($json, true);
+            $lgtvscan = file_get_contents(self::LG_PATH.'/3rdparty/lgtv/scan.json');
+            $lgtvscanin = json_decode($lgtvscan, true);
+
             if ($ret["payload"]["channelList"] != "") {
                 foreach ($ret["payload"]["channelList"] as $inputs) {
                     //log::add('WebOStvLG','debug','Channel : ' . print_r($inputs, true));
@@ -297,7 +320,7 @@ class WebOStvLG extends eqLogic {
                         $chaine = str_replace("'", " ", $inputs["channelName"]);
                         $chaines = str_replace(" ", "_", $chaine);
                         $WebOStvLGCmd->setConfiguration('dashicon',  $chaines);
-                        $WebOStvLGCmd->setConfiguration('request', '--name MyTV setTVChannel ' . $inputs["channelId"]);
+                        $WebOStvLGCmd->setConfiguration('request', '--name "'.$lgtvscanin["list"][0]["tv_name"].'" setTVChannel ' . $inputs["channelId"]);
                         $WebOStvLGCmd->setConfiguration('parameters', 'Mettre la chaine ' . $inputs["channelNumber"]);
                         $WebOStvLGCmd->setConfiguration('group', 'channels');
                         $WebOStvLGCmd->save();							
@@ -307,10 +330,8 @@ class WebOStvLG extends eqLogic {
         }		
     }
 	
-    public function postUpdate() {}
-  
-    public function preSave() {
-		if (!$this->getId())
+    public function postAjax() {
+        if (!$this->getId())
           return;
 		
           if ($this->getConfiguration('has_remote') == 1) {
@@ -369,6 +390,10 @@ class WebOStvLG extends eqLogic {
 				}
 			} 			
         }
+		
+    }
+  
+    public function preSave() {
 		
 
     }

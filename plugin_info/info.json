@@ -1,6 +1,6 @@
 {
 	"id": "WebOStvLG",
-	"name": "WebOS TV LG",
+	"name": "LG WebOS",
 	"description" : "Plugin pour commander les TVs LG connectées (Modeles WebOS apres 2012). Basé sur le plugin LG TV",
 	"licence": "AGPL",
 	"author": "Vegeta0911",
@@ -11,5 +11,23 @@
 	"documentation" : "https://github.com/bobox59/lgwebostv/blob/master/doc/#language#/index.asciidoc",
 	"whiteListFolders": [
 		"/core/template/images"
-	]
+	],
+	"os": {
+		"min": 11,
+		"max": ""
+	},
+	"language": [
+		"fr_FR"
+	],
+        "compatibility" : [
+        "miniplus",              
+        "smart",
+        "rpi",          
+        "docker",            
+        "diy",               
+        "luna",        
+        "v4",         
+        "Atlas"
+     ]
+	
 }

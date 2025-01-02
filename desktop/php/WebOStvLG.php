@@ -5,8 +5,32 @@ if (!isConnect('admin')) {
 
 global $listCmdWebOStvLG;
 
+$internalAddr=config::byKey('internalAddr');
+$internalComplement=config::byKey('internalComplement');
+$externalAddr=config::byKey('externalAddr');
+$externalComplement=config::byKey('externalComplement');
+
+$base_url='';
+if($_SERVER['SERVER_NAME'] == $internalAddr){
+    $base_url=$internalComplement;
+}
+if($_SERVER['SERVER_NAME'] == $externalAddr){
+    $base_url=$externalComplement;
+}
+if($base_url != ''){
+    if(substr($base_url,0,1) != '/'){
+        $base_url='/' . $base_url;
+    }
+    if(substr($base_url,(strlen($base_url) -1),1) == '/'){
+        $base_url=substr($base_url,0,(strlen($base_url) -1));
+    }
+}
+
+sendVarToJs('base_url', $base_url);
 sendVarToJS('eqType', 'WebOStvLG');
 $eqLogics = eqLogic::byType('WebOStvLG');
+$version_WebOStvLG=config::byKey('version_WebOStvLG', 'WebOStvLG');
+sendVarToJS('version_WebOStvLG', $version_WebOStvLG);
 ?>
 
 <div class="row row-overflow">
