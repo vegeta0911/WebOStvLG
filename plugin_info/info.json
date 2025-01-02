@@ -8,7 +8,7 @@
 	"category": "multimedia",
 	"hasDependency": true,
 	"hasOwnDeamon": false,
-	"documentation" : "https://github.com/bobox59/lgwebostv/blob/master/doc/#language#/index.asciidoc",
+	"documentation" : "https://vegeta0911.github.io/WebOStvLG/fr_FR/",
 	"whiteListFolders": [
 		"/core/template/images"
 	],
