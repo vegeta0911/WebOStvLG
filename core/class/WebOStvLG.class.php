@@ -84,7 +84,7 @@ class WebOStvLG extends eqLogic {
         $execpython = self::PYTHON_PATH .' /var/www/html/plugins/WebOStvLG/resources/venv/bin/lgtv';
         $lgtvscan = shell_exec($execpython .' scan');
         $datascan = json_decode($lgtvscan,true);
-        $json_data = file_put_contents(self::LG_PATH.'/3rdparty/lgtv/scan.json', json_encode($datascan, JSON_PRETTY_PRINT));
+       
 
         if($this->getConfiguration('key') == ''){
         if($datascan['result'] != 'ok'){
