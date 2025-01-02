@@ -104,7 +104,7 @@ class WebOStvLG extends eqLogic {
         $lgtvauth = shell_exec($execpython .' auth '. $this->getConfiguration('addr') .' '.json_encode($tv_info['tv_name'],true)); 
 
         log::add('WebOStvLG','debug','scan2 : ' . $execpython .' auth '. $this->getConfiguration('addr') .' '.json_encode($tv_info['tv_name'],true));
-        if($lg_path.'/lgtv' != ''){
+        if(self::LG_PATH.'/3rdparty/lgtv' != ''){
             $remove = shell_exec('rm -R '.self::LG_PATH.'/3rdparty/lgtv');
         }
         $lgtvcopy = exec('cp -R /var/www/.lgtv'.' '.self::LG_PATH.'/3rdparty/lgtv');
