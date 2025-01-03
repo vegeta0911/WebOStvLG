@@ -8,7 +8,7 @@ Configuration du plugin
 alors la premiere étape qui va tout faire a votre place c'est a dire remplir l'adresse ip, Adresse MAC, Clé d'appairage.
 tout ça en **sauvegardant** ! 
 
-2 - sinon si la premiere étape ne fonctionne pas :(, alors remplir la section adresse ip puis sauvegarder.
+2 - sinon si la premiere étape ne fonctionne pas :( , alors remplir la section adresse ip puis sauvegarder.
 
 3 - apres avoir cliqué sur le bouton sauvegarder ne pas oublier de valider l'autorisation de connection sur votre tv LG.
 
