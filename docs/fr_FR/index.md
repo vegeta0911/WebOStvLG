@@ -15,3 +15,5 @@ tout ça en **sauvegardant** !
 
   ![enter image description here](https://raw.githubusercontent.com/vegeta0911/WebOStvLG/refs/heads/beta/docs/images/WebOStvLG_screensqhot0.PNG)
 
+
+**Si y a des soucis avec webos v6 ou supérieur merci de me contacter.**
