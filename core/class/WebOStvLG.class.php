@@ -264,9 +264,6 @@ class WebOStvLG extends eqLogic {
 		}
 		log::add('WebOStvLG', 'debug', '|  json: listInputs' );	
 		$ret = json_decode($json, true);
-        
-        $lgtvscan = file_get_contents(self::LG_PATH.'/3rdparty/scan.json');
-        $lgtvscanin = json_decode($lgtvscan, true);
 
 		foreach ($ret["payload"]["devices"] as $inputs) {
 		  
@@ -296,7 +293,10 @@ class WebOStvLG extends eqLogic {
 	}
 
     public function addChannels(){
-        $lgcommand = '--name MyTV listChannels';
+        $lgtvscan = file_get_contents(self::LG_PATH.'/3rdparty/scan.json');
+        $lgtvscanin = json_decode($lgtvscan, true);
+
+        $lgcommand = '--name "'.$lgtvscanin["list"][0]["tv_name"].'" listChannels';
         $json_in = shell_exec(system::getCmdSudo() . self::EXEC_LG .' '. $lgcommand );
         $json = str_replace('{"closing": {"code": 1000, "reason": ""}}', '', $json_in);
         if($json_in == ''){
@@ -306,8 +306,6 @@ class WebOStvLG extends eqLogic {
         if (is_json($json)) {
             log::add('WebOStvLG', 'debug', '|  json: listChannels '.$json_in );
             $ret = json_decode($json, true);
-            $lgtvscan = file_get_contents(self::LG_PATH.'/3rdparty/scan.json');
-            $lgtvscanin = json_decode($lgtvscan, true);
 
             if ($ret["payload"]["channelList"] != "") {
                 foreach ($ret["payload"]["channelList"] as $inputs) {
