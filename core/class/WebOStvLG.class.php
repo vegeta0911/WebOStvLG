@@ -18,6 +18,7 @@
 
 /* * ***************************Includes********************************* */
 require_once dirname(__FILE__) . '/../../../../core/php/core.inc.php';
+require_once dirname(__FILE__) . '/../../3rdparty/WebOStvLG_Ping.class.php';
 
 class WebOStvLG extends eqLogic {
     const PYTHON_PATH = __DIR__ . '/../../resources/venv/bin/python3';
@@ -497,12 +498,22 @@ class WebOStvLG extends eqLogic {
                 $replace['#' . $key . '#'] = $value;
             }
         }
-		$state = $this->getCmd(null, 'state');
+		/*$state = $this->getCmd(null, 'state');
 		if(is_object($state)) {
 			$replace['#state#'] = $state->execCmd();
-		}
-       
+		}*/
+        $replace['#state#'] = self::ping($this->getConfiguration('addr'));
+        log::add('WebOStvLG','info','status: '.print_r($replace['#state#'],true));
         return template_replace($replace, getTemplate('core', $_version, 'eqLogic', 'WebOStvLG'));
+    }
+	public function ping($state) {
+        if ($this->getConfiguration('addr') == '') {
+            return;
+        }
+        $changed = false;
+        $ping = new WebOStvLG_Ping($this->getConfiguration('addr'));
+        $state = $ping->ping($this->getConfiguration('addr'));
+        return $state;
     }
 	
 	public static function event() {
