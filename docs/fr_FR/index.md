@@ -16,3 +16,4 @@ tout ça en **sauvegardant** !
   ![enter image description here](https://raw.githubusercontent.com/vegeta0911/WebOStvLG/refs/heads/beta/docs/images/WebOStvLG_screensqhot0.PNG)
 
 
+il y a aussi statue Pour savoir si la TV est allumé ou pas  ![enter image description here](https://raw.githubusercontent.com/vegeta0911/WebOStvLG/refs/heads/beta/docs/images/state.PNG)
