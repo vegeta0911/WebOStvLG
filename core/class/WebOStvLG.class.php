@@ -18,6 +18,7 @@
 
 /* * ***************************Includes********************************* */
 require_once dirname(__FILE__) . '/../../../../core/php/core.inc.php';
+require_once dirname(__FILE__) . '/../../3rdparty/WebOStvLG_Ping.class.php';
 
 class WebOStvLG extends eqLogic {
     const PYTHON_PATH = __DIR__ . '/../../resources/venv/bin/python3';
@@ -105,17 +106,19 @@ class WebOStvLG extends eqLogic {
         $lgtvauth = shell_exec(system::getCmdSudo().' '.$execpython .' auth '. $this->getConfiguration('addr') .' '.json_encode($tv_info['tv_name'],true)); 
 
         log::add('WebOStvLG','debug','scan2 : ' . $execpython .' auth '. $this->getConfiguration('addr') .' '.json_encode($tv_info['tv_name'],true));
-        if(file_exists(self::LG_PATH.'/3rdparty/.lgtv/config.json')){
-            $remove = shell_exec(system::getCmdSudo().' rm -R '.self::LG_PATH.'/3rdparty/.lgtv/config.json');
+
+        if(file_exists(self::LG_PATH.'/3rdparty/config.json')){
+            $remove = shell_exec(system::getCmdSudo().' rm -R '.self::LG_PATH.'/3rdparty/config.json');
             sleep(3);
         }
-        $lgtvcopy = shell_exec(system::getCmdSudo().' cp -R /root/.lgtv '.self::LG_PATH.'/3rdparty');
+
+        $lgtvcopy = shell_exec(system::getCmdSudo().' cp -R /root/.lgtv/config.json '.self::LG_PATH.'/3rdparty');
         sleep(2);
 	    $json_data = file_put_contents(self::LG_PATH.'/3rdparty/scan.json', json_encode($datascan, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
         log::add('WebOStvLG','debug','scan 2 : ' .  print_r($tv_info,true));
         }
     
-        $lgtvjson = file_get_contents(self::LG_PATH.'/3rdparty/.lgtv/config.json');
+        $lgtvjson = file_get_contents(self::LG_PATH.'/3rdparty/config.json');
         $lgtvjsonin = json_decode($lgtvjson, true);
     
         //log::add('WebOStvLG','debug','scan1 : ' . json_encode($lgtvjsonin[$tv_info['tv_name']],true));
@@ -264,9 +267,6 @@ class WebOStvLG extends eqLogic {
 		}
 		log::add('WebOStvLG', 'debug', '|  json: listInputs' );	
 		$ret = json_decode($json, true);
-        
-        $lgtvscan = file_get_contents(self::LG_PATH.'/3rdparty/scan.json');
-        $lgtvscanin = json_decode($lgtvscan, true);
 
 		foreach ($ret["payload"]["devices"] as $inputs) {
 		  
@@ -296,7 +296,10 @@ class WebOStvLG extends eqLogic {
 	}
 
     public function addChannels(){
-        $lgcommand = '--name MyTV listChannels';
+        $lgtvscan = file_get_contents(self::LG_PATH.'/3rdparty/scan.json');
+        $lgtvscanin = json_decode($lgtvscan, true);
+
+        $lgcommand = '--name "'.$lgtvscanin["list"][0]["tv_name"].'" listChannels';
         $json_in = shell_exec(system::getCmdSudo() . self::EXEC_LG .' '. $lgcommand );
         $json = str_replace('{"closing": {"code": 1000, "reason": ""}}', '', $json_in);
         if($json_in == ''){
@@ -306,8 +309,6 @@ class WebOStvLG extends eqLogic {
         if (is_json($json)) {
             log::add('WebOStvLG', 'debug', '|  json: listChannels '.$json_in );
             $ret = json_decode($json, true);
-            $lgtvscan = file_get_contents(self::LG_PATH.'/3rdparty/scan.json');
-            $lgtvscanin = json_decode($lgtvscan, true);
 
             if ($ret["payload"]["channelList"] != "") {
                 foreach ($ret["payload"]["channelList"] as $inputs) {
@@ -499,12 +500,22 @@ class WebOStvLG extends eqLogic {
                 $replace['#' . $key . '#'] = $value;
             }
         }
-		$state = $this->getCmd(null, 'state');
+		/*$state = $this->getCmd(null, 'state');
 		if(is_object($state)) {
 			$replace['#state#'] = $state->execCmd();
-		}
-       
+		}*/
+        $replace['#state#'] = self::ping($this->getConfiguration('addr'));
+        log::add('WebOStvLG','info','status: '.print_r($replace['#state#'],true));
         return template_replace($replace, getTemplate('core', $_version, 'eqLogic', 'WebOStvLG'));
+    }
+	public function ping($state) {
+        if ($this->getConfiguration('addr') == '') {
+            return;
+        }
+        $changed = false;
+        $ping = new WebOStvLG_Ping($this->getConfiguration('addr'));
+        $state = $ping->ping($this->getConfiguration('addr'));
+        return $state;
     }
 	
 	public static function event() {
