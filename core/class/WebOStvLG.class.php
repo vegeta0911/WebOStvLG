@@ -106,17 +106,19 @@ class WebOStvLG extends eqLogic {
         $lgtvauth = shell_exec(system::getCmdSudo().' '.$execpython .' auth '. $this->getConfiguration('addr') .' '.json_encode($tv_info['tv_name'],true)); 
 
         log::add('WebOStvLG','debug','scan2 : ' . $execpython .' auth '. $this->getConfiguration('addr') .' '.json_encode($tv_info['tv_name'],true));
-        if(file_exists(self::LG_PATH.'/3rdparty/.lgtv/config.json')){
-            $remove = shell_exec(system::getCmdSudo().' rm -R '.self::LG_PATH.'/3rdparty/.lgtv/config.json');
+
+        if(file_exists(self::LG_PATH.'/3rdparty/config.json')){
+            $remove = shell_exec(system::getCmdSudo().' rm -R '.self::LG_PATH.'/3rdparty/config.json');
             sleep(3);
         }
-        $lgtvcopy = shell_exec(system::getCmdSudo().' cp -R /root/.lgtv '.self::LG_PATH.'/3rdparty');
+
+        $lgtvcopy = shell_exec(system::getCmdSudo().' cp -R /root/.lgtv/config.json '.self::LG_PATH.'/3rdparty');
         sleep(2);
 	    $json_data = file_put_contents(self::LG_PATH.'/3rdparty/scan.json', json_encode($datascan, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
         log::add('WebOStvLG','debug','scan 2 : ' .  print_r($tv_info,true));
         }
     
-        $lgtvjson = file_get_contents(self::LG_PATH.'/3rdparty/.lgtv/config.json');
+        $lgtvjson = file_get_contents(self::LG_PATH.'/3rdparty/config.json');
         $lgtvjsonin = json_decode($lgtvjson, true);
     
         //log::add('WebOStvLG','debug','scan1 : ' . json_encode($lgtvjsonin[$tv_info['tv_name']],true));
