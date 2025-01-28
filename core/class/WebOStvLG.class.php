@@ -94,7 +94,6 @@ class WebOStvLG extends eqLogic {
           $lgtvauth = shell_exec(system::getCmdSudo().' '.$execpython .' auth '. $this->getConfiguration('addr') .' '.json_encode($tv_info['tv_name'],true)); 
            log::add('WebOStvLG','debug','scan2 : ' . $execpython .' auth '. $this->getConfiguration('addr') .' '.json_encode($tv_info['tv_name'],true));
 	}
-	}
 	else
 	{
             throw new Exception(__('Je ne trouve pas de TV LG',__FILE__));
