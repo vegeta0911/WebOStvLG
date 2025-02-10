@@ -83,7 +83,7 @@ class WebOStvLG extends eqLogic {
     /*     * *********************Methode d'instance************************* */
 
     public function preUpdate() {
-        
+        if($this->getConfiguration('key') == ''){ 
         $execpython = self::PYTHON_PATH .' /var/www/html/plugins/WebOStvLG/resources/venv/bin/lgtv';
         $lgtvscan = exec(system::getCmdSudo().' '.$execpython .' scan');
         $datascan = json_decode($lgtvscan,true);
@@ -95,16 +95,16 @@ class WebOStvLG extends eqLogic {
         $value = $tvetat->execCmd();
         }
 
-        if($this->getConfiguration('key') == ''){
-        if($datascan['result'] == 'ok'){
-            $tv_info = $datascan['list'][0];
-            $lgtvauth = shell_exec(system::getCmdSudo().' '.$execpython .' auth '. $this->getConfiguration('addr') .' '.json_encode($tv_info['tv_name'],true)); 
-           log::add('WebOStvLG','debug','scan2 : ' . $execpython .' auth '. $this->getConfiguration('addr') .' '.json_encode($tv_info['tv_name'],true));
-	}
-	else
-	{
-        throw new Exception(__('Je ne trouve pas de TV LG',__FILE__));
-    }
+       
+            if($datascan['result'] == 'ok'){
+                $tv_info = $datascan['list'][0];
+                $lgtvauth = shell_exec(system::getCmdSudo().' '.$execpython .' auth '. $this->getConfiguration('addr') .' '.json_encode($tv_info['tv_name'],true)); 
+                log::add('WebOStvLG','debug','scan2 : ' . $execpython .' auth '. $this->getConfiguration('addr') .' '.json_encode($tv_info['tv_name'],true));
+	        }
+	        else
+	        {
+                throw new Exception(__('Je ne trouve pas de TV LG',__FILE__));
+            }
         
         if($this->getConfiguration('addr') == ''){
           $tv_info = $datascan['list'][0];
@@ -121,7 +121,7 @@ class WebOStvLG extends eqLogic {
         sleep(2);
 	    $json_data = file_put_contents(self::LG_PATH.'/3rdparty/scan.json', json_encode($datascan, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
         log::add('WebOStvLG','debug','scan 2 : ' .  print_r($tv_info,true));
-        }
+        
     
         $lgtvjson = file_get_contents(self::LG_PATH.'/3rdparty/config.json');
         $lgtvjsonin = json_decode($lgtvjson, true);
@@ -136,23 +136,24 @@ class WebOStvLG extends eqLogic {
             log::add('WebOStvLG','debug','lgtvauth: ' . print_r($lgtvjson,true));
         }
 
-        if($value == "allumer" OR $value == ""){
-        $tv_info = $datascan['list'][0];
-        $lgtvinfo = shell_exec(system::getCmdSudo().' '.$execpython .' --name "'.$tv_info['tv_name'].'" swInfo');
-        $jsonInfo = str_replace('{"closing": {"code": 1000, "reason": ""}}', '', $lgtvinfo);
-        $datainfo = json_decode($jsonInfo,true);
-        $json_data = file_put_contents(self::LG_PATH.'/3rdparty/info.json', json_encode($datainfo, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+       
+                $tv_info = $datascan['list'][0];
+                $lgtvinfo = shell_exec(system::getCmdSudo().' '.$execpython .' --name "'.$tv_info['tv_name'].'" swInfo');
+                $jsonInfo = str_replace('{"closing": {"code": 1000, "reason": ""}}', '', $lgtvinfo);
+                $datainfo = json_decode($jsonInfo,true);
+                $json_data = file_put_contents(self::LG_PATH.'/3rdparty/info.json', json_encode($datainfo, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
 
-        $lgtvjsonInfo = file_get_contents(self::LG_PATH.'/3rdparty/info.json');
-        $lgtvjsoninInfo = json_decode($lgtvjsonInfo, true);
-        $this->setConfiguration('versionos', $lgtvjsoninInfo["payload"]["product_name"]);
-        $this->setConfiguration('model', $lgtvjsoninInfo["payload"]["model_name"]);
-        $this->setConfiguration('majeur', $lgtvjsoninInfo["payload"]["major_ver"]);
-        $this->setConfiguration('mineur', $lgtvjsoninInfo["payload"]["minor_ver"]);
-       // $this->setConfiguration('model', $lgtvjsoninInfo["payload"]["model_name"]);
+                $lgtvjsonInfo = file_get_contents(self::LG_PATH.'/3rdparty/info.json');
+                $lgtvjsoninInfo = json_decode($lgtvjsonInfo, true);
+                $this->setConfiguration('versionos', $lgtvjsoninInfo["payload"]["product_name"]);
+                $this->setConfiguration('model', $lgtvjsoninInfo["payload"]["model_name"]);
+                $this->setConfiguration('majeur', $lgtvjsoninInfo["payload"]["major_ver"]);
+                $this->setConfiguration('mineur', $lgtvjsoninInfo["payload"]["minor_ver"]);
+               // $this->setConfiguration('model', $lgtvjsoninInfo["payload"]["model_name"]);
 
-        log::add('WebOStvLG','info','lgtvinfo: ' . json_encode($lgtvjsoninInfo["payload"],true));
-        }
+                log::add('WebOStvLG','info','lgtvinfo: ' . json_encode($lgtvjsoninInfo["payload"],true));
+        
+       }
     }
 	
 	public function getGroups() {
