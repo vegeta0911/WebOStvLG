@@ -87,7 +87,7 @@ class WebOStvLG extends eqLogic {
         $execpython = self::PYTHON_PATH .' /var/www/html/plugins/WebOStvLG/resources/venv/bin/lgtv';
         $lgtvscan = exec(system::getCmdSudo().' '.$execpython .' scan');
         $datascan = json_decode($lgtvscan,true);
-        $tv_info = $datascan['list'][0];
+        
         log::add('WebOStvLG','debug','scan3 : ' .print_r($lgtvscan,true));
 
         $tvetat = $this->getCmd(null, 'etat');
@@ -97,7 +97,8 @@ class WebOStvLG extends eqLogic {
 
         if($this->getConfiguration('key') == ''){
         if($datascan['result'] == 'ok'){
-          $lgtvauth = shell_exec(system::getCmdSudo().' '.$execpython .' auth '. $this->getConfiguration('addr') .' '.json_encode($tv_info['tv_name'],true)); 
+            $tv_info = $datascan['list'][0];
+            $lgtvauth = shell_exec(system::getCmdSudo().' '.$execpython .' auth '. $this->getConfiguration('addr') .' '.json_encode($tv_info['tv_name'],true)); 
            log::add('WebOStvLG','debug','scan2 : ' . $execpython .' auth '. $this->getConfiguration('addr') .' '.json_encode($tv_info['tv_name'],true));
 	}
 	else
@@ -106,6 +107,7 @@ class WebOStvLG extends eqLogic {
     }
         
         if($this->getConfiguration('addr') == ''){
+          $tv_info = $datascan['list'][0];
           $this->setConfiguration('addr', $tv_info["address"]);
           $this->save(true);
         }
@@ -125,6 +127,7 @@ class WebOStvLG extends eqLogic {
         $lgtvjsonin = json_decode($lgtvjson, true);
     
         //log::add('WebOStvLG','debug','scan1 : ' . json_encode($lgtvjsonin[$tv_info['tv_name']],true));
+        $tv_info = $datascan['list'][0];
         if ($lgtvjsonin[$tv_info['tv_name']]["key"] != "") {
                 $this->setConfiguration('key', $lgtvjsonin[$tv_info['tv_name']]["key"]);
                 $this->setConfiguration('mac', $lgtvjsonin[$tv_info['tv_name']]["mac"]);
@@ -133,7 +136,8 @@ class WebOStvLG extends eqLogic {
             log::add('WebOStvLG','debug','lgtvauth: ' . print_r($lgtvjson,true));
         }
 
-        if($value == "allumer"){
+        if($value == "allumer" OR $value == ""){
+        $tv_info = $datascan['list'][0];
         $lgtvinfo = shell_exec(system::getCmdSudo().' '.$execpython .' --name "'.$tv_info['tv_name'].'" swInfo');
         $jsonInfo = str_replace('{"closing": {"code": 1000, "reason": ""}}', '', $lgtvinfo);
         $datainfo = json_decode($jsonInfo,true);
