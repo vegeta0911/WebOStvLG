@@ -282,8 +282,10 @@ class WebOStvLG extends eqLogic {
     public function addInputs() {
         $lgtvscan = file_get_contents(self::LG_PATH.'/3rdparty/scan.json');
         $lgtvscanin = json_decode($lgtvscan, true);
-	$creatInputs = shell_exec('mkdir '.self::LG_PATH.'/core/template/images/icons_inputs');
 
+	if(!file_exists(self::LG_PATH.'/core/template/images/icons_inputs')){
+	    $creatInputs = shell_exec('mkdir '.self::LG_PATH.'/core/template/images/icons_inputs');
+	}
 		$lgcommand = '--name "'.$lgtvscanin["list"][0]["tv_name"].'" listInputs';
 		$json_in = shell_exec(system::getCmdSudo() . self::EXEC_LG .' '. $lgcommand );
 		$json = str_replace('{"closing": {"code": 1000, "reason": ""}}', '', $json_in);		
