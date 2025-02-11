@@ -589,13 +589,13 @@ class WebOStvLG extends eqLogic {
         foreach (eqLogic::byType('WebOStvLG', true) as $eqLogic) {
 
         $etat = $eqLogic->ping($eqLogic->getConfiguration('addr'));
-        if($etat == 1){
+        /*if($etat == 1){
             $etat = "éteint";
         }
         else
         {
             $etat = "allumer";
-        }
+        }*/
         $eqLogic->checkAndUpdateCmd('etat', $etat);
         $eqLogic->refreshWidget();
         //$etat = self::getConfiguration('etat');
