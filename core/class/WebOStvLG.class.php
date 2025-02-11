@@ -292,9 +292,17 @@ class WebOStvLG extends eqLogic {
 		}
 		log::add('WebOStvLG', 'debug', '|  json: listInputs' );	
 		$ret = json_decode($json, true);
+        $json_data = file_put_contents(self::LG_PATH.'/3rdparty/inputs.json', json_encode($ret, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+        $lgtvjsonInput = file_get_contents(self::LG_PATH.'/3rdparty/inputs.json');
+        $lgtvjsoninInputs = json_decode($lgtvjsonInput, true);
 
-		foreach ($ret["payload"]["devices"] as $inputs) {
-		  
+		foreach ($lgtvjsoninInputs["payload"]["devices"] as $inputs) {
+            
+            $imageUrl = $inputs['icon'];
+            $imageName = basename($imageUrl);
+            $imageData = file_get_contents($imageUrl);
+            $resultimage = file_put_contents(self::LG_PATH.'/core/template/images/icons_inputs/'.$imageName, $imageData);
+            
 			if (array_key_exists('label', $inputs)) {
 				//$inputs["label"] = str_replace("'", " ", $inputs["label"]);
 				//$inputs["label"] = str_replace("&", " ", $inputs["label"]);
@@ -311,7 +319,7 @@ class WebOStvLG extends eqLogic {
 					$webosTvCmd->setSubType('other');				
 				}
 				log::add('WebOStvLG', 'debug','exist');
-				$webosTvCmd->setConfiguration('dashicon', $inputs["label"]);
+				$webosTvCmd->setConfiguration('dashicon', $imageName);
 				$webosTvCmd->setConfiguration('request', '--name "'.$lgtvscanin["list"][0]["tv_name"].'" setInput ' . $inputs["id"]);
 				$webosTvCmd->setConfiguration('parameters', 'Passer sur l entree ' . $inputs["label"]);
 				$webosTvCmd->setConfiguration('group', 'inputs');
