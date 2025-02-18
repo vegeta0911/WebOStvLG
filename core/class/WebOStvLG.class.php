@@ -560,8 +560,7 @@ class WebOStvLG extends eqLogic {
 		if(is_object($state)) {
 			$replace['#state#'] = $state->execCmd();
 		}
-        //$replace['#state#'] = self::ping($this->getConfiguration('addr'));
-        log::add('WebOStvLG','info','status: '.print_r($replace['#state#'],true));
+
         return template_replace($replace, getTemplate('core', $_version, 'eqLogic', 'WebOStvLG'));
     }
 	public static function ping($state) {
@@ -600,17 +599,17 @@ class WebOStvLG extends eqLogic {
         foreach (eqLogic::byType('WebOStvLG', true) as $eqLogic) {
 
         $etat = $eqLogic->ping($eqLogic->getConfiguration('addr'));
-        /*if($etat == 1){
-            $etat = "éteint";
+        if($etat == 1){
+            $etat = 0;
         }
         else
         {
-            $etat = "allumer";
-        }*/
+            $etat = 1;
+        }
         $eqLogic->checkAndUpdateCmd('etat', $etat);
         $eqLogic->refreshWidget();
-        //$etat = self::getConfiguration('etat');
-        log::add('WebOStvLG','debug','Etat : ' .print_r($etat,true));
+        
+        log::add('WebOStvLG','info','Etat TV: ' .print_r($etat,true));
 
         }
     }
