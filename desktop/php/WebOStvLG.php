@@ -81,15 +81,15 @@ sendVarToJS('version_WebOStvLG', $version_WebOStvLG);
 	        }}
                 </div>
                 <div class="form-group">
-                    <label class="col-lg-2 control-label">{{Nom de la TV}}</label>
-                    <div class="col-lg-3">
+                    <label class="col-sm-3 control-label">{{Nom de la TV}}</label>
+                    <div class="col-sm-3">
                         <input type="text" class="eqLogicAttr form-control" data-l1key="id" style="display : none;" />
                         <input type="text" class="eqLogicAttr form-control" data-l1key="name" placeholder="{{Nom de la TV}}"/>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-lg-2 control-label" >{{Objet parent}}</label>
-                    <div class="col-lg-3">
+                    <label class="col-sm-3 control-label" >{{Objet parent}}</label>
+                    <div class="col-sm-3">
                         <select id="sel_object" class="eqLogicAttr form-control" data-l1key="object_id">
                             <option value="">{{Aucun}}</option>
                             <?php
@@ -101,8 +101,8 @@ sendVarToJS('version_WebOStvLG', $version_WebOStvLG);
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-lg-2 control-label">{{Catégorie}}</label>
-                    <div class="col-lg-8">
+                    <label class="col-sm-3 control-label">{{Catégorie}}</label>
+                    <div class="col-sm-8">
                         <?php
                         foreach (jeedom::getConfiguration('eqLogic:category') as $key => $value) {
                             echo '<label class="checkbox-inline">';
@@ -114,8 +114,8 @@ sendVarToJS('version_WebOStvLG', $version_WebOStvLG);
                     </div>
                 </div>
                 <div class="form-group">
-                <label class="col-sm-2 control-label" ></label>
-                <div class="col-sm-9">
+                <label class="col-sm-3 control-label" ></label>
+                <div class="col-sm-8">
                     <label class="checkbox-inline">
                         <input type="checkbox" class="eqLogicAttr" data-label-text="" data-l1key="isEnable" checked/>{{Activer}}
                     </label>
@@ -125,24 +125,52 @@ sendVarToJS('version_WebOStvLG', $version_WebOStvLG);
                 </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-lg-2 control-label">{{Adresse IP}}</label>
-                    <div class="col-lg-3">
+                    <label class="col-sm-3 control-label">{{Adresse IP}}</label>
+                    <div class="col-sm-3">
                         <input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="addr" placeholder="{{Adresse IP}}"/>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-lg-2 control-label">{{Adresse MAC Détectée}}</label>
-                    <div class="col-lg-3">
-                        <input disabled type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="mac" placeholder="{{Adresse MAC Détectée}}"/>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-lg-2 control-label">{{Clé d'appairage Recue}}</label>
-                    <div class="col-lg-3">
+                    <label class="col-sm-3 control-label">{{Clé d'appairage Recue}}</label>
+                    <div class="col-sm-4">
                         <input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="key" placeholder="{{Clé d'appairage Recue, Laissez vide pour (ré)associer}}"/>
                     </div>
                     {{Laissez vide ou Supprimez la clé pour (re)faire l'association avec la TV.}}
                 </div>
+
+                <div class="form-group">
+                <label class="col-sm-3 control-label">{{Model}}</label>
+                    <div class="col-sm-3">
+                        <span type="text" class="eqLogicAttr configuration form-control" data-l1key="configuration" data-l2key="model"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">{{Version OS}}</label>
+                    <div class="col-sm-3">
+                        <span type="text" class="eqLogicAttr configuration form-control" data-l1key="configuration" data-l2key="versionos"></span>
+                    </div>
+                </div>
+            
+            <div class="form-group">
+              <label class="col-sm-3 control-label">{{Version Majeur}}</label>
+                <div class="col-sm-3">
+                  <span type="text" class="eqLogicAttr configuration form-control" data-l1key="configuration" data-l2key="majeur"></span>
+                </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-3 control-label">{{Version mineur}}</label>
+                <div class="col-sm-3">
+                  <span type="text" class="eqLogicAttr configuration form-control" data-l1key="configuration" data-l2key="mineur"></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-3 control-label">{{Mac Adresse}}</label>
+                <div class="col-sm-3">
+                  <span type="text" class="eqLogicAttr configuration form-control" data-l1key="configuration" data-l2key="mac"></span>
+                </div>
+            </div>
+            
                 <div class="form-group">
                     <label class="col-sm-2 control-label" >{{Commandes à créer}}</label>
                     <div class="col-sm-9">
