@@ -448,7 +448,7 @@ class WebOStvLG extends eqLogic {
 		//$state->setEventOnly(1);
 		$state->setConfiguration('onlyChangeEvent',1);
 		$state->setType('info');
-		$state->setSubType('string');
+		$state->setSubType('binary');
 		$state->setIsHistorized(1);
 		//$state->setDisplay('generic_type','ALARM_MODE');
 		$state->setTemplate('dashboard','defaut');
