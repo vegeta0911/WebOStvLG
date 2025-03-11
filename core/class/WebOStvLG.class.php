@@ -98,36 +98,14 @@ class WebOStvLG extends eqLogic {
            
             if($datascan['result'] == 'ok'){
                 $tv_info = $datascan['list'][0];
-              
-                $lgtvinfo = shell_exec(system::getCmdSudo().' '.$execpython .' --name "'.$tv_info['tv_name'].'" --ssl swInfo');
-                $jsonInfo = str_replace('{"closing": {"code": 1000, "reason": ""}}', '', $lgtvinfo);
-                $datainfo = json_decode($jsonInfo,true);
-                $json_data = file_put_contents(self::LG_PATH.'/3rdparty/info.json', json_encode($datainfo, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
-
-                $lgtvjsonInfo = file_get_contents(self::LG_PATH.'/3rdparty/info.json');
-                $lgtvjsoninInfo = json_decode($lgtvjsonInfo, true);
-                $this->setConfiguration('versionos', $lgtvjsoninInfo["payload"]["product_name"]);
-                $this->setConfiguration('model', $lgtvjsoninInfo["payload"]["model_name"]);
-                $this->setConfiguration('majeur', $lgtvjsoninInfo["payload"]["major_ver"]);
-                $this->setConfiguration('mineur', $lgtvjsoninInfo["payload"]["minor_ver"]);
-                $this->setConfiguration('mac', $lgtvjsoninInfo["payload"]["device_id"]);
-                $this->save(true);
-                
-                $lgtvjsonInfo = file_get_contents(self::LG_PATH.'/3rdparty/info.json');
-                $lgtvjsoninInfo = json_decode($lgtvjsonInfo, true);
-                
-                if($lgtvjsoninInfo["payload"]["product_name"] > "webOSTV 5.0"){
-                    $versionLG = "--ssl";
-                }
-              
                 log::add('WebOStvLG','info','lgtvinfo: ' . json_encode($lgtvjsoninInfo["payload"],true));
-                $lgtvauth = shell_exec(system::getCmdSudo().' '.$execpython .' '.$versionLG.' auth '. $tv_info["address"] .' '.json_encode($tv_info['tv_name'],true)); 
+                $lgtvauth = shell_exec(system::getCmdSudo().' '.$execpython .' '.$versionLG.' --ssl auth '. $tv_info["address"] .' '.json_encode($tv_info['tv_name'],true)); 
                 log::add('WebOStvLG','debug','auth : ' . $execpython .' auth '. $this->getConfiguration('addr') .' '.json_encode($tv_info['tv_name'],true));
 	        }
 	        else
 	        {
                 $tv_info['tv_name'] = "TV_LG";
-                $lgtvauth = shell_exec(system::getCmdSudo().' '.$execpython .' auth '. $this->getConfiguration('addr') .' '.json_encode($tv_info['tv_name'],true));
+                $lgtvauth = shell_exec(system::getCmdSudo().' '.$execpython .' --ssl auth '. $this->getConfiguration('addr') .' '.json_encode($tv_info['tv_name'],true));
                 //throw new Exception(__('Je ne trouve pas de TV LG',__FILE__));
             }
         
@@ -178,7 +156,20 @@ class WebOStvLG extends eqLogic {
                 }
             }
         }
+        $lgtvinfo = shell_exec(system::getCmdSudo().' '.$execpython .' --name "'.$tv_info['tv_name'].'" --ssl swInfo');
+                $jsonInfo = str_replace('{"closing": {"code": 1000, "reason": ""}}', '', $lgtvinfo);
+                $datainfo = json_decode($jsonInfo,true);
+                $json_data = file_put_contents(self::LG_PATH.'/3rdparty/info.json', json_encode($datainfo, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
 
+                $lgtvjsonInfo = file_get_contents(self::LG_PATH.'/3rdparty/info.json');
+                $lgtvjsoninInfo = json_decode($lgtvjsonInfo, true);
+                $this->setConfiguration('versionos', $lgtvjsoninInfo["payload"]["product_name"]);
+                $this->setConfiguration('model', $lgtvjsoninInfo["payload"]["model_name"]);
+                $this->setConfiguration('majeur', $lgtvjsoninInfo["payload"]["major_ver"]);
+                $this->setConfiguration('mineur', $lgtvjsoninInfo["payload"]["minor_ver"]);
+                $this->setConfiguration('mac', $lgtvjsoninInfo["payload"]["device_id"]);
+                $this->save(true);
+		
         log::add('WebOStvLG','debug','tv info : ' .  print_r($tv_info['tv_name'].' '.$device_info['hostname'],true));
          
        }
@@ -233,7 +224,7 @@ class WebOStvLG extends eqLogic {
                 $lgtvjsonInfo = file_get_contents(self::LG_PATH.'/3rdparty/info.json');
                 $lgtvjsoninInfo = json_decode($lgtvjsonInfo, true);
                 
-                if($lgtvjsoninInfo["payload"]["product_name"] > "webOSTV 5.0"){
+                if($lgtvjsoninInfo["payload"]["product_name"] >= "webOSTV 5.0"){
                     $versionLG = "--ssl";
                 }
 
