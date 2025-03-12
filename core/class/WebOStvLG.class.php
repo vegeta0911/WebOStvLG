@@ -104,7 +104,7 @@ class WebOStvLG extends eqLogic {
 	        }
 	        else
 	        {
-		if($this->getConfiguration('addr') == ''){
+                if($this->getConfiguration('addr') == ''){
                     throw new Exception(__('Merci de renseigner IP de la TV',__FILE__));
                 }
                 $tv_info['tv_name'] = "TV_LG";
@@ -272,7 +272,7 @@ class WebOStvLG extends eqLogic {
         $lgtvscan = file_get_contents(self::LG_PATH.'/3rdparty/scan.json');
         $lgtvscanin = json_decode($lgtvscan, true);
       
-        if($lgtvscanin["list"][0]["tv_name"] == ''){
+        if($lgtvscanin == ''){
             $lgtvjson = file_get_contents(self::LG_PATH.'/3rdparty/config.json');
             $lgtvjsonin = json_decode($lgtvjson, true);
             
@@ -367,7 +367,7 @@ class WebOStvLG extends eqLogic {
 	    $creatInputs = shell_exec('mkdir '.self::LG_PATH.'/core/template/images/icons_inputs');
 	}
 
-    if($lgtvscanin["list"][0]["tv_name"] == ''){
+    if($lgtvscanin == ''){
         $lgtvjson = file_get_contents(self::LG_PATH.'/3rdparty/config.json');
         $lgtvjsonin = json_decode($lgtvjson, true);
         
@@ -445,7 +445,7 @@ class WebOStvLG extends eqLogic {
         $lgtvscan = file_get_contents(self::LG_PATH.'/3rdparty/scan.json');
         $lgtvscanin = json_decode($lgtvscan, true);
 
-        if($lgtvscanin["list"][0]["tv_name"] == ''){
+        if($lgtvscanin == ''){
             $lgtvjson = file_get_contents(self::LG_PATH.'/3rdparty/config.json');
             $lgtvjsonin = json_decode($lgtvjson, true);
             
