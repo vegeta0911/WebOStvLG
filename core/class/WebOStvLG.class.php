@@ -780,7 +780,7 @@ class WebOStvLGCmd extends cmd {
                 
                 
                 if ($this->getSubType() == 'message') {
-                    if ($_options['message'] != "") {
+                    if ($_options['message'] != null) {
                         $message = '"' . $_options['message'] . '"';
                     } else {
                         $message = '"Message TEST"';
@@ -789,9 +789,15 @@ class WebOStvLGCmd extends cmd {
                 }
                 $commande= $command;
                 
-				$ret = shell_exec(system::getCmdSudo().' '.__DIR__ . '/../../resources/venv/bin/python3 /var/www/html/plugins/WebOStvLG/resources/venv/bin/lgtv ' .$command .' '.$message);
+                if ($this->getSubType() == 'message') {
+		$ret = shell_exec(system::getCmdSudo().' '.__DIR__ . '/../../resources/venv/bin/python3 /var/www/html/plugins/WebOStvLG/resources/venv/bin/lgtv ' .$command .' '.$message);
                 log::add('WebOStvLG','debug','$$$ EXEC: '.__DIR__ . '/../../resources/venv/bin/python3 /var/www/html/plugins/WebOStvLG/resources/venv/bin/lgtv ' .$command .' > ' . $message . ' > ' .$ret );
-                /*if ($command=='volumeDown' or $command=='volumeUp') {
+                }
+                else
+                {
+                $ret = shell_exec(system::getCmdSudo().' '.__DIR__ . '/../../resources/venv/bin/python3 /var/www/html/plugins/WebOStvLG/resources/venv/bin/lgtv ' .$command);
+                log::add('WebOStvLG','debug','$$$ EXEC: '.__DIR__ . '/../../resources/venv/bin/python3 /var/www/html/plugins/WebOStvLG/resources/venv/bin/lgtv ' .$command .' > ' .$ret );
+                }/*if ($command=='volumeDown' or $command=='volumeUp') {
 					for ($i = 1; $i <= $volnum-1; $i++) {
 						shell_exec('/usr/bin/python ' . $lg_path . '/lgtv.py ' .$commande);
 					}
