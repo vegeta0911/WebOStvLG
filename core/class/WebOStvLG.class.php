@@ -104,6 +104,9 @@ class WebOStvLG extends eqLogic {
 	        }
 	        else
 	        {
+		if($this->getConfiguration('addr') == ''){
+                    throw new Exception(__('Merci de renseigner IP de la TV',__FILE__));
+                }
                 $tv_info['tv_name'] = "TV_LG";
                 $lgtvauth = shell_exec(system::getCmdSudo().' '.$execpython .' --ssl auth '. $this->getConfiguration('addr') .' '.json_encode($tv_info['tv_name'],true));
                 //throw new Exception(__('Je ne trouve pas de TV LG',__FILE__));
