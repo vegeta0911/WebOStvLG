@@ -1,4 +1,5 @@
-==== 12/02/2015
+mise à jours 24/04/2025
+==== 
+ ajout de l'option --ssl sur toute les commandes.
 
-- V0.1: Première version du plugin
 
