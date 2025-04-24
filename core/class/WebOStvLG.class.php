@@ -227,7 +227,7 @@ class WebOStvLG extends eqLogic {
                 $lgtvjsonInfo = file_get_contents(self::LG_PATH.'/3rdparty/info.json');
                 $lgtvjsoninInfo = json_decode($lgtvjsonInfo, true);
                 
-                if($lgtvjsoninInfo["payload"]["major_ver"] >= "06"){
+                if($lgtvjsoninInfo["payload"]["major_ver"] >= "04"){
                   $versionLG = '--ssl';
                   $modif['configuration']['request'] = $modif['configuration']['modif'].'"'.$lgtvscanin["list"][0]["tv_name"].'" '.$versionLG.''.$modif['configuration']['modif1'];
                 }
@@ -287,7 +287,7 @@ class WebOStvLG extends eqLogic {
         $lgtvjsonInfo = file_get_contents(self::LG_PATH.'/3rdparty/info.json');
         $lgtvjsoninInfo = json_decode($lgtvjsonInfo, true);
                 
-                if($lgtvjsoninInfo["payload"]["major_ver"] >= "06"){
+                if($lgtvjsoninInfo["payload"]["major_ver"] >= "04"){
                     $versionLG = "--ssl";
                      $lgcommand = '--name "'.$lgtvscanin["list"][0]["tv_name"].'" '.$versionLG.' listApps';
                 }
@@ -339,7 +339,7 @@ class WebOStvLG extends eqLogic {
                         continue;
                 }
                 $webosTvCmd->setConfiguration('dashicon', $name4);
-                if($lgtvjsoninInfo["payload"]["major_ver"] >= "06"){
+                if($lgtvjsoninInfo["payload"]["major_ver"] >= "04"){
                     $versionLG = "--ssl";
                     $webosTvCmd->setConfiguration('request', '--name "'.$lgtvscanin["list"][0]["tv_name"].'"'.$versionLG.' startApp '.$inputs["id"]);
                 }
@@ -382,7 +382,7 @@ class WebOStvLG extends eqLogic {
         $lgtvjsonInfo = file_get_contents(self::LG_PATH.'/3rdparty/info.json');
         $lgtvjsoninInfo = json_decode($lgtvjsonInfo, true);
                 
-        if($lgtvjsoninInfo["payload"]["major_ver"] >= "06"){
+        if($lgtvjsoninInfo["payload"]["major_ver"] >= "04"){
             $versionLG = '--ssl';
             $lgcommand = '--name "'.$lgtvscanin["list"][0]["tv_name"].'"'.$versionLG.' listInputs';
         }
@@ -426,7 +426,7 @@ class WebOStvLG extends eqLogic {
 				}
 				log::add('WebOStvLG', 'debug','exist');
 				$webosTvCmd->setConfiguration('dashicon', $imageName);
-                if($lgtvjsoninInfo["payload"]["major_ver"] >= "06"){
+                if($lgtvjsoninInfo["payload"]["major_ver"] >= "04"){
                     $versionLG = '--ssl';
 				    $webosTvCmd->setConfiguration('request', '--name "'.$lgtvscanin["list"][0]["tv_name"].'"'.$versionLG.' setInput '.$inputs["id"]);
                 }
@@ -460,7 +460,7 @@ class WebOStvLG extends eqLogic {
         $lgtvjsonInfo = file_get_contents(self::LG_PATH.'/3rdparty/info.json');
                 $lgtvjsoninInfo = json_decode($lgtvjsonInfo, true);
                 
-                if($lgtvjsoninInfo["payload"]["major_ver"] >= "06"){
+                if($lgtvjsoninInfo["payload"]["major_ver"] >= "04"){
                     $versionLG = '--ssl';
                     $lgcommand = '--name "'.$lgtvscanin["list"][0]["tv_name"].'"'.$versionLG.' listChannels';
                 }
@@ -497,7 +497,7 @@ class WebOStvLG extends eqLogic {
                         $chaine = str_replace("'", " ", $inputs["channelName"]);
                         $chaines = str_replace(" ", "_", $chaine);
                         $WebOStvLGCmd->setConfiguration('dashicon',  $chaines);
-                        if($lgtvjsoninInfo["payload"]["major_ver"] >= "06"){
+                        if($lgtvjsoninInfo["payload"]["major_ver"] >= "04"){
                             $versionLG = '--ssl';
                             $WebOStvLGCmd->setConfiguration('request', '--name "'.$lgtvscanin["list"][0]["tv_name"].'"'.$versionLG.' setTVChannel '.$inputs["channelId"]);
                         }
