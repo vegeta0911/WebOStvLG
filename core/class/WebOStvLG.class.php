@@ -442,13 +442,16 @@ class WebOStvLG extends eqLogic {
 	}
 
     public function addChannels(){
+        if (file_exists(self::LG_PATH.'/3rdparty/scan.json')) {
         $lgtvscan = file_get_contents(self::LG_PATH.'/3rdparty/scan.json');
         $lgtvscanin = json_decode($lgtvscan, true);
-
+        }
+       
+      
         if($lgtvscanin == ''){
             $lgtvjson = file_get_contents(self::LG_PATH.'/3rdparty/config.json');
             $lgtvjsonin = json_decode($lgtvjson, true);
-            
+      
             foreach ($lgtvjsonin as $device_name => $device_info) {
                 if($device_name == "TV_LG"){
                     $lgtvscanin["list"][0]["tv_name"] = $device_name;
@@ -457,8 +460,10 @@ class WebOStvLG extends eqLogic {
             }
             
         }
+      if (file_exists(self::LG_PATH.'/3rdparty/info.json')) {
         $lgtvjsonInfo = file_get_contents(self::LG_PATH.'/3rdparty/info.json');
-                $lgtvjsoninInfo = json_decode($lgtvjsonInfo, true);
+        $lgtvjsoninInfo = json_decode($lgtvjsonInfo, true);
+      
                 
                 if($lgtvjsoninInfo["payload"]["major_ver"] >= "04"){
                     $versionLG = '--ssl';
@@ -513,6 +518,7 @@ class WebOStvLG extends eqLogic {
             }
         }		
     }
+  }
 	
     public function postAjax() {
         if (!$this->getId())
@@ -582,18 +588,28 @@ class WebOStvLG extends eqLogic {
 			$state->setIsVisible(1);
 			$state->setName(__('Etat', __FILE__));
 		}
-		//$state->setConfiguration('request', '/site/#siteId#/security');
-		$state->setConfiguration('response', 'statusLabel');
-		//$state->setEventOnly(1);
-		$state->setConfiguration('onlyChangeEvent',1);
 		$state->setType('info');
-		$state->setSubType('binary');
+		$state->setSubType('string');
 		$state->setIsHistorized(1);
-		//$state->setDisplay('generic_type','ALARM_MODE');
 		$state->setTemplate('dashboard','defaut');
 		$state->setTemplate('mobile','defaut');
 		$state->setEqLogic_id($this->getId());
 		$state->save();
+      
+        /*$state1 = $this->getCmd(null, 'etat_tv');
+		if (!is_object($state1)) {
+			$state1 = new WebOStvLGCmd();
+			$state1->setLogicalId('etat_tv');
+			$state1->setIsVisible(0);
+			$state1->setName(__('Statut', __FILE__));
+		}
+		$state1->setType('info');
+		$state1->setSubType('string');
+		$state1->setIsHistorized(1);
+		$state1->setTemplate('dashboard','defaut');
+		$state1->setTemplate('mobile','defaut');
+		$state1->setEqLogic_id($this->getId());
+		$state1->save();*/
 		
     }
   
@@ -671,9 +687,7 @@ class WebOStvLG extends eqLogic {
 						$html_groups[$group] = $cmd_html; 
 					}    
                 } 
-                $cmd_replace = array(
-                    '#'.strtolower($cmd->getName()).'#' => $cmd_html,
-                    );
+                $cmd_replace = array('#'.strtolower($cmd->getName()).'#' => $cmd_html);
                 $groups_template[$group] = template_replace($cmd_replace, $groups_template[$group]);
                
             }
@@ -695,11 +709,13 @@ class WebOStvLG extends eqLogic {
                 $replace['#' . $key . '#'] = $value;
             }
         }
+        
 		$state = $this->getCmd(null, 'etat');
+     
 		if(is_object($state)) {
 			$replace['#state#'] = $state->execCmd();
 		}
-
+    
         return template_replace($replace, getTemplate('core', $_version, 'eqLogic', 'WebOStvLG'));
     }
 	public static function ping($state) {
@@ -735,22 +751,56 @@ class WebOStvLG extends eqLogic {
 		
    }
     public static function etattv() {
-        foreach (eqLogic::byType('WebOStvLG', true) as $eqLogic) {
+        $execpython = self::PYTHON_PATH .' /var/www/html/plugins/WebOStvLG/resources/venv/bin/lgtv';
+         $lgtvscan = file_get_contents(self::LG_PATH.'/3rdparty/scan.json');
+        $lgtvscanin = json_decode($lgtvscan, true);
 
+        if($lgtvscanin == ''){
+            $lgtvjson = file_get_contents(self::LG_PATH.'/3rdparty/config.json');
+            $lgtvjsonin = json_decode($lgtvjson, true);
+            
+            foreach ($lgtvjsonin as $device_name => $device_info) {
+                if($device_name == "TV_LG"){
+                    $lgtvscanin["list"][0]["tv_name"] = $device_name;
+                }
+            }   
+        }
+            
+        $lgtvinfo = shell_exec(system::getCmdSudo().' '.self::EXEC_LG.' --name "'.$lgtvscanin["list"][0]["tv_name"].'" --ssl getPowerState');
+        $jsonInfo = str_replace('{"closing": {"code": 1000, "reason": ""}}', '', $lgtvinfo);
+        $datainfo = json_decode($jsonInfo,true);
+        $json_data = file_put_contents(self::LG_PATH.'/3rdparty/etat.json', json_encode($datainfo, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+        $lgtvjsonInfo = file_get_contents(self::LG_PATH.'/3rdparty/etat.json');
+        $lgtvetat = json_decode($lgtvjsonInfo, true);
+        
+        foreach (eqLogic::byType('WebOStvLG', true) as $eqLogic) {
+      
         $etat = $eqLogic->ping($eqLogic->getConfiguration('addr'));
-        if($etat == 1){
-            $etat = 0;
+        $etat = $eqLogic->getCmd(null,'etat');
+
+        if($eqLogic->getConfiguration('statut') == '0'){
+            if($etat == 1){
+                $etat = 0;
+                log::add('WebOStvLG','info','Etat TV: ' .print_r($etat,true));
+                $eqLogic->checkAndUpdateCmd('etat', $etat);
+                $eqLogic->refreshWidget();
+            }
+            else
+            {
+                $etat = 1;
+                log::add('WebOStvLG','info','Etat TV: ' .print_r($etat,true));
+                $eqLogic->checkAndUpdateCmd('etat', $etat);
+                $eqLogic->refreshWidget();
+            }
         }
         else
-        {
-            $etat = 1;
+        {   
+            $etat = $lgtvetat['payload']['state']; 
+            log::add('WebOStvLG','info','Etat TV: ' .$lgtvetat['payload']['state']);
+            $eqLogic->checkAndUpdateCmd('etat', $etat);
+            $eqLogic->refreshWidget();
         }
-        $eqLogic->checkAndUpdateCmd('etat', $etat);
-        $eqLogic->refreshWidget();
-        
-        log::add('WebOStvLG','info','Etat TV: ' .print_r($etat,true));
-
-        }
+      }
     }
 }
 
