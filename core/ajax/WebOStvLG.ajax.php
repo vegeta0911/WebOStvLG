@@ -6,13 +6,16 @@ if (!isConnect('admin')) {
     throw new Exception(__('401 - Accès non autorisé', __FILE__));
 }
 try{
+
+     ajax::init(); 
+     
     // Bienvenue
     if (init('action') == 'set_version_WebOStvLG') {
       config::save('version_WebOStvLG', init('version_WebOStvLG'),'WebOStvLG');
       ajax::success();
     }
 
-    ajax::init();
+   
 
 } catch (Exception $e) {
     ajax::error(displayException($e), $e->getCode());
