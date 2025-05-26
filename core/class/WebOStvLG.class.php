@@ -795,10 +795,12 @@ class WebOStvLG extends eqLogic {
         }
         else
         {   
+	  if($lgtvetat['payload']['state'] != null){
             $etat = $lgtvetat['payload']['state']; 
             log::add('WebOStvLG','info','Etat TV: ' .$lgtvetat['payload']['state']);
             $eqLogic->checkAndUpdateCmd('etat', $etat);
             $eqLogic->refreshWidget();
+	  }
         }
       }
     }
