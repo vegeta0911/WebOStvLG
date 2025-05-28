@@ -88,12 +88,12 @@ class WebOStvLG extends eqLogic {
         $lgtvscan = exec(system::getCmdSudo().' '.$execpython .' scan');
         $datascan = json_decode($lgtvscan,true);
         
-        log::add('WebOStvLG','debug','scan3 : ' .print_r($lgtvscan,true));
+        log::add('WebOStvLG','debug','scan : ' .print_r($lgtvscan,true));
 
-        $tvetat = $this->getCmd(null, 'etat');
+       /* $tvetat = $this->getCmd(null, 'etat');
         if (isset($tvetat)) {
         $value = $tvetat->execCmd();
-        }
+        }*/
 
            
             if($datascan['result'] == 'ok'){
@@ -404,9 +404,12 @@ class WebOStvLG extends eqLogic {
 
 		foreach ($lgtvjsoninInputs["payload"]["devices"] as $inputs) {
             
-            $imageUrl = $inputs['icon'];
-            $imageName = basename($imageUrl);
+            $imageUrls = $inputs['icon'];
+            $imageName = basename($imageUrls);
+            $imageUrl = str_replace("https", "http", $imageUrls);
+            log::add('WebOStvLG', 'debug', '|  json: listInputsImage' .$imageUrl );	
             $imageData = file_get_contents($imageUrl);
+           
             $resultimage = file_put_contents(self::LG_PATH.'/core/template/images/icons_inputs/'.$imageName, $imageData);
             
 			if (array_key_exists('label', $inputs)) {
@@ -751,13 +754,38 @@ class WebOStvLG extends eqLogic {
 		
    }
     public static function etattv() {
-        $execpython = self::PYTHON_PATH .' /var/www/html/plugins/WebOStvLG/resources/venv/bin/lgtv';
-         $lgtvscan = file_get_contents(self::LG_PATH.'/3rdparty/scan.json');
-        $lgtvscanin = json_decode($lgtvscan, true);
+        
+        foreach (eqLogic::byType('WebOStvLG', true) as $eqLogic) {
+      
+        $etat = $eqLogic->ping($eqLogic->getConfiguration('addr'));
+        $etat = $eqLogic->getCmd(null,'etat');
 
-        if($lgtvscanin == ''){
-            $lgtvjson = file_get_contents(self::LG_PATH.'/3rdparty/config.json');
-            $lgtvjsonin = json_decode($lgtvjson, true);
+        if($eqLogic->getConfiguration('statut') == '0'){
+            if($etat == '1'){
+                $etat = '1';
+                log::add('WebOStvLG','info','Etat TV: ' .print_r($etat,true));
+                $eqLogic->checkAndUpdateCmd('etat', $etat);
+                
+            }
+            else
+            {
+                $etat = '0';
+                log::add('WebOStvLG','info','Etat TV: ' .print_r($etat,true));
+                $eqLogic->checkAndUpdateCmd('etat', $etat);
+              
+            }
+        }
+        else
+        {   
+          if($eqLogic->getConfiguration('statut') == '1'){
+             
+            $execpython = self::PYTHON_PATH .' /var/www/html/plugins/WebOStvLG/resources/venv/bin/lgtv';
+            $lgtvscan = file_get_contents(self::LG_PATH.'/3rdparty/scan.json');
+            $lgtvscanin = json_decode($lgtvscan, true);
+
+            if($lgtvscanin == ''){
+               $lgtvjson = file_get_contents(self::LG_PATH.'/3rdparty/config.json');
+               $lgtvjsonin = json_decode($lgtvjson, true);
             
             foreach ($lgtvjsonin as $device_name => $device_info) {
                 if($device_name == "TV_LG"){
@@ -766,43 +794,29 @@ class WebOStvLG extends eqLogic {
             }   
         }
             
-        $lgtvinfo = shell_exec(system::getCmdSudo().' '.self::EXEC_LG.' --name "'.$lgtvscanin["list"][0]["tv_name"].'" --ssl getPowerState');
-        $jsonInfo = str_replace('{"closing": {"code": 1000, "reason": ""}}', '', $lgtvinfo);
-        $datainfo = json_decode($jsonInfo,true);
-        $json_data = file_put_contents(self::LG_PATH.'/3rdparty/etat.json', json_encode($datainfo, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
-        $lgtvjsonInfo = file_get_contents(self::LG_PATH.'/3rdparty/etat.json');
-        $lgtvetat = json_decode($lgtvjsonInfo, true);
+            $lgtvinfo = shell_exec(system::getCmdSudo().' '.self::EXEC_LG.' --name "'.$lgtvscanin["list"][0]["tv_name"].'" --ssl getPowerState');
+            $jsonInfo = str_replace('{"closing": {"code": 1000, "reason": ""}}', '', $lgtvinfo);
+            $datainfo = json_decode($jsonInfo,true);
+            $json_data = file_put_contents(self::LG_PATH.'/3rdparty/etat.json', json_encode($datainfo, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+            $lgtvjsonInfo = file_get_contents(self::LG_PATH.'/3rdparty/etat.json');
+            $lgtvetat = json_decode($lgtvjsonInfo, true);
         
-        foreach (eqLogic::byType('WebOStvLG', true) as $eqLogic) {
-      
-        $etat = $eqLogic->ping($eqLogic->getConfiguration('addr'));
-        $etat = $eqLogic->getCmd(null,'etat');
-
-        if($eqLogic->getConfiguration('statut') == '0'){
-            if($etat == 1){
-                $etat = 0;
-                log::add('WebOStvLG','info','Etat TV: ' .print_r($etat,true));
+	         if(isset($lgtvetat['payload']['state']) != ''){
+                $etat = $lgtvetat['payload']['state']; 
+                log::add('WebOStvLG','info','Etat TV: ' .$lgtvetat['payload']['state']);
                 $eqLogic->checkAndUpdateCmd('etat', $etat);
-                $eqLogic->refreshWidget();
-            }
-            else
+           
+	         }
+             else
             {
-                $etat = 1;
-                log::add('WebOStvLG','info','Etat TV: ' .print_r($etat,true));
+                $etat = 'Desactive'; 
+                log::add('WebOStvLG','info','Etat TV: Desactive');
                 $eqLogic->checkAndUpdateCmd('etat', $etat);
-                $eqLogic->refreshWidget();
             }
-        }
-        else
-        {   
-	 if(isset($lgtvetat['payload']['state']) != null){
-            $etat = $lgtvetat['payload']['state']; 
-            log::add('WebOStvLG','info','Etat TV: ' .$lgtvetat['payload']['state']);
-            $eqLogic->checkAndUpdateCmd('etat', $etat);
-            $eqLogic->refreshWidget();
-	  }
+          }
         }
       }
+      $eqLogic->refreshWidget();
     }
 }
 
