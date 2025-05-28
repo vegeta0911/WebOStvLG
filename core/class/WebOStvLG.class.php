@@ -761,15 +761,15 @@ class WebOStvLG extends eqLogic {
         $etat = $eqLogic->getCmd(null,'etat');
 
         if($eqLogic->getConfiguration('statut') == '0'){
-            if($etat == '1'){
-                $etat = '1';
+            if($etat == 1){
+                $etat = 0;
                 log::add('WebOStvLG','info','Etat TV: ' .print_r($etat,true));
                 $eqLogic->checkAndUpdateCmd('etat', $etat);
                 
             }
             else
             {
-                $etat = '0';
+                $etat = 1;
                 log::add('WebOStvLG','info','Etat TV: ' .print_r($etat,true));
                 $eqLogic->checkAndUpdateCmd('etat', $etat);
               
