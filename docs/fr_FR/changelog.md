@@ -8,4 +8,7 @@ mise à jours 24/04/2025
 ==== 
  ajout de l'option --ssl sur toute les commandes.
 
-
+mise à jours 28/05/2025
+==== 
+Ajoute de l'etat de la TV, plus une case cocher si vous avez l'option de la TV "TOUJOURS PRÊT".
+Correction de bug fix.
