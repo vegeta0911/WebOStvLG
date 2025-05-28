@@ -189,9 +189,10 @@ sendVarToJS('version_WebOStvLG', $version_WebOStvLG);
                         <label class="checkbox-inline">
                             <input type="checkbox" class="eqLogicAttr" data-label-text="" data-l1key="configuration" data-l2key="has_channels" checked/>{{Chaines TNT}}
                         </label>
-                        <!--label class="checkbox-inline">
-                            <input type="checkbox" class="eqLogicAttr" data-label-text="" data-l1key="configuration" data-l2key="has_remote" checked/>{{Remote}}
-                        </label-->
+                        <label class="checkbox-inline">
+                            <input type="checkbox" class="eqLogicAttr" data-label-text="" data-l1key="configuration" data-l2key="statut"/>{{Statut TV}}
+                            <label class="col-xs-6 control-label help" data-help="{{Cocher la case si la fonction TOUJOURS PRÊT est active}}"></label>
+                        </label>
 
                     </div>
                 </div>
