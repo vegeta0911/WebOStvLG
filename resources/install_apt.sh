@@ -22,7 +22,7 @@ step 80 "Install the required python packages"
 try ${VENV_DIR}/bin/python3 -m pip install  -r ${BASE_DIR}/requirements.txt 
 
 step 90 "Summary of installed packages"
-try chown -R www-data:www-data /var/www/html/plugins/WebOStvLG/resources
+try chown -R www-data:www-data ${BASE_DIR}
 ${VENV_DIR}/bin/python3 -m pip freeze
 
 post
