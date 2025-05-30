@@ -22,7 +22,6 @@ require_once dirname(__FILE__) . '/../../3rdparty/WebOStvLG_Ping.class.php';
 
 class WebOStvLG extends eqLogic {
     const PYTHON_PATH = __DIR__ . '/../../resources/venv/bin/python3';
-    const MAC =  __DIR__ . '/../../resources/venv/bin/wakeonlan';
     const EXEC_LG = self::PYTHON_PATH .' /var/www/html/plugins/WebOStvLG/resources/venv/bin/lgtv';
     const LG_PATH = __DIR__ . '/../..';
     /*     * *************************Attributs****************************** */
