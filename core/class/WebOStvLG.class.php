@@ -229,11 +229,11 @@ class WebOStvLG extends eqLogic {
               }
             }
             }
+		log::add('WebOStvLG', 'debug','modification json type 1:'. $modif['configuration']['name']);
         }
         // Sauvegarder les modifications dans le fichier JSON
         file_put_contents(__DIR__ . '/../config/commands/' . $type . '.json', json_encode($device, JSON_PRETTY_PRINT));
-        log::add('WebOStvLG', 'debug','modification json type 1:'. $modif['configuration']['name']);
-
+        
 		foreach ($device['commands'] as $command) { 
 
 			$webosTvCmd = $this->getCmd(null, $command['name']);
