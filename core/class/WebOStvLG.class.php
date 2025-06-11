@@ -208,12 +208,11 @@ class WebOStvLG extends eqLogic {
             }
             
         }
-
+        $lgtvjsonInfo = file_get_contents(self::LG_PATH.'/3rdparty/info.json');
+        $lgtvjsoninInfo = json_decode($lgtvjsonInfo, true);
         foreach($device['commands'] as $key => &$modif){
 
             if (isset($modif['configuration']['request'])) {
-                $lgtvjsonInfo = file_get_contents(self::LG_PATH.'/3rdparty/info.json');
-                $lgtvjsoninInfo = json_decode($lgtvjsonInfo, true);
 
                 if($modif['name'] == 'Allumer'){
                 $modif['configuration']['request'] = $lgtvjsoninInfo['payload']['device_id'];
@@ -793,7 +792,9 @@ class WebOStvLG extends eqLogic {
           }
         }
       }
-      $eqLogic->refreshWidget();
+        if($eqLogic->refreshWidget() != null){
+                $eqLogic->refreshWidget();
+        }
     }
 }
 
