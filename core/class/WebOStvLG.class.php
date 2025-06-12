@@ -780,7 +780,7 @@ class WebOStvLG extends eqLogic {
             
             $cmd = system::getCmdSudo().' '.self::EXEC_LG.' --name "'.$lgtvscanin["list"][0]["tv_name"].'" --ssl getPowerState';
             $start = microtime(true);
-            $lgtvinfo = shell_exec($cmd);
+            $lgtvinfo = exec($cmd);
             $duration = microtime(true) - $start;
             //$lgtvinfo = shell_exec(system::getCmdSudo().' '.self::EXEC_LG.' --name "'.$lgtvscanin["list"][0]["tv_name"].'" --ssl getPowerState');
             $jsonInfo = str_replace('{"closing": {"code": 1000, "reason": ""}}', '', $lgtvinfo);
