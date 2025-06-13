@@ -778,7 +778,7 @@ class WebOStvLG extends eqLogic {
             }   
         }
             
-            $cmd = 'timeout 4 '.system::getCmdSudo().' '.self::EXEC_LG.' --name "'.$lgtvscanin["list"][0]["tv_name"].'" --ssl getPowerState';
+            $cmd = '( ' . system::getCmdSudo() . ' ' . self::EXEC_LG . ' --name "' . $lgtvscanin["list"][0]["tv_name"] . '" --ssl getPowerState ) & sleep 1; kill $!';
             $start = microtime(true);
             $lgtvinfo = shell_exec($cmd);
             $duration = microtime(true) - $start;
