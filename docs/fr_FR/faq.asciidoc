@@ -1,5 +1,0 @@
-[panel,primary]
-.Je n'arrive pas à allumer la télévision lorsqu'elle est en veille
---
-C'est normal, une fois la télévision en veille, les fonctions réseaux ne sont plus disponibles. Les commandes via la laison ethernet ne fonctionnent donc pas.
---
