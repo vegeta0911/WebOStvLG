@@ -785,7 +785,7 @@ class WebOStvLG extends eqLogic {
             //$lgtvinfo = shell_exec(system::getCmdSudo().' '.self::EXEC_LG.' --name "'.$lgtvscanin["list"][0]["tv_name"].'" --ssl getPowerState');
             $jsonInfo = str_replace('{"closing": {"code": 1000, "reason": ""}}', '', $lgtvinfo);
             if ($duration > 5) {
-                   log::add('WebOStvLG','warning','La commande shell_exec a pris trop de temps : '.$duration.' secondes');
+                   //log::add('WebOStvLG','warning','La commande shell_exec a pris trop de temps : '.$duration.' secondes');
             }
             $datainfo = json_decode($jsonInfo,true);
             $json_data = file_put_contents(self::LG_PATH.'/3rdparty/etat.json', json_encode($datainfo, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
