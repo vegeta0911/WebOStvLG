@@ -208,12 +208,11 @@ class WebOStvLG extends eqLogic {
             }
             
         }
-
+        $lgtvjsonInfo = file_get_contents(self::LG_PATH.'/3rdparty/info.json');
+        $lgtvjsoninInfo = json_decode($lgtvjsonInfo, true);
         foreach($device['commands'] as $key => &$modif){
 
             if (isset($modif['configuration']['request'])) {
-                $lgtvjsonInfo = file_get_contents(self::LG_PATH.'/3rdparty/info.json');
-                $lgtvjsoninInfo = json_decode($lgtvjsonInfo, true);
 
                 if($modif['name'] == 'Allumer'){
                 $modif['configuration']['request'] = $lgtvjsoninInfo['payload']['device_id'];
@@ -230,11 +229,11 @@ class WebOStvLG extends eqLogic {
               }
             }
             }
+		log::add('WebOStvLG', 'debug','modification json type 1:'. $modif['configuration']['name']);
         }
         // Sauvegarder les modifications dans le fichier JSON
         file_put_contents(__DIR__ . '/../config/commands/' . $type . '.json', json_encode($device, JSON_PRETTY_PRINT));
-        log::add('WebOStvLG', 'debug','modification json type 1:'. $modif['configuration']['name']);
-
+        
 		foreach ($device['commands'] as $command) { 
 
 			$webosTvCmd = $this->getCmd(null, $command['name']);
@@ -755,10 +754,18 @@ class WebOStvLG extends eqLogic {
         }
         else
         {   
+          try {
           if($eqLogic->getConfiguration('statut') == 1){
              
-            $lgtvscan = file_get_contents(self::LG_PATH.'/3rdparty/scan.json');
-            $lgtvscanin = json_decode($lgtvscan, true);
+            if (file_exists(self::LG_PATH.'/3rdparty/scan.json')) {
+                   $lgtvscan = file_get_contents(self::LG_PATH.'/3rdparty/scan.json');
+                   $lgtvscanin = json_decode($lgtvscan, true);
+            }
+            else
+            {
+              log::add('WebOStvLG','error','Fichier scan.json introuvable');
+              continue;
+            }
 
             if($lgtvscanin == ''){
                $lgtvjson = file_get_contents(self::LG_PATH.'/3rdparty/config.json');
@@ -771,8 +778,15 @@ class WebOStvLG extends eqLogic {
             }   
         }
             
-            $lgtvinfo = shell_exec(system::getCmdSudo().' '.self::EXEC_LG.' --name "'.$lgtvscanin["list"][0]["tv_name"].'" --ssl getPowerState');
+            $cmd = 'timeout 2 ' . system::getCmdSudo() . ' ' . self::EXEC_LG . ' --name "' . $lgtvscanin["list"][0]["tv_name"] . '" --ssl getPowerState';
+            $start = microtime(true);
+            $lgtvinfo = shell_exec($cmd);
+            $duration = microtime(true) - $start;
+            //$lgtvinfo = shell_exec(system::getCmdSudo().' '.self::EXEC_LG.' --name "'.$lgtvscanin["list"][0]["tv_name"].'" --ssl getPowerState');
             $jsonInfo = str_replace('{"closing": {"code": 1000, "reason": ""}}', '', $lgtvinfo);
+            if ($duration > 5) {
+                   log::add('WebOStvLG','warning','La commande shell_exec a pris trop de temps : '.$duration.' secondes');
+            }
             $datainfo = json_decode($jsonInfo,true);
             $json_data = file_put_contents(self::LG_PATH.'/3rdparty/etat.json', json_encode($datainfo, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
             $lgtvjsonInfo = file_get_contents(self::LG_PATH.'/3rdparty/etat.json');
@@ -791,9 +805,16 @@ class WebOStvLG extends eqLogic {
                 $eqLogic->checkAndUpdateCmd('etat', $etat);
             }
           }
+        
+        
+          } catch (Exception $e) {
+             log::add('WebOStvLG','error','Erreur dans etattv : ' . $e->getMessage());
+         }
         }
       }
-      $eqLogic->refreshWidget();
+    
+       // $eqLogic->refreshWidget();
+ 
     }
 }
 
