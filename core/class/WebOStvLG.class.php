@@ -778,7 +778,7 @@ class WebOStvLG extends eqLogic {
             }   
         }
             
-            $cmd = 'timeout 2 ' . system::getCmdSudo() . ' ' . self::EXEC_LG . ' --name "' . $lgtvscanin["list"][0]["tv_name"] . '" --ssl getPowerState';
+            $cmd = 'timeout 1 ' . system::getCmdSudo() . ' ' . self::EXEC_LG . ' --name "' . $lgtvscanin["list"][0]["tv_name"] . '" --ssl getPowerState';
             $start = microtime(true);
             $lgtvinfo = shell_exec($cmd);
             $duration = microtime(true) - $start;
@@ -819,24 +819,11 @@ class WebOStvLG extends eqLogic {
 }
 
 class WebOStvLGCmd extends cmd {
-    /*     * *************************Attributs****************************** */
-
-
-    /*     * ***********************Methode static*************************** */
-
-
-    /*     * *********************Methode d'instance************************* */
-
-    public function preSave() {
-        /*if ($this->getConfiguration('request') == '') {
-            throw new Exception(__('La requete ne peut etre vide',__FILE__));
-		}*/	
-    }
 
     public function execute($_options = null) {
     	$WebOStvLG = $this->getEqLogic();
         $lg_path = realpath(dirname(__FILE__) . '/../../3rdparty');
-		$tvip = $WebOStvLG->getConfiguration('addr');
+	$tvip = $WebOStvLG->getConfiguration('addr');
     	$key = $WebOStvLG->getConfiguration('key');
         $request = $WebOStvLG->getConfiguration('request');
         $mac = $WebOStvLG->getConfiguration('mac');
