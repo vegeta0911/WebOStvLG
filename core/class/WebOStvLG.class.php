@@ -30,6 +30,7 @@ class WebOStvLG extends eqLogic {
     /*     * ***********************Methode static*************************** */
     public static function cron() {
         WebOStvLG::etattv();
+	sleep(2)
     }
     public static function dependancy_info() {
 
@@ -778,7 +779,7 @@ class WebOStvLG extends eqLogic {
             }   
         }
             
-            $cmd = 'timeout 2 ' . system::getCmdSudo() . ' ' . self::EXEC_LG . ' --name "' . $lgtvscanin["list"][0]["tv_name"] . '" --ssl getPowerState';
+            $cmd = system::getCmdSudo() . ' ' . self::EXEC_LG . ' --name "' . $lgtvscanin["list"][0]["tv_name"] . '" --ssl getPowerState';
             $start = microtime(true);
             $lgtvinfo = shell_exec($cmd);
             $duration = microtime(true) - $start;
