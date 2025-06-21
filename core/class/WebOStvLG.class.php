@@ -30,7 +30,7 @@ class WebOStvLG extends eqLogic {
     /*     * ***********************Methode static*************************** */
     public static function cron() {
         WebOStvLG::etattv();
-	sleep(2)
+	sleep(2);
     }
     public static function dependancy_info() {
 
