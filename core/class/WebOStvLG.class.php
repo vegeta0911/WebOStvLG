@@ -22,7 +22,7 @@ require_once dirname(__FILE__) . '/../../3rdparty/WebOStvLG_Ping.class.php';
 
 class WebOStvLG extends eqLogic {
     const PYTHON_PATH = __DIR__ . '/../../resources/venv/bin/python3';
-    const EXEC_LG = self::PYTHON_PATH .' /var/www/html/plugins/WebOStvLG/resources/venv/bin/lgtv';
+    const EXEC_LG = self::PYTHON_PATH .' '. __DIR__ . '/../../resources/venv/bin/lgtv';
     const LG_PATH = __DIR__ . '/../..';
     /*     * *************************Attributs****************************** */
 
@@ -30,6 +30,7 @@ class WebOStvLG extends eqLogic {
     /*     * ***********************Methode static*************************** */
     public static function cron() {
         WebOStvLG::etattv();
+	sleep(2);
     }
     public static function dependancy_info() {
 
@@ -84,7 +85,7 @@ class WebOStvLG extends eqLogic {
 
     public function preUpdate() {
         if($this->getConfiguration('key') == ''){ 
-        $execpython = self::PYTHON_PATH .' /var/www/html/plugins/WebOStvLG/resources/venv/bin/lgtv';
+        $execpython = self::PYTHON_PATH .' '.__DIR__ . '/../../resources/venv/bin/lgtv';
         $lgtvscan = exec(system::getCmdSudo().' '.$execpython .' scan');
         $datascan = json_decode($lgtvscan,true);
         
@@ -778,14 +779,16 @@ class WebOStvLG extends eqLogic {
             }   
         }
             
-            $cmd = 'timeout 1 ' . system::getCmdSudo() . ' ' . self::EXEC_LG . ' --name "' . $lgtvscanin["list"][0]["tv_name"] . '" --ssl getPowerState';
+
+            $cmd = system::getCmdSudo() . ' ' . self::EXEC_LG . ' --name "' . $lgtvscanin["list"][0]["tv_name"] . '" --ssl getPowerState';
             $start = microtime(true);
             $lgtvinfo = shell_exec($cmd);
             $duration = microtime(true) - $start;
             //$lgtvinfo = shell_exec(system::getCmdSudo().' '.self::EXEC_LG.' --name "'.$lgtvscanin["list"][0]["tv_name"].'" --ssl getPowerState');
             $jsonInfo = str_replace('{"closing": {"code": 1000, "reason": ""}}', '', $lgtvinfo);
             if ($duration > 5) {
-                   //log::add('WebOStvLG','warning','La commande shell_exec a pris trop de temps : '.$duration.' secondes');
+
+                  // log::add('WebOStvLG','warning','La commande shell_exec a pris trop de temps : '.$duration.' secondes');
             }
             $datainfo = json_decode($jsonInfo,true);
             $json_data = file_put_contents(self::LG_PATH.'/3rdparty/etat.json', json_encode($datainfo, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
@@ -843,8 +846,8 @@ class WebOStvLGCmd extends cmd {
                 $commande= $command;
                 
                 if ($this->getSubType() == 'message') {
-		$ret = shell_exec(system::getCmdSudo().' '.__DIR__ . '/../../resources/venv/bin/python3 /var/www/html/plugins/WebOStvLG/resources/venv/bin/lgtv ' .$command .' '.$message);
-                log::add('WebOStvLG','debug','$$$ EXEC: '.__DIR__ . '/../../resources/venv/bin/python3 /var/www/html/plugins/WebOStvLG/resources/venv/bin/lgtv ' .$command .' > ' . $message . ' > ' .$ret );
+		$ret = shell_exec(system::getCmdSudo().' '.__DIR__ . '/../../resources/venv/bin/python3 '. __DIR__ . '/../../resources/venv/bin/lgtv ' .$command .' '.$message);
+                log::add('WebOStvLG','debug','$$$ EXEC: '.__DIR__ . '/../../resources/venv/bin/python3 '.__DIR__ . '/../../resources/venv/bin/lgtv ' .$command .' > ' . $message . ' > ' .$ret );
                 }
                 else
                 if($command == $mac){
@@ -853,8 +856,8 @@ class WebOStvLGCmd extends cmd {
                 }
                 else
                 {
-                $ret = shell_exec(system::getCmdSudo().' '.__DIR__ . '/../../resources/venv/bin/python3 /var/www/html/plugins/WebOStvLG/resources/venv/bin/lgtv ' .$command);
-                log::add('WebOStvLG','debug','$$$ EXEC: '.__DIR__ . '/../../resources/venv/bin/python3 /var/www/html/plugins/WebOStvLG/resources/venv/bin/lgtv ' .$command .' > ' .$ret );
+                $ret = shell_exec(system::getCmdSudo().' '.__DIR__ . '/../../resources/venv/bin/python3 '. __DIR__ . '/../../resources/venv/bin/lgtv ' .$command);
+                log::add('WebOStvLG','debug','$$$ EXEC: '.__DIR__ . '/../../resources/venv/bin/python3 '.__DIR__ . '/../../resources/venv/bin/lgtv ' .$command .' > ' .$ret );
                 }/*if ($command=='volumeDown' or $command=='volumeUp') {
 					for ($i = 1; $i <= $volnum-1; $i++) {
 						shell_exec('/usr/bin/python ' . $lg_path . '/lgtv.py ' .$commande);
