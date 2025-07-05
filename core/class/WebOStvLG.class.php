@@ -86,12 +86,12 @@ class WebOStvLG extends eqLogic {
     public function preUpdate() {
         if($this->getConfiguration('key') == ''){ 
         $execpython = self::PYTHON_PATH .' '.__DIR__ . '/../../resources/venv/bin/lgtv';
-        $lgtvscan = exec(system::getCmdSudo().' '.$execpython .' scan');
+        $lgtvscan = shell_exec(system::getCmdSudo().' '.$execpython .' scan');
         $datascan = json_decode($lgtvscan,true);
         
-        log::add('WebOStvLG','debug','scan : ' .print_r($this->getConfiguration('key'),true));
+        log::add('WebOStvLG','debug','scan : ' .print_r($lgtvscan,true));
        
-            if($datascan['result'] == 'ok'){
+            if(is_array($datascan)){
                 $tv_info = $datascan['list'][0];
                 log::add('WebOStvLG','info','lgtvinfo: ' . json_encode($lgtvjsoninInfo["payload"],true));
                 $lgtvauth = shell_exec(system::getCmdSudo().' '.$execpython .' --ssl auth '. $tv_info["address"] .' '.json_encode($tv_info['tv_name'],true)); 
@@ -128,15 +128,16 @@ class WebOStvLG extends eqLogic {
         $lgtvjsonin = json_decode($lgtvjson, true);
     
         //log::add('WebOStvLG','debug','scan1 : ' . json_encode($lgtvjsonin[$tv_info['tv_name']],true));
+    if(is_array($datascan)){
         $tv_info = $datascan['list'][0];
+    }
         log::add('WebOStvLG','debug','tv info : ' .  print_r($lgtvjsonin[$tv_info['tv_name']]["key"],true));
         if ($lgtvjsonin[$tv_info['tv_name']]["key"] != "") {
                 $this->setConfiguration('key', $lgtvjsonin[$tv_info['tv_name']]["key"]);
                 $this->setConfiguration('mac', $lgtvjsonin[$tv_info['tv_name']]["mac"]);
 
-                //print("OK, la clé est " . $lgtvjsonin[$tv_info['tv_name']]["key"]);
+            //print("OK, la clé est " . $lgtvjsonin[$tv_info['tv_name']]["key"]);
             log::add('WebOStvLG','debug','lgtvauth: ' . print_r($lgtvjson,true));
-            $tv_info = $datascan['list'][0];
         }
         else
         {
@@ -161,8 +162,8 @@ class WebOStvLG extends eqLogic {
                 $this->setConfiguration('mineur', $lgtvjsoninInfo["payload"]["minor_ver"]);
                 $this->setConfiguration('mac', $lgtvjsoninInfo["payload"]["device_id"]);
                 $this->save(true);
-		
-        log::add('WebOStvLG','debug','tv info : ' .  print_r($tv_info['tv_name'].' '.$device_info['hostname'],true));
+		        $this->refreshWidget();
+        log::add('WebOStvLG','debug','tv info : ' .  print_r($lgtvinfo,true));
          
        }
     }
@@ -212,14 +213,26 @@ class WebOStvLG extends eqLogic {
         $lgtvjsonInfo = file_get_contents(self::LG_PATH.'/3rdparty/info.json');
         $lgtvjsoninInfo = json_decode($lgtvjsonInfo, true);
         foreach($device['commands'] as $key => &$modif){
-
-            if (isset($modif['configuration']['request'])) {
-
-                if($modif['name'] == 'Allumer'){
-                $modif['configuration']['request'] = $lgtvjsoninInfo['payload']['device_id'];
+            log::add('WebOStvLG','debug', 'Essai: '.print_r($this->getConfiguration('statut'),true));
+            if($modif['name'] == 'Allumer'){
+                if($this->getConfiguration('statut') == 0){
+                    $modif['configuration']['request'] = $lgtvjsoninInfo['payload']['device_id'];
                 }
                 else
                 {
+                    if($lgtvjsoninInfo["payload"]["major_ver"] >= "04"){
+                    $versionLG = '--ssl';
+                    $modif['configuration']['request'] = $modif['configuration']['modif'].'"'.$lgtvscanin["list"][0]["tv_name"].'" '.$versionLG.''.$modif['configuration']['modif1'];
+                    }
+                    else
+                    {
+                        $modif['configuration']['request'] = $modif['configuration']['modif'].'"'.$lgtvscanin["list"][0]["tv_name"].'"'.$modif['configuration']['modif1'];
+                    }
+                }
+                }
+                else
+                {
+            if (isset($modif['configuration']['request'])) {
                 if($lgtvjsoninInfo["payload"]["major_ver"] >= "04"){
                   $versionLG = '--ssl';
                   $modif['configuration']['request'] = $modif['configuration']['modif'].'"'.$lgtvscanin["list"][0]["tv_name"].'" '.$versionLG.''.$modif['configuration']['modif1'];
@@ -228,9 +241,9 @@ class WebOStvLG extends eqLogic {
               {
                  $modif['configuration']['request'] = $modif['configuration']['modif'].'"'.$lgtvscanin["list"][0]["tv_name"].'"'.$modif['configuration']['modif1'];
               }
+              }
             }
-            }
-		log::add('WebOStvLG', 'debug','modification json type 1:'. $modif['configuration']['name']);
+		
         }
         // Sauvegarder les modifications dans le fichier JSON
         file_put_contents(__DIR__ . '/../config/commands/' . $type . '.json', json_encode($device, JSON_PRETTY_PRINT));
@@ -846,8 +859,8 @@ class WebOStvLGCmd extends cmd {
                 $commande= $command;
                 
                 if ($this->getSubType() == 'message') {
-		$ret = shell_exec(system::getCmdSudo().' '.__DIR__ . '/../../resources/venv/bin/python3 '. __DIR__ . '/../../resources/venv/bin/lgtv ' .$command .' '.$message);
-                log::add('WebOStvLG','debug','$$$ EXEC: '.__DIR__ . '/../../resources/venv/bin/python3 '.__DIR__ . '/../../resources/venv/bin/lgtv ' .$command .' > ' . $message . ' > ' .$ret );
+		            $ret = shell_exec(system::getCmdSudo().' '.__DIR__ . '/../../resources/venv/bin/python3 '. __DIR__ . '/../../resources/venv/bin/lgtv ' .$command .' '.$message);
+                    log::add('WebOStvLG','debug','$$$ EXEC: '.__DIR__ . '/../../resources/venv/bin/python3 '.__DIR__ . '/../../resources/venv/bin/lgtv ' .$command .' > ' . $message . ' > ' .$ret );
                 }
                 else
                 if($command == $mac){
