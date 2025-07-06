@@ -21,6 +21,8 @@
             "icon": "icon fas fa-tv fa-lg",
             "color": "green",
             "configuration": {
+                "modif": "--name ",
+                "modif1": " on",
                 "request": "--name \"LG webOS TV\" on",
                 "parameters": "Allumer la TV",
                 "dashicon": "<i style='color: green;' class='icon kiko-digital-tv fa-lg'><\/i>",
