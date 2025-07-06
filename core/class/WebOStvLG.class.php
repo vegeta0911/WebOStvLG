@@ -213,7 +213,7 @@ class WebOStvLG extends eqLogic {
         $lgtvjsonInfo = file_get_contents(self::LG_PATH.'/3rdparty/info.json');
         $lgtvjsoninInfo = json_decode($lgtvjsonInfo, true);
         foreach($device['commands'] as $key => &$modif){
-            log::add('WebOStvLG','debug', 'Essai: '.print_r($this->getConfiguration('statut'),true));
+            //log::add('WebOStvLG','debug', 'Essai: '.print_r($this->getConfiguration('statut'),true));
             if($modif['name'] == 'Allumer'){
                 if($this->getConfiguration('statut') == 0){
                     $modif['configuration']['request'] = $lgtvjsoninInfo['payload']['device_id'];
@@ -657,9 +657,9 @@ class WebOStvLG extends eqLogic {
 						$cmd_replace = array(
 							'#id#' => $cmd->getId(),
 							'#name#' => $cmd->getName(), //($cmd->getDisplay('icon') != '') ? $cmd->getDisplay('icon') : $cmd->getName(),
-                            '#dashicon#' => $icon, //getName(),
-                            //'#eqLink#' => $this->getLinkToConfiguration('action'), //($cmd->getDisplay('icon') != '') ? $cmd->getDisplay('icon') : $cmd->getName(),
-                            //'#action#' => (isset($action)) ? $action : '',
+                                                        '#dashicon#' => $icon, //getName(),
+                                                      //'#eqLink#' => $this->getLinkToConfiguration('action'), //($cmd->getDisplay('icon') != '') ? $cmd->getDisplay('icon') : $cmd->getName(),
+                                                      //'#action#' => (isset($action)) ? $action : '',
                             
 						);
                         
