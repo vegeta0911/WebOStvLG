@@ -28,6 +28,8 @@ class WebOStvLG extends eqLogic {
 
 
     /*     * ***********************Methode static*************************** */
+    public static $_widgetPossibility = array('custom' => true);
+
     public static function cron() {
         WebOStvLG::etattv();
 	sleep(2);
@@ -169,7 +171,7 @@ class WebOStvLG extends eqLogic {
     }
 	
 	public function getGroups() {
-       return array('base', 'inputs', 'apps', 'channels','medias','remote');
+       return array('base', 'inputs', 'apps', 'channels', 'custom', 'medias', 'remote');
     }
 	
     public function loadCmdFromConf($type,$data = false) {
@@ -835,6 +837,8 @@ class WebOStvLG extends eqLogic {
 }
 
 class WebOStvLGCmd extends cmd {
+    
+    public static $_widgetPossibility = array('custom' => false);
 
     public function execute($_options = null) {
     	$WebOStvLG = $this->getEqLogic();
@@ -849,6 +853,9 @@ class WebOStvLGCmd extends cmd {
                 
                 
                 if ($this->getSubType() == 'message') {
+                    if ($this->getConfiguration('group') == "custom") {
+					$command = $this->getConfiguration("request");
+				} else {
                     if ($_options['message'] != null) {
                         $message = '"' . $_options['message'] . '"';
                     } else {
@@ -856,6 +863,7 @@ class WebOStvLGCmd extends cmd {
                     }
                     $command = str_replace("#message#", $message, $command);
                 }
+            }
                 $commande= $command;
                 
                 if ($this->getSubType() == 'message') {
