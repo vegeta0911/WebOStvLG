@@ -208,29 +208,143 @@ sendVarToJS('version_WebOStvLG', $version_WebOStvLG);
                 </div>
             </fieldset>
         </form>
-        <table id="table_cmd" class="table table-bordered table-condensed">
+
+    <div role="tabpanel" class="tab-pane" id="commandtab">
+         
+		<ul class="nav nav-tabs" id="tab_lg">
+			<li class="active"><a href="#tab_custom"><i class="fas fa-list-alt"></i>  {{Custom}}</a></li>
+			<li><a href="#tab_base"><i class="fas fa-wrench"></i>  {{Base}}</a></li>
+			<li><a href="#tab_inputs"><i class="fas fa-microphone"></i>  {{Inputs}}</a></li>
+			<li><a href="#tab_apps"><i class="fas fa-random"></i>  {{Applications}}</a></li>
+			<li><a href="#tab_channels"><i class="fas fa-tv"></i>  {{Chaînes}}</a></li>
+            <li><a href="#tab_medias"><i class="fas fa-video"></i>  {{Medias}}</a></li> 
+            <li><a href="#tab_remote"><i class="fas fa-magic"></i>  {{Magic remote}}</a></li>            
+		</ul>
+	<div class="tab-content">
+			<div class="tab-pane active" id="tab_custom">            
+         
+        <!--a class="btn btn-success btn-sm cmdAction pull-left" data-action="add" style="margin-top:5px;"><i class="fas fa-plus-circle"></i> {{Commandes}}</a><br/><br/-->
+        <table id="table_custom" class="table table-bordered table-condensed">
             <thead>
                 <tr>
-	  <th  >{{N°}}</th>
-      <th >{{Nom}}</th>
-	  <th >{{Parametres}}</th>
-	  <th >{{Afficher}}</th>
-	  <th ></th>
-    </tr>
+                    <th style="width: 300px;">{{Nom}}</th>
+                    <th style="width: 100px;">{{Type}}</th>
+                    <th>{{Parametre(s)}}</th>
+                    <th style="width: 150px;">{{Options}}</th>
+                    <th >{{Actions}}</th>
+                </tr>
+            </thead>
+        <tbody>
+        </tbody>
+        </table>  
+    </div>
+
+    <div class="tab-pane" id="tab_base">
+        <table id="table_base" class="table table-bordered table-condensed">
+            <thead>
+                <tr>
+                    <th style="width: 300px;">{{Nom}}</th>
+                    <th style="width: 100px;">{{Type}}</th>
+                    <th>{{Parametre(s)}}</th>
+                    <th style="width: 150px;">{{Options}}</th>
+                    <th>{{Actions}}</th>
+                </tr>
+            </thead>
+        <tbody>
+        </tbody>
+        </table>                    	
+    </div>
+
+    <div class="tab-pane" id="tab_inputs">
+        <table id="table_inputs" class="table table-bordered table-condensed">
+            <thead>
+                <tr>
+                    <th style="width: 300px;">{{Nom}}</th>
+                    <th style="width: 100px;">{{Type}}</th>
+                    <th>{{Parametre(s)}}</th>
+                    <th style="width: 150px;">{{Options}}</th>
+                    <th>{{Actions}}</th>
+                </tr>
             </thead>
             <tbody>
-
             </tbody>
-        </table>
+        </table>             	
+    </div>
 
-        <form class="form-horizontal">
+    <div class="tab-pane" id="tab_apps">
+        <table id="table_apps" class="table table-bordered table-condensed">
+            <thead>
+                <tr>
+                    <th style="width: 300px;">{{Nom}}</th>
+                    <th style="width: 100px;">{{Type}}</th>
+                    <th>{{Parametre(s)}}</th>
+                    <th style="width: 150px;">{{Options}}</th>
+                    <th>{{Actions}}</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>            
+    </div>
+
+    <div class="tab-pane" id="tab_channels">
+        <table id="table_channels" class="table table-bordered table-condensed">
+            <thead>
+                <tr>
+                    <th style="width: 300px;">{{Nom}}</th>
+                    <th style="width: 100px;">{{Type}}</th>
+                    <th>{{Parametre(s)}}</th>
+                    <th style="width: 150px;">{{Options}}</th>
+                    <th>{{Actions}}</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>  
+    </div>
+
+    <div class="tab-pane" id="tab_medias">
+        <table id="table_medias" class="table table-bordered table-condensed">
+            <thead>
+                <tr>
+                    <th style="width: 300px;">{{Nom}}</th>
+                    <th style="width: 100px;">{{Type}}</th>
+                    <th>{{Parametre(s)}}</th>
+                    <th style="width: 150px;">{{Options}}</th>
+                    <th>{{Actions}}</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>            
+    </div> 
+
+    <div class="tab-pane" id="tab_remote">
+        <table id="table_remote" class="table table-bordered table-condensed">
+            <thead>
+                <tr>
+                    <th style="width: 300px;">{{Nom}}</th>
+                    <th style="width: 100px;">{{Type}}</th>
+                    <th>{{Parametre(s)}}</th>
+                    <th style="width: 150px;">{{Options}}</th>
+                    <th>{{Actions}}</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>            
+    </div>  
+                    </div>
+        </div>
+    
+        <!--form class="form-horizontal">
             <fieldset>
                 <div class="form-actions">
 				    <a class="btn btn-danger eqLogicAction" data-action="remove"><i class="fa fa-minus-circle"></i> {{Supprimer}}</a>
                     <a class="btn btn-success eqLogicAction" data-action="save"><i class="fa fa-check-circle"></i> {{Sauvegarder}}</a>
                 </div>
             </fieldset>
-        </form>
+        </form-->
 
     </div>
 </div>
