@@ -604,6 +604,7 @@ class WebOStvLG extends eqLogic {
 		$state->setType('info');
 		$state->setSubType('string');
 		$state->setIsHistorized(1);
+        $state->setConfiguration('group', 'custom');
 		$state->setTemplate('dashboard','defaut');
 		$state->setTemplate('mobile','defaut');
 		$state->setEqLogic_id($this->getId());
