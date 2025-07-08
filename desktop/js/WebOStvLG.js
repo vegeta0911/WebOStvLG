@@ -14,6 +14,10 @@
  * You should have received a copy of the GNU General Public License
  * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
  */
+$('#tab_lg a').click(function (e) {
+    e.preventDefault()
+    $(this).tab('show')
+})
 
 $(function() {
     $("#table_cmd tbody").delegate(".listCmdWebOStvLG", 'click', function(event) {
@@ -42,7 +46,13 @@ $(function() {
         $('.required.' + $(this).value()).show();
     });
 
-    $("#table_cmd").sortable({axis: "y", cursor: "move", items: ".cmd", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
+    $("#table_custom").sortable({axis: "y", cursor: "move", items: ".cmd", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
+ 	$("#table_base").sortable({axis: "y", cursor: "move", items: ".cmd", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});	
+    $("#table_input").sortable({axis: "y", cursor: "move", items: ".cmd", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
+ 	$("#table_apps").sortable({axis: "y", cursor: "move", items: ".cmd", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});	
+    $("#table_channels").sortable({axis: "y", cursor: "move", items: ".cmd", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
+    $("#table_medias").sortable({axis: "y", cursor: "move", items: ".cmd", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
+    $("#table_remote").sortable({axis: "y", cursor: "move", items: ".cmd", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
 });
 
 
@@ -52,10 +62,18 @@ function addCmdToTable(_cmd) {
         var _cmd = {configuration: {}};
     }
     
+    if(!isset(_cmd.configuration.group)) {
+		var value = "first",
+			group = "custom";
+	} else {
+		var value = "last",
+			group = _cmd.configuration.group;
+	}
+
     var tr = '<tr class="cmd" data-cmd_id="' + init(_cmd.id) + '">';
     tr += '<td class="name">';
-	tr += '<input class="cmdAttr form-control input-sm" data-l1key="name">   ';
-	tr += '<span class="cmdAttr" data-l1key="id"></span>   </td>';
+    tr += '<input class="cmdAttr form-control input-sm" data-l1key="name">   ';
+    tr += '<span class="cmdAttr" data-l1key="id"></span>   </td>';
     tr += '<td class="type" type="' + init(_cmd.type) + '">' + jeedom.cmd.availableType();
     tr += '<span class="subType" subType="' + init(_cmd.subType) + '"></span></td>';
     tr += '<td ><input class="cmdAttr form-control input-sm" data-l1key="configuration" data-l2key="parameters" style="margin-top : 5px;" />';
@@ -71,9 +89,16 @@ function addCmdToTable(_cmd) {
     }
     tr += '<i class="fa fa-minus-circle pull-right cmdAction cursor" data-action="remove"></i></td>';
     tr += '</tr>';
-    $('#table_cmd tbody').append(tr);
-    $('#table_cmd tbody tr:last').setValues(_cmd, '.cmdAttr');
-    jeedom.cmd.changeType($('#table_cmd tbody tr:last'), init(_cmd.subType));
+    if (value == "last") {
+		$('#table_' + group + ' tbody').append(tr);
+		$('#table_' + group + ' tbody tr:last').setValues(_cmd, '.cmdAttr');
+		jeedom.cmd.changeType($('#table_' + group + ' tbody tr:last'), init(_cmd.subType));
+	} else {
+		$(tr).prependTo("#table_custom > tbody");
+		jeedom.cmd.changeType($('#table_custom tbody tr:first'), init(_cmd.subType));
+		$('#table_custom tbody tr:first .group').val('custom')
+	}
+	$("#tab_apps input.cmdAttr[data-l1key=name],#tab_inputs input.cmdAttr[data-l1key=name],#tab_channels input.cmdAttr[data-l1key=name],#tab_base input.cmdAttr[data-l1key=name],#tab_medias input.cmdAttr[data-l1key=name],#tab_remote input.cmdAttr[data-l1key=name]").attr("disabled", true);
 }
 
 if(version_WebOStvLG != '4'){
@@ -99,4 +124,3 @@ if(version_WebOStvLG != '4'){
     }
   })
 }
-
