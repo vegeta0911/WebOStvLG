@@ -198,8 +198,6 @@ sendVarToJS('version_WebOStvLG', $version_WebOStvLG);
                 </div>
             </fieldset>
         </form>
-
-        <legend>Commandes</legend>
         <form class="form-horizontal">
             <fieldset>
                 <div class="form-actions">
@@ -208,6 +206,8 @@ sendVarToJS('version_WebOStvLG', $version_WebOStvLG);
                 </div>
             </fieldset>
         </form>
+	    
+        <legend>Commandes</legend>
 
     <div role="tabpanel" class="tab-pane" id="commandtab">
          
