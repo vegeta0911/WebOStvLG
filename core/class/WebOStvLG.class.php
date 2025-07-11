@@ -424,9 +424,8 @@ class WebOStvLG extends eqLogic {
             $resultimage = file_put_contents(self::LG_PATH.'/core/template/images/icons_inputs/'.$imageName, $imageData);
             
 			if (array_key_exists('label', $inputs) && !empty(trim($inputs["label"]))) {
-				//$inputs["label"] = str_replace("'", " ", $inputs["label"]);
-				//$inputs["label"] = str_replace("&", " ", $inputs["label"]);
-				log::add('webosTv', 'debug', '| NEW INPUT FOUND:' . $inputs["label"]);
+		
+				log::add('WebOStvLG', 'debug', '| NEW INPUT FOUND:' . $inputs["label"]);
 				
 				$webosTvCmd = $this->getCmd(null, $inputs["label"]);
 				if ( !is_object($webosTvCmd) ) {
