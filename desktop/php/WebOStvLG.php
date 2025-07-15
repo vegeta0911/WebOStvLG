@@ -172,7 +172,7 @@ sendVarToJS('version_WebOStvLG', $version_WebOStvLG);
             </div>
             
                 <div class="form-group">
-                    <label class="col-sm-2 control-label" >{{Commandes à créer}}</label>
+                    <label class="col-sm-2 control-label" >{{Groupe de commande}}</label>
                     <div class="col-sm-9">
                         <label class="checkbox-inline">
                             <input type="checkbox" class="eqLogicAttr" data-label-text="" data-l1key="configuration" data-l2key="has_base" checked/>{{Commandes de Base}}
@@ -189,6 +189,9 @@ sendVarToJS('version_WebOStvLG', $version_WebOStvLG);
                         <label class="checkbox-inline">
                             <input type="checkbox" class="eqLogicAttr" data-label-text="" data-l1key="configuration" data-l2key="has_channels" checked/>{{Chaines TNT}}
                         </label>
+                         <label class="checkbox-inline">
+                            <input type="checkbox" class="eqLogicAttr" data-label-text="" data-l1key="configuration" data-l2key="has_remote" checked/>{{Magic remote}}
+                        </label>
                         <label class="checkbox-inline">
                             <input type="checkbox" class="eqLogicAttr" data-label-text="" data-l1key="configuration" data-l2key="statut"/>{{Statut TV}}
                             <label class="col-xs-6 control-label help" data-help="{{Cocher la case si la fonction TOUJOURS PRÊT est active}}"></label>
@@ -198,21 +201,20 @@ sendVarToJS('version_WebOStvLG', $version_WebOStvLG);
                 </div>
             </fieldset>
         </form>
-
+     <form class="form-horizontal">
+         <fieldset>
+             <div class="form-actions">
+                 <a class="btn btn-danger eqLogicAction" data-action="remove"><i class="fa fa-minus-circle"></i> {{Supprimer}}</a>
+                 <a class="btn btn-success eqLogicAction" data-action="save"><i class="fa fa-check-circle"></i> {{Sauvegarder}}</a>
+             </div>
+         </fieldset>
+     </form>
         <legend>Commandes</legend>
-        <form class="form-horizontal">
-            <fieldset>
-                <div class="form-actions">
-                    <a class="btn btn-danger eqLogicAction" data-action="remove"><i class="fa fa-minus-circle"></i> {{Supprimer}}</a>
-                    <a class="btn btn-success eqLogicAction" data-action="save"><i class="fa fa-check-circle"></i> {{Sauvegarder}}</a>
-                </div>
-            </fieldset>
-        </form>
 
     <div role="tabpanel" class="tab-pane" id="commandtab">
          
 		<ul class="nav nav-tabs" id="tab_lg">
-			<li class="active"><a href="#tab_custom"><i class="fas fa-list-alt"></i>  {{Custom}}</a></li>
+			<!--li class="active"><a href="#tab_custom"><i class="fas fa-list-alt"></i>  {{Custom}}</a></li-->
 			<li><a href="#tab_base"><i class="fas fa-wrench"></i>  {{Base}}</a></li>
 			<li><a href="#tab_inputs"><i class="fas fa-microphone"></i>  {{Inputs}}</a></li>
 			<li><a href="#tab_apps"><i class="fas fa-random"></i>  {{Applications}}</a></li>

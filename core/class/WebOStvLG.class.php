@@ -28,7 +28,7 @@ class WebOStvLG extends eqLogic {
 
 
     /*     * ***********************Methode static*************************** */
-    public static $_widgetPossibility = array('custom' => true);
+    //public static $_widgetPossibility = array('custom' => true);
 
     public static function cron() {
         WebOStvLG::etattv();
@@ -237,15 +237,16 @@ class WebOStvLG extends eqLogic {
             if (isset($modif['configuration']['request'])) {
                 if($lgtvjsoninInfo["payload"]["major_ver"] >= "04"){
                   $versionLG = '--ssl';
-                  $modif['configuration']['request'] = $modif['configuration']['modif'].'"'.$lgtvscanin["list"][0]["tv_name"].'" '.$versionLG.''.$modif['configuration']['modif1'];
+                    if(isset($modif['configuration']['modif1']) && $modif['configuration']['modif1'] != ''){
+                        $modif['configuration']['request'] = $modif['configuration']['modif'].'"'.$lgtvscanin["list"][0]["tv_name"].'" '.$versionLG.''.$modif['configuration']['modif1'];
+                    }
+                    else
+                    if(isset($modif['configuration']['modif1']) && $modif['configuration']['modif1'] != ''){
+                        $modif['configuration']['request'] = $modif['configuration']['modif'].'"'.$lgtvscanin["list"][0]["tv_name"].'"'.$modif['configuration']['modif1'];
+                    }
                 }
-              else
-              {
-                 $modif['configuration']['request'] = $modif['configuration']['modif'].'"'.$lgtvscanin["list"][0]["tv_name"].'"'.$modif['configuration']['modif1'];
-              }
-              }
             }
-		
+                }
         }
         // Sauvegarder les modifications dans le fichier JSON
         file_put_contents(__DIR__ . '/../config/commands/' . $type . '.json', json_encode($device, JSON_PRETTY_PRINT));
@@ -422,10 +423,9 @@ class WebOStvLG extends eqLogic {
              //log::add('WebOStvLG', 'debug', '|  json: listInputsImage ' .$imageUrl );
             $resultimage = file_put_contents(self::LG_PATH.'/core/template/images/icons_inputs/'.$imageName, $imageData);
             
-			if (array_key_exists('label', $inputs)) {
-				//$inputs["label"] = str_replace("'", " ", $inputs["label"]);
-				//$inputs["label"] = str_replace("&", " ", $inputs["label"]);
-				log::add('webosTv', 'debug', '| NEW INPUT FOUND:' . $inputs["label"]);
+			if (array_key_exists('label', $inputs) && !empty(trim($inputs["label"]))) {
+		
+				log::add('WebOStvLG', 'debug', '| NEW INPUT FOUND:' . $inputs["label"]);
 				
 				$webosTvCmd = $this->getCmd(null, $inputs["label"]);
 				if ( !is_object($webosTvCmd) ) {
@@ -594,6 +594,16 @@ class WebOStvLG extends eqLogic {
 			} 			
         }
 
+        if ($this->getConfiguration('has_remote') == 1) {
+	            $this->addChannels();
+        } else {
+            foreach (cmd::searchConfigurationEqLogic($this->getId(),'remote') as $cmd) {
+				if (is_object($cmd)) {
+					$cmd->remove();
+				}
+			} 			
+        }
+
         $state = $this->getCmd(null, 'etat');
 		if (!is_object($state)) {
 			$state = new WebOStvLGCmd();
@@ -604,7 +614,7 @@ class WebOStvLG extends eqLogic {
 		$state->setType('info');
 		$state->setSubType('string');
 		$state->setIsHistorized(1);
-                $state->setConfiguration('group', 'custom');
+        $state->setConfiguration('group', 'custom');
 		$state->setTemplate('dashboard','defaut');
 		$state->setTemplate('mobile','defaut');
 		$state->setEqLogic_id($this->getId());
@@ -839,7 +849,7 @@ class WebOStvLG extends eqLogic {
 
 class WebOStvLGCmd extends cmd {
     
-    public static $_widgetPossibility = array('custom' => false);
+    //public static $_widgetPossibility = array('custom' => false);
 
     public function execute($_options = null) {
     	$WebOStvLG = $this->getEqLogic();

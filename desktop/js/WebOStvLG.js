@@ -1,4 +1,3 @@
-
 /* This file is part of Jeedom.
  *
  * Jeedom is free software: you can redistribute it and/or modify
@@ -55,7 +54,33 @@ $(function() {
     $("#table_remote").sortable({axis: "y", cursor: "move", items: ".cmd", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true});
 });
 
+function updateTabsVisibility() {
+        const mapping = {
+            'has_base': '#tab_base',
+            'has_inputs': '#tab_inputs',
+            'has_apps': '#tab_apps',
+            'has_channels': '#tab_channels',
+            'has_medias': '#tab_medias',
+            'has_remote': '#tab_remote'
+        };
 
+        $.each(mapping, function (key, tabId) {
+            let checkbox = $('input[data-l2key="' + key + '"]');
+            let tabLi = $('ul#tab_lg li a[href="' + tabId + '"]').parent();
+
+            if (checkbox.is(':checked')) {
+                tabLi.show();
+            } else {
+                tabLi.hide();
+            }
+        });
+    }
+
+    updateTabsVisibility();
+
+    $('.eqLogicAttr[type="checkbox"]').on('change', function () {
+        updateTabsVisibility();
+});
 
 function addCmdToTable(_cmd) {
     if (!isset(_cmd)) {

@@ -1,8 +1,10 @@
-		.img_WebOStvLG {
-			height:40px;
-			width:40px;
-			margin-bottom:5px;
-		}	
+
+        .img_WebOStvLG {
+  height: 30px;
+  width: 30px;
+  display: block;
+ 
+}
 	    .cmd_WebOStvLG{
 			height:40px;
 			width:60px;
@@ -44,13 +46,22 @@
 		   background: #4d4d4d;
 		}
 	   
-	    .custom_WebOStvLG{
-			height:40px;
-			width:60px;
-			margin-bottom:5px;
-			font-size:15px;
-			
-		}
+	    .custom_WebOStvLG {
+  height: 42px;
+  width: 42px;
+  margin-bottom: 5px;
+  font-size: 15px;
+
+  /* CENTRAGE DU CONTENU */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  /* SUPPRESSION DES BORDURES */
+  border: none;
+  background: transparent;
+  box-shadow: none;
+}
 		
 		.WebOStvLG .state {
 			position:absolute;
