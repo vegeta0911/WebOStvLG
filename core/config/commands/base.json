@@ -7,8 +7,9 @@
             "configuration": {
                 "modif": "--name ",
                 "modif1": " off",
-                "request": "--name \"LG webOS TV\" off",
+                "request": "--name \"LG webOS TV\" --ssl off",
                 "parameters": "Arreter la TV",
+                "link": "location.href='#eqLink#';",
                 "dashicon": "<i style='color: red;' class='icon kiko-digital-tv fa-lg'><\/i>",
                 "description": "Eteindre la TV",
                 "group": "base"
@@ -23,8 +24,9 @@
             "configuration": {
                 "modif": "--name ",
                 "modif1": " on",
-                "request": "--name \"LG webOS TV\" on",
+                "request": "20:17:42:56:38:d2",
                 "parameters": "Allumer la TV",
+                "link": "location.href='#eqLink#';",
                 "dashicon": "<i style='color: green;' class='icon kiko-digital-tv fa-lg'><\/i>",
                 "description": "Allumer la TV",
                 "group": "base"
@@ -39,8 +41,9 @@
             "configuration": {
                 "modif": "--name ",
                 "modif1": " inputChannelUp",
-                "request": "--name \"LG webOS TV\" inputChannelUp",
+                "request": "--name \"LG webOS TV\" --ssl inputChannelUp",
                 "parameters": "Channel up",
+                "link": "location.href='#eqLink#';",
                 "dashicon": "<i class='fas fa-plus fa-lg'><\/i>",
                 "description": "Channel up",
                 "group": "base"
@@ -55,8 +58,9 @@
             "configuration": {
                 "modif": "--name ",
                 "modif1": " inputChannelDown",
-                "request": "--name \"LG webOS TV\" inputChannelDown",
+                "request": "--name \"LG webOS TV\" --ssl inputChannelDown",
                 "parameters": "Channel down",
+                "link": "location.href='#eqLink#';",
                 "dashicon": "<i class='fas fa-minus fa-lg'><\/i>",
                 "description": "Channel down",
                 "group": "base"
@@ -71,8 +75,9 @@
             "configuration": {
                 "modif": "--name ",
                 "modif1": " mute 1",
-                "request": "--name \"LG webOS TV\" mute 1",
+                "request": "--name \"LG webOS TV\" --ssl mute 1",
                 "parameters": "Couper le son",
+                "link": "location.href='#eqLink#';",
                 "dashicon": "<i style='color:orange;' class='icon fas fa-volume-mute fa-lg'><\/i>",
                 "description": "Couper le son",
                 "group": "base"
@@ -87,8 +92,9 @@
             "configuration": {
                 "modif": "--name ",
                 "modif1": " volumeUp",
-                "request": "--name \"LG webOS TV\" volumeUp",
+                "request": "--name \"LG webOS TV\" --ssl volumeUp",
                 "parameters": "Augmenter le Volume",
+                "link": "location.href='#eqLink#';",
                 "dashicon": "<i style='color:orange;' class='icon fas fa-volume-up fa-lg'><\/i>",
                 "description": "Augmenter le Volume",
                 "group": "base"
@@ -103,8 +109,9 @@
             "configuration": {
                 "modif": "--name ",
                 "modif1": " volumeDown",
-                "request": "--name \"LG webOS TV\" volumeDown",
+                "request": "--name \"LG webOS TV\" --ssl volumeDown",
                 "parameters": "Baisser le Volume",
+                "link": "location.href='#eqLink#';",
                 "dashicon": "<i style='color:orange;' class='icon fas fa-volume-down fa-lg'><\/i>",
                 "description": "Baisser le Volume",
                 "group": "base"
@@ -119,8 +126,9 @@
             "configuration": {
                 "modif": "--name ",
                 "modif1": " input3DOn",
-                "request": "--name \"LG webOS TV\" input3DOn",
+                "request": "--name \"LG webOS TV\" --ssl input3DOn",
                 "parameters": "Activer la 3D",
+                "link": "location.href='#eqLink#';",
                 "description": "Activer la 3D",
                 "dashicon": "3D on",
                 "group": "base"
@@ -135,8 +143,9 @@
             "configuration": {
                 "modif": "--name ",
                 "modif1": " input3DOff",
-                "request": "--name \"LG webOS TV\" input3DOff",
+                "request": "--name \"LG webOS TV\" --ssl input3DOff",
                 "parameters": "d\u00e9sactiver la 3D",
+                "link": "location.href='#eqLink#';",
                 "description": "d\u00e9sactiver la 3D",
                 "dashicon": "3D off",
                 "group": "base"
@@ -150,9 +159,10 @@
             "color": "yellow",
             "configuration": {
                 "modif": "--name ",
-                "modif1": " notification ",
-                "request": "--name \"LG webOS TV\" notification ",
+                "modif1": " notification #message#",
+                "request": "--name \"LG webOS TV\" --ssl notification #message#",
                 "parameters": "Envoyer un message sur la TV",
+                "link": "modal_notif(this);",
                 "description": "Envoyer un message sur la TV",
                 "dashicon": "<i style='color:orange;' class='icon fas fa-comment fa-lg'><\/i>",
                 "message": "#message#",
@@ -161,6 +171,70 @@
             },
             "type": "action",
             "subtype": "message"
+        },
+        {
+            "name": "Alert",
+            "icon": "icon mdi-message-alert fa-lg",
+            "color": "orange",
+            "configuration": {
+                "modif": "--name ",
+                "modif1": " createAlert #message# OK",
+                "request": "--name \"LG webOS TV\" --ssl createAlert #message# OK",
+                "parameters": "Envoyer un message sur la TV",
+                "link": "modal_notif(this);",
+                "description": "Envoyer un message d'alert sur la TV",
+                "dashicon": "<i style='color:orange;' class='icon mdi-message-alert fa-lg'><\/i>",
+                "message": "#message#",
+                "retain": 1,
+                "group": "base"
+            },
+            "type": "action",
+            "subtype": "message"
+        },
+        {
+            "name": "web",
+            "icon": "icon mdi-web fa-lg",
+            "color": "blue",
+            "configuration": {
+                "modif": "--name ",
+                "modif1": " openBrowserAt #message#",
+                "request": "--name \"LG webOS TV\" --ssl openBrowserAt #message#",
+                "parameters": "Mettre un lien web sur la TV",
+                "description": "Mettre un lien web sur la TV",
+                "link": "modal_url_tv(this);",
+                "dashicon": "<i style='color:blue;' class='icon mdi-web fa-lg'><\/i>",
+                "message": "#message#",
+                "retain": 1,
+                "group": "base"
+            },
+            "type": "action",
+            "subtype": "message"
+        },
+        {
+            "name": "R\u00e9gler le volume",
+            "configuration": {
+                "modif": "--name ",
+                "modif1": " setVolume #slider#",
+                "request": "--name \"LG webOS TV\" --ssl setVolume #slider#",
+                "parameters": "R\u00e9gler le volume",
+                "dashicon": "",
+                "description": "R\u00e9gler le volume",
+                "group": "base"
+            },
+            "type": "action",
+            "subtype": "slider"
+        },
+        {
+            "name": "audioStatus",
+            "configuration": {
+                "request": "return audioStatus",
+                "parameters": "audioStatus",
+                "dashicon": "",
+                "description": "retour audioStatus",
+                "group": "base"
+            },
+            "type": "info",
+            "subtype": "numeric"
         }
     ]
 }
