@@ -709,7 +709,8 @@ class WebOStvLG extends eqLogic {
 							$audioStatus = $this->getCmd(null, 'audioStatus');
 							if(is_object($audioStatus)) {
 								$cmd->setConfiguration('lastCmdValue', $audioStatus->execCmd());
-								$cmd->save();
+                        
+								$this->save();
 							}
 							$cmd_html = $cmd->toHtml();
 						}						
@@ -796,13 +797,8 @@ class WebOStvLG extends eqLogic {
                 $etat = 1;
                 log::add('WebOStvLG','info','Etat TV: ' .print_r($etat,true));
                 $eqLogic->checkAndUpdateCmd('etat', $etat);
-                
                 WebOStvLG::etatVolume();
-                /*$lgtvaudio = shell_exec(system::getCmdSudo().' '.self::EXEC_LG.' --name "'.self::$tv_info['tv_name'].'" --ssl swInfo');
-                $jsonAudio = str_replace('{"closing": {"code": 1000, "reason": ""}}', '', $lgtvaudio);
-                $dataVol = json_decode($jsonAudio,true);
-                log::add('WebOStvLG','info','Etat Volume TV: ' .json_encode($lgtvaudio,true));*/
-                
+    
             }
             else
             {
@@ -897,19 +893,6 @@ class WebOStvLGCmd extends cmd {
 		if ($this->type == 'action') {
 				$command=$this->getConfiguration('request');
                 
-     /*           if (!empty($_options['url'])) {
-        $url = escapeshellarg($_options['url']);
-        $command = '--name "LG webOS TV" --ssl openBrowserAt ' . $url;
-
-        $ret = shell_exec(
-            system::getCmdSudo() . ' ' . __DIR__ . '/../../resources/venv/bin/python3 ' .
-            __DIR__ . '/../../resources/venv/bin/lgtv ' . $command
-        );
-
-        log::add('WebOStvLG', 'debug', '$$$ EXEC: ' . $command . ' > ' . $ret);
-    } else {
-        log::add('WebOStvLG', 'error', 'Aucune URL reçue');
-    }*/
                 if ($this->getSubType() == 'message') {
                     if ($this->getConfiguration('group') == "custom") {
 					$command = $this->getConfiguration("request");
@@ -927,15 +910,16 @@ class WebOStvLGCmd extends cmd {
                 //log::add('WebOStvLG', 'error', $this->getSubType());
                 $commande = $command;
                 if ($this->getSubType() == 'slider') {
-                    if ($_options['slider'] != null) {
-                    $command = '';
-				    $command = $this->getConfiguration("request");
-				    $command = str_replace("#slider#", $_options['slider'], $command);
+                if ($_options['slider'] != null) {
+               
+				$commande = $this->getConfiguration("request");
+				$command = str_replace("#slider#", $_options['slider'], $commande);
 
-                    log::add('WebOStvLG','debug','$$$ EXEC: '.__DIR__ . '/../../resources/venv/bin/python3 '.__DIR__ . '/../../resources/venv/bin/lgtv ' .$command .' > ' .$ret );
-                    return $ret = shell_exec(system::getCmdSudo().' '.__DIR__ . '/../../resources/venv/bin/python3 '. __DIR__ . '/../../resources/venv/bin/lgtv '.$command.' '.$_options['slider']);
                 
-                    }
+                $ret = shell_exec(system::getCmdSudo().' '.__DIR__ . '/../../resources/venv/bin/python3 '. __DIR__ . '/../../resources/venv/bin/lgtv '.$command);
+                log::add('WebOStvLG','debug','$$$ EXEC: '.__DIR__ . '/../../resources/venv/bin/python3 '.__DIR__ . '/../../resources/venv/bin/lgtv ' .$command .' > ' .$ret );
+                return $ret;
+                }
 			    }
                 else
                 if ($this->getSubType() == 'message') {
