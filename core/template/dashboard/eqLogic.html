@@ -57,4 +57,66 @@
 				$('.eqLogic[data-eqLogic_uid="#uid#"] .state').append('<i class="fas fa-times-circle" style="color:#c00808" title="TV éteinte"></i>');	
 			}		  
 		});
-    </script>
+
+function modal_url_tv(button) {
+  var cmdId = $(button).data('cmd_id');
+
+  var dialog = `
+    <div class="jeeDialog jeeDialogPrompt" style="height:auto; top:20vh;">
+      <div class="jeeDialogTitle">
+        <span class="title">Mettre un lien web sur la TV</span>
+        <button class="btClose" type="button" onclick="$(this).closest('.jeeDialog').remove();"></button>
+      </div>
+      <div class="jeeDialogContent">
+        <input type="text" class="promptAttr" placeholder="Entrez l’URL">
+      </div>
+      <div class="jeeDialogFooter">
+        <button type="button" class="button warning" onclick="$(this).closest('.jeeDialog').remove();">
+          <i class="fa fa-times"></i> Annuler
+        </button>
+        <button type="button" class="button success" onclick="sendMessage(this, '${cmdId}')">
+          <i class="fa fa-check"></i> OK
+        </button>
+      </div>
+    </div>
+  `;
+  $('body').append(dialog);
+}
+
+function modal_notif(button) {
+  var cmdId = $(button).data('cmd_id');
+
+  var dialog = `
+    <div class="jeeDialog jeeDialogPrompt" style="height:auto; top:20vh;">
+      <div class="jeeDialogTitle">
+        <span class="title">Notification</span>
+        <button class="btClose" type="button" onclick="$(this).closest('.jeeDialog').remove();"></button>
+      </div>
+      <div class="jeeDialogContent">
+        <input type="text" class="promptAttr" placeholder="ecrire votre message">
+      </div>
+      <div class="jeeDialogFooter">
+        <button type="button" class="button warning" onclick="$(this).closest('.jeeDialog').remove();">
+          <i class="fa fa-times"></i> Annuler
+        </button>
+        <button type="button" class="button success" onclick="sendMessage(this, '${cmdId}')">
+          <i class="fa fa-check"></i> OK
+        </button>
+      </div>
+    </div>
+  `;
+  $('body').append(dialog);
+}
+
+function sendMessage(el, cmdId) {
+  var message = $(el).closest('.jeeDialog').find('.promptAttr').val();
+  $(el).closest('.jeeDialog').remove();
+
+  if (message.trim() !== '') {
+    jeedom.cmd.execute({
+      id: cmdId,
+      value: { message: message }
+    });
+  }
+}
+</script>
