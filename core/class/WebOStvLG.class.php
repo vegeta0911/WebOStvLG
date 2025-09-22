@@ -119,7 +119,6 @@ class WebOStvLG extends eqLogic {
        
             if(is_array($datascan)){
                 $tv_info = $datascan['list'][0];
-                log::add('WebOStvLG','info','lgtvinfo: ' . json_encode($lgtvjsoninInfo["payload"],true));
                 $lgtvauth = shell_exec(system::getCmdSudo().' '.$execpython .' --ssl auth '. $tv_info["address"] .' '.json_encode($tv_info['tv_name'],true)); 
                 log::add('WebOStvLG','debug','auth : ' . $execpython .' auth '. $this->getConfiguration('addr') .' '.json_encode($tv_info['tv_name'],true));
 
@@ -277,7 +276,6 @@ class WebOStvLG extends eqLogic {
         file_put_contents(__DIR__ . '/../config/commands/' . $type . '.json', json_encode($device, JSON_PRETTY_PRINT));
         
 		foreach ($device['commands'] as $command) { 
-              log::add('WebOStvLG', 'debug','link:'. $command['configuration']['link']);
 			$webosTvCmd = $this->getCmd(null, $command['name']);
 			if ( !is_object($webosTvCmd) ) {
 				log::add('WebOStvLG', 'debug','no exist');
@@ -292,7 +290,9 @@ class WebOStvLG extends eqLogic {
             $webosTvCmd->setConfiguration('dashicon', $command['configuration']['dashicon']);
 			$webosTvCmd->setConfiguration('request', $command['configuration']['request']);
 			$webosTvCmd->setConfiguration('parameters', $command['configuration']['parameters']);
+            if(isset($command['configuration']['link'])){
             $webosTvCmd->setConfiguration('link', $command['configuration']['link']);
+            }
 			$webosTvCmd->setConfiguration('group', $command['configuration']['group']);
 			$webosTvCmd->save();
 		}
@@ -910,7 +910,7 @@ class WebOStvLGCmd extends cmd {
                 //log::add('WebOStvLG', 'error', $this->getSubType());
                 $commande = $command;
                 if ($this->getSubType() == 'slider') {
-                if ($_options['slider'] != null) {
+                if (isset($_options['slider'])) {
                
 				$commande = $this->getConfiguration("request");
 				$command = str_replace("#slider#", $_options['slider'], $commande);
