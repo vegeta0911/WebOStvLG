@@ -144,8 +144,15 @@ class WebOStvLG extends eqLogic {
             sleep(3);
         }
 
-        $lgtvcopy = shell_exec(system::getCmdSudo().' cp -R /root/.lgtv/config.json '.self::LG_PATH.'/3rdparty');
-        sleep(2);
+        if(file_exists('/root/.lgtv/config.json')){
+           $lgtvcopy = shell_exec(system::getCmdSudo().' cp -R /root/.lgtv/config.json '.self::LG_PATH.'/3rdparty');
+           sleep(2);
+        }
+        else
+        {
+          $lgtvcopy = shell_exec(system::getCmdSudo().' cp -R /etc/lgtv/config.json '.self::LG_PATH.'/3rdparty');
+          sleep(2);
+        }
 	    $json_data = file_put_contents(self::LG_PATH.'/3rdparty/scan.json', json_encode($datascan, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
         //log::add('WebOStvLG','debug','scan 2 : ' .  print_r($tv_info,true));
         
