@@ -87,7 +87,14 @@ class WebOStvLG extends eqLogic {
     public static function etatVolume() {
         $lgtvjson = file_get_contents(self::LG_PATH.'/3rdparty/scan.json');
         $lgtvjsonin = json_decode($lgtvjson, true);
-        $tv_info = $lgtvjsonin['list'][0];
+		
+        if (is_array($lgtvjsonin) && isset($lgtvjsonin['list'][0])){
+          $tv_info = $lgtvjsonin['list'][0];
+        }
+        else
+        {
+          $tv_info = null;
+        }
 
         foreach (WebOStvLG::byType('WebOStvLG', true) as $webosTvCmd) {
             if($tv_info != ''){
