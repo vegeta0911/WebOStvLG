@@ -87,7 +87,14 @@ class WebOStvLG extends eqLogic {
     public static function etatVolume() {
         $lgtvjson = file_get_contents(self::LG_PATH.'/3rdparty/scan.json');
         $lgtvjsonin = json_decode($lgtvjson, true);
-        $tv_info = $lgtvjsonin['list'][0];
+		
+        if (is_array($lgtvjsonin) && isset($lgtvjsonin['list'][0])){
+          $tv_info = $lgtvjsonin['list'][0];
+        }
+        else
+        {
+          $tv_info = null;
+        }
 
         foreach (WebOStvLG::byType('WebOStvLG', true) as $webosTvCmd) {
             if($tv_info != ''){
@@ -119,7 +126,6 @@ class WebOStvLG extends eqLogic {
        
             if(is_array($datascan)){
                 $tv_info = $datascan['list'][0];
-                log::add('WebOStvLG','info','lgtvinfo: ' . json_encode($lgtvjsoninInfo["payload"],true));
                 $lgtvauth = shell_exec(system::getCmdSudo().' '.$execpython .' --ssl auth '. $tv_info["address"] .' '.json_encode($tv_info['tv_name'],true)); 
                 log::add('WebOStvLG','debug','auth : ' . $execpython .' auth '. $this->getConfiguration('addr') .' '.json_encode($tv_info['tv_name'],true));
 
@@ -145,8 +151,19 @@ class WebOStvLG extends eqLogic {
             sleep(3);
         }
 
-        $lgtvcopy = shell_exec(system::getCmdSudo().' cp -R /root/.lgtv/config.json '.self::LG_PATH.'/3rdparty');
-        sleep(2);
+        if(file_exists("/etc/lgtv/config.json")){
+            $cmd = system::getCmdSudo().' cp /etc/lgtv/config.json '.self::LG_PATH.'/3rdparty';
+            $lgtvcopy = shell_exec($cmd);
+            sleep(2);
+            log::add('WebOStvLG', 'info', 'config.json trouvé dans /etc/lgtv');
+        }
+        else
+        {
+            $cmd = system::getCmdSudo().' cp /root/.lgtv/config.json '.self::LG_PATH.'/3rdparty';
+            $lgtvcopy = shell_exec($cmd);
+            sleep(2);
+            log::add('WebOStvLG', 'info', ' config.json trouvé dans /root/.lgtv');
+        }
 	    $json_data = file_put_contents(self::LG_PATH.'/3rdparty/scan.json', json_encode($datascan, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
         //log::add('WebOStvLG','debug','scan 2 : ' .  print_r($tv_info,true));
         
@@ -277,7 +294,6 @@ class WebOStvLG extends eqLogic {
         file_put_contents(__DIR__ . '/../config/commands/' . $type . '.json', json_encode($device, JSON_PRETTY_PRINT));
         
 		foreach ($device['commands'] as $command) { 
-              log::add('WebOStvLG', 'debug','link:'. $command['configuration']['link']);
 			$webosTvCmd = $this->getCmd(null, $command['name']);
 			if ( !is_object($webosTvCmd) ) {
 				log::add('WebOStvLG', 'debug','no exist');
@@ -292,7 +308,9 @@ class WebOStvLG extends eqLogic {
             $webosTvCmd->setConfiguration('dashicon', $command['configuration']['dashicon']);
 			$webosTvCmd->setConfiguration('request', $command['configuration']['request']);
 			$webosTvCmd->setConfiguration('parameters', $command['configuration']['parameters']);
+            if(isset($command['configuration']['link'])){
             $webosTvCmd->setConfiguration('link', $command['configuration']['link']);
+            }
 			$webosTvCmd->setConfiguration('group', $command['configuration']['group']);
 			$webosTvCmd->save();
 		}
@@ -910,7 +928,7 @@ class WebOStvLGCmd extends cmd {
                 //log::add('WebOStvLG', 'error', $this->getSubType());
                 $commande = $command;
                 if ($this->getSubType() == 'slider') {
-                if ($_options['slider'] != null) {
+                if (isset($_options['slider'])) {
                
 				$commande = $this->getConfiguration("request");
 				$command = str_replace("#slider#", $_options['slider'], $commande);

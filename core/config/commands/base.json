@@ -173,17 +173,17 @@
             "subtype": "message"
         },
         {
-            "name": "Alert",
-            "icon": "icon mdi-message-alert fa-lg",
+            "name": "Alert notification",
+            "icon": "icon fas fa-comment-alt fa-lg",
             "color": "orange",
             "configuration": {
                 "modif": "--name ",
                 "modif1": " createAlert #message# OK",
-                "request": "--name \"LG webOS TV\" --ssl createAlert #message# OK",
+                "request": "--name \"TV_LG\" --ssl createAlert #message# OK",
                 "parameters": "Envoyer un message sur la TV",
                 "link": "modal_notif(this);",
                 "description": "Envoyer un message d'alert sur la TV",
-                "dashicon": "<i style='color:orange;' class='icon mdi-message-alert fa-lg'><\/i>",
+                "dashicon": "<i style='color:orange;' class='icon fas fa-comment-alt fa-lg'><\/i>",
                 "message": "#message#",
                 "retain": 1,
                 "group": "base"
@@ -192,17 +192,17 @@
             "subtype": "message"
         },
         {
-            "name": "web",
+            "name": "Lien web",
             "icon": "icon mdi-web fa-lg",
             "color": "blue",
             "configuration": {
                 "modif": "--name ",
                 "modif1": " openBrowserAt #message#",
-                "request": "--name \"LG webOS TV\" --ssl openBrowserAt #message#",
+                "request": "--name \"TV_LG\" --ssl openBrowserAt #message#",
                 "parameters": "Mettre un lien web sur la TV",
                 "description": "Mettre un lien web sur la TV",
                 "link": "modal_url_tv(this);",
-                "dashicon": "<i style='color:blue;' class='icon mdi-web fa-lg'><\/i>",
+                "dashicon": "<i style='color:blue;' class='icon fas fa-globe fa-lg'><\/i>",
                 "message": "#message#",
                 "retain": 1,
                 "group": "base"
@@ -238,3 +238,4 @@
         }
     ]
 }
+
