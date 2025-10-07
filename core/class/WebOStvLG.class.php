@@ -373,7 +373,7 @@ class WebOStvLG extends eqLogic {
                 }	
                 log::add('WebOStvLG', 'debug', '| NEW APP FOUND:' . $name);
                 
-                if($name == "Live TV" || $name != "Mode Expo." && $name != "InputCommon" && $name != "DvrPopup" && substr($name,0,4) != "Live" && $name != "Local Control Panel" && $name != "User Agreement" && $name != "QML Factorywin" && $name != "Publicité" && $name != "Thirdparty Login" && $name != "Viewer" && $name != "Service clientèle"  && $name != "Connected Red Button"){
+                if($name == "Première utilisation" || $name == "Configurer votre téléviseur pour Google Assistant" || $name == "My Starter" || $name == "Magic Number" || $name == "Google Assistant" || $name == "HDMI4" || $name == "HDMI3" || $name == "HDMI2" || $name == "HDMI1" || $name == "Enyo (2.6) App Container" || $name == "Dangbei" || $name == "Agent" || $name == "Live TV" || $name != "Mode Expo." && $name != "InputCommon" && $name != "DvrPopup" && substr($name,0,4) != "Live" && $name != "Local Control Panel" && $name != "User Agreement" && $name != "QML Factorywin" && $name != "Publicité" && $name != "Thirdparty Login" && $name != "Viewer" && $name != "Service clientèle"  && $name != "Connected Red Button"){
                     //log::add('WebOStvLG', 'debug', '| NEW APP :' . substr($name,0,4));
                 $webosTvCmd = $this->getCmd(null, $name);
                 if ( !is_object($webosTvCmd) ) {
@@ -558,7 +558,15 @@ class WebOStvLG extends eqLogic {
                         }
                         $chaine = str_replace("'", " ", $inputs["channelName"]);
                         $chaines = str_replace(" ", "_", $chaine);
-                        $WebOStvLGCmd->setConfiguration('dashicon',  $chaines);
+                        
+                        if(substr($chaines,0,2) == "F3"){
+                            $WebOStvLGCmd->setConfiguration('dashicon',  'France_3');
+                        }
+                        else
+                        {
+                            $WebOStvLGCmd->setConfiguration('dashicon',  $chaines);
+                        }
+                        
                         if($lgtvjsoninInfo["payload"]["major_ver"] >= "04"){
                             $versionLG = '--ssl';
                             $WebOStvLGCmd->setConfiguration('request', '--name "'.$lgtvscanin["list"][0]["tv_name"].'" '.$versionLG.' setTVChannel '.$inputs["channelId"]);
@@ -600,6 +608,7 @@ class WebOStvLG extends eqLogic {
 				}
 			}
         }
+
 		if ($this->getConfiguration('has_base') == 1) {
 		    $this->loadCmdFromConf('base');
         } else {
@@ -609,6 +618,7 @@ class WebOStvLG extends eqLogic {
 				}
 			}
         }
+
 		if ($this->getConfiguration('has_apps') == 1) {
 			$this->addApps();
         } else {
@@ -618,6 +628,7 @@ class WebOStvLG extends eqLogic {
 				}
 			}             
         }
+
 		 if ($this->getConfiguration('has_inputs') == 1) {
 			$this->addInputs();
         } else {
@@ -629,20 +640,12 @@ class WebOStvLG extends eqLogic {
         }
 		
         if ($this->getConfiguration('has_channels') == 1) {
+           // log::add('WebOStvLG','debug','postAjax channels'. $this->getConfiguration('has_channels'));
 	            $this->addChannels();
         } else {
             foreach (cmd::searchConfigurationEqLogic($this->getId(),'channels') as $cmd) {
 				if (is_object($cmd)) {
-					$cmd->remove();
-				}
-			} 			
-        }
-
-        if ($this->getConfiguration('has_remote') == 1) {
-	            $this->addChannels();
-        } else {
-            foreach (cmd::searchConfigurationEqLogic($this->getId(),'remote') as $cmd) {
-				if (is_object($cmd)) {
+                    log::add('WebOStvLG','debug','postAjax channels '. $this->getConfiguration('has_channels').' '. $cmd->remove());
 					$cmd->remove();
 				}
 			} 			
