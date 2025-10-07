@@ -373,7 +373,33 @@ class WebOStvLG extends eqLogic {
                 }	
                 log::add('WebOStvLG', 'debug', '| NEW APP FOUND:' . $name);
                 
-                if($name == "Première utilisation" || $name == "Configurer votre téléviseur pour Google Assistant" || $name == "My Starter" || $name == "Magic Number" || $name == "Google Assistant" || $name == "HDMI4" || $name == "HDMI3" || $name == "HDMI2" || $name == "HDMI1" || $name == "Enyo (2.6) App Container" || $name == "Dangbei" || $name == "Agent" || $name == "Live TV" || $name != "Mode Expo." && $name != "InputCommon" && $name != "DvrPopup" && substr($name,0,4) != "Live" && $name != "Local Control Panel" && $name != "User Agreement" && $name != "QML Factorywin" && $name != "Publicité" && $name != "Thirdparty Login" && $name != "Viewer" && $name != "Service clientèle"  && $name != "Connected Red Button"){
+                if (
+                    $name != "Première utilisation" &&
+                    $name != "Configurer votre téléviseur pour Google Assistant" &&
+                    $name != "My Starter" &&
+                    $name != "Magic Number" &&
+                    $name != "Google Assistant" &&
+                    $name != "HDMI4" &&
+                    $name != "HDMI3" &&
+                    $name != "HDMI2" &&
+                    $name != "HDMI1" &&
+                    $name != "Enyo (2.6) App Container" &&
+                    $name != "Dangbei" &&
+                    $name != "Agent" &&
+                    $name != "Live TV" &&
+                    $name != "Mode Expo." &&
+                    $name != "InputCommon" &&
+                    $name != "DvrPopup" &&
+                    substr($name, 0, 4) != "Live" &&
+                    $name != "Local Control Panel" &&
+                    $name != "User Agreement" &&
+                    $name != "QML Factorywin" &&
+                    $name != "Publicité" &&
+                    $name != "Thirdparty Login" &&
+                    $name != "Viewer" &&
+                    $name != "Service clientèle" &&
+                    $name != "Connected Red Button"
+                ) {
                     //log::add('WebOStvLG', 'debug', '| NEW APP :' . substr($name,0,4));
                 $webosTvCmd = $this->getCmd(null, $name);
                 if ( !is_object($webosTvCmd) ) {
