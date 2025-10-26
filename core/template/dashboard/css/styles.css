@@ -2,7 +2,6 @@
    STYLES GLOBAUX
    ============================= */
 
-/* Conteneur global télécommande */
 .lg-remote-widget, .WebOStvLG {
   display: inline-block;
   padding: 16px;
@@ -18,8 +17,7 @@
 .lg-remote-widget button,
 .WebOStvLG button{
   border: none;
-  border-radius: 50px;                /* arrondi total */
-  /*padding: 10px 14px;*/
+  border-radius: 50px;               
   font-size: 14px;
   font-weight: bold;
   color: #fff;
@@ -29,12 +27,29 @@
   transition: all 0.2s ease;
 }
 
-/* Conteneur horizontal des boutons WebOS */
+.lg-remote-widget .header-pad {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 100px;
+  margin-bottom: 10px;
+}
+
+.lg-remote-widget .header-pad button {
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #333, #444);
+  font-size: 16px;
+  color: white;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+}
+
 .horizontal-buttons {
-  display: flex;                /* met les enfants (boutons) en ligne */
-  flex-wrap: wrap;              /* passe à la ligne si ça déborde */
-  justify-content: center;      /* centre horizontalement */
-  gap: 12px;                    /* espace entre les boutons */
+  display: flex;                
+  flex-wrap: wrap;            
+  justify-content: center;     
+  gap: 12px;                   
   margin: 5px auto;
   padding: 5px;
 }
@@ -45,7 +60,6 @@
   justify-content: center;
 }
 
-/* --------- Variante : carrousel scroll horizontal --------- */
 .horizontal-scroll {
   display: flex !important;
   gap: 5px;
@@ -59,8 +73,6 @@
   display: inline-flex !important;
 }
 
-
-/* Hover et active */
 .lg-remote-widget button:hover,
 .WebOStvLG button:hover {
   background: linear-gradient(145deg, #444, #555);
@@ -89,7 +101,7 @@
 .lg-remote-widget .nav-pad button {
   width: 60px;
   height: 60px;
-  border-radius: 50%;  /* boutons ronds */
+  border-radius: 50%; 
   font-size: 16px;
   background: linear-gradient(145deg, #333, #444);
 }
@@ -100,6 +112,34 @@
   font-size: 16px;
   font-weight: bold;
   box-shadow: 0 5px 10px rgba(0,0,0,0.5);
+}
+
+.lg-remote-widget .extra-keys {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-top: 20px;
+}
+
+.lg-remote-widget .group-volume,
+.lg-remote-widget .group-channel {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  
+}
+
+.lg-remote-widget .group-volume button {
+  width: 60px;
+  height: 45px;
+  border-radius: 10px;
+  font-size: 14px;
+}
+.lg-remote-widget .group-channel button {
+  width: 60px;
+  height: 45px;
+  border-radius: 10px;
+  font-size: 14px;
 }
 
 /* =============================
@@ -115,63 +155,37 @@
 .lg-remote-widget .colors button {
   width: 60px;
   height: 35px;
-  border-radius: 50px; /* pilule arrondie */
+  border-radius: 50px; 
   font-size: 13px;
   font-weight: bold;
   color: #fff;
   box-shadow: 0 4px 8px rgba(0,0,0,0.3);
 }
 
-.lg-remote-widget .colors .blue   { background: linear-gradient(145deg, #2f6bff, #1a4ad9); }
-.lg-remote-widget .colors .green  { background: linear-gradient(145deg, #2bb673, #1e8a56); }
-.lg-remote-widget .colors .yellow { background: linear-gradient(145deg, #ffc54d, #e0a800); color: #222; }
-.lg-remote-widget .colors .red    { background: linear-gradient(145deg, #ff4b4b, #cc0000); }
+.lg-remote-widget .colors .bleu   { background: linear-gradient(145deg, #2f6bff, #1a4ad9); }
+.lg-remote-widget .colors .vert  { background: linear-gradient(145deg, #2bb673, #1e8a56); }
+.lg-remote-widget .colors .jaune { background: linear-gradient(145deg, #ffc54d, #e0a800); color: #222; }
+.lg-remote-widget .colors .rouge    { background: linear-gradient(145deg, #ff4b4b, #cc0000); }
 
-/* =============================
-   VOLUME ET CHAÎNES
-   ============================= */
-.lg-remote-widget .extra-keys {
-  display: grid;
-  grid-template-columns: repeat(4, 70px);
-  gap: 10px;
-  justify-content: center;
-  margin-top: 16px;
-}
 
-.lg-remote-widget .extra-keys button {
-  width: 70px;
-  height: 45px;
-  font-size: 14px;
-  border-radius: 50px;
-}
-
-.lg-remote-widget .extra-keys .volume-up,
-.lg-remote-widget .extra-keys .volume-down {
-  background: linear-gradient(145deg, #555, #666);
-}
-
-.lg-remote-widget .extra-keys .channel-up,
-.lg-remote-widget .extra-keys .channel-down {
-  background: linear-gradient(145deg, #777, #888);
-}
 
 /* =============================
    BOUTONS PERSONNALISÉS WEBOS
    ============================= */
 .custom_base {
   height: 50px;
-  width: 55px; /* un peu plus large que haut */
+  width: 55px; 
   font-size: 16px;
   display: inline-flex !important;
   align-items: center;
   justify-content: center;
-  border-radius: 16px !important;   /* arrondi mais pas rond */
+  border-radius: 16px !important;  
   background: linear-gradient(145deg, #0e03a0, #e60000) !important;
   color: #13b2ce !important;
   cursor: pointer;
   padding: 0;
 
-  /* Ombre visible */
+
   box-shadow: 0 4px 10px rgba(0,0,0,0.6),
               0 2px 5px rgba(0,0,0,0.4) !important;
 
@@ -186,24 +200,18 @@
               0 3px 8px rgba(0,0,0,0.5) !important;
 }
 
-/*.custom_base:active {
-  transform: scale(0.9);
-}*/
-
 .custom_entree {
   height: 50px;
-  width: 55px; /* un peu plus large que haut */
+  width: 55px; 
   font-size: 16px;
   display: inline-flex !important;
   align-items: center;
   justify-content: center;
-  border-radius: 16px !important;   /* arrondi mais pas rond */
+  border-radius: 16px !important;   
   background: linear-gradient(145deg, #cccbca, #29282e) !important;
   color: #13b2ce !important;
   cursor: pointer;
   padding: 0;
-
-  /* Ombre visible */
   box-shadow: 0 4px 10px rgba(0,0,0,0.6),
               0 2px 5px rgba(0,0,0,0.4) !important;
 
@@ -218,27 +226,20 @@
               0 3px 8px rgba(0,0,0,0.5) !important;
 }
 
-/*.custom_entree:active {
-  transform: scale(0.9);
-}*/
-
 .custom_media {
   height: 50px;
-  width: 55px; /* un peu plus large que haut */
+  width: 55px;
   font-size: 16px;
   display: inline-flex !important;
   align-items: center;
   justify-content: center;
-  border-radius: 16px !important;   /* arrondi mais pas rond */
+  border-radius: 16px !important;  
   background: linear-gradient(145deg, #1f884b, #d0dd13) !important;
   color: #010708 !important;
   cursor: pointer;
   padding: 0;
-
-  /* Ombre visible */
   box-shadow: 0 4px 10px rgba(0,0,0,0.6),
               0 2px 5px rgba(0,0,0,0.4) !important;
-
   transition: all 0.18s ease !important;
   border: none;
 }
@@ -250,71 +251,97 @@
               0 3px 8px rgba(0,0,0,0.5) !important;
 }
 
-/*.custom_media:active {
-  transform: scale(0.9);
-}*/
-
 .channel_tnt {
   border-radius: 16px !important;
-  font-size: 16px;    /* arrondi du bouton */
-  overflow: hidden;       /* masque ce qui dépasse */
-  padding: 0;             /* pour que l'image remplisse tout */
-  width: 55px;            /* largeur du bouton */
-  height: 55px;           /* hauteur du bouton */
+  font-size: 16px;    
+  overflow: hidden;      
+  padding: 0;            
+  width: 55px;            
+  height: 55px;          
   display: inline-flex !important;
   align-items: center;
   justify-content: center;
   border: none;
   background: none;     
-  
-  /* Ombre visible */
   box-shadow: 0 4px 10px rgba(0,0,0,0.6),
-              0 2px 5px rgba(0,0,0,0.4) !important;/* ou ton dégradé si tu veux */
+              0 2px 5px rgba(0,0,0,0.4) !important;
 }
 
 .channel_tnt img {
   width: 100%;
   height: 100%;
-  object-fit: inherit;      /* l’image remplit tout en gardant les proportions */
+  object-fit: inherit;      
   display: flex;
 }
+
 .channel_tnt:hover {
   transform: translateY(-3px);
 }
 
-/*.channel_tnt:active {
-  transform: scale(1.2);
-}*/
-
 .application {
   border-radius: 16px !important;
-  font-size: 16px;    /* arrondi du bouton */
-  overflow: hidden;       /* masque ce qui dépasse */
-  padding: 0;             /* pour que l'image remplisse tout */
-  width: 55px;            /* largeur du bouton */
-  height: 55px;           /* hauteur du bouton */
+  font-size: 16px;    
+  overflow: hidden;       
+  padding: 0;             
+  width: 55px;           
+  height: 55px;           
   display: inline-flex !important;
   align-items: center;
   justify-content: center;
   border: none;
   background: none;     
-  
-  /* Ombre visible */
   box-shadow: 0 4px 10px rgba(0,0,0,0.6),
-              0 2px 5px rgba(0,0,0,0.4) !important;/* ou ton dégradé si tu veux */
+              0 2px 5px rgba(0,0,0,0.4) !important;
 }
 
 .application img {
   width: 100%;
   height: 100%;
-  object-fit: inherit;      /* l’image remplit tout en gardant les proportions */
+  object-fit: inherit;     
   display: flex;
   transition: transform 0.25s ease;
 }
 .application:hover {
- transform: translateY(-3px);
+  transform: translateY(-3px) scale(1.1);
+  filter: brightness(1.2);
 }
 
+/* =============================
+   COULEURS AVEC EFFET NÉON (compatible WebOStvLG)
+   ============================= */
+button.Rouge, button.rouge {
+  background: radial-gradient(circle at top left, #ff7373, #b30000);
+  box-shadow: 0 0 10px #ff3b3b, 0 0 25px #ff3b3b, 0 0 40px #b30000;
+  color: white;
+  transition: all 0.25s ease;
+}
+
+button.Vert, button.vert {
+  background: radial-gradient(circle at top left, #4dff91, #00b35a);
+  box-shadow: 0 0 10px #00ff6a, 0 0 25px #00ff6a, 0 0 40px #009e4a;
+  color: white;
+  transition: all 0.25s ease;
+}
+
+button.Jaune, button.jaune {
+  background: radial-gradient(circle at top left, #fff071, #d4aa00);
+  box-shadow: 0 0 10px #ffdb4d, 0 0 25px #ffdb4d, 0 0 40px #d4aa00;
+  color: #222;
+  transition: all 0.25s ease;
+}
+
+button.Bleu, button.bleu {
+  background: radial-gradient(circle at top left, #4da6ff, #005ce6);
+  box-shadow: 0 0 10px #1e90ff, 0 0 25px #1e90ff, 0 0 40px #005ce6;
+  color: white;
+  transition: all 0.25s ease;
+}
+
+button.Rouge:hover, button.Vert:hover, button.Jaune:hover, button.Bleu:hover,
+button.rouge:hover, button.vert:hover, button.jaune:hover, button.bleu:hover {
+  transform: translateY(-3px) scale(1.1);
+  filter: brightness(1.2);
+}
 /* =============================
    FIN DU CSS
    ============================= */
