@@ -1,0 +1,361 @@
+/* =============================
+   STYLES GLOBAUX
+   ============================= */
+
+.lg-remote-widget {
+  display: inline-block;
+  padding: 16px;
+  background: #1e1e1e;
+  border-radius: 20px;
+  margin-top: 12px;
+  text-align: center;
+  font-family: Arial, sans-serif;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.5);
+}
+
+/* Style général des boutons */
+.lg-remote-widget button,
+.WebOStvLG button{
+  border: none;
+  border-radius: 50px;               
+  font-size: 14px;
+  font-weight: bold;
+  color: #fff;
+  cursor: pointer;
+  background: linear-gradient(145deg, #2b2b2b, #3d3d3d);
+  box-shadow: 0 4px 8px rgba(253, 251, 251, 0.4);
+  transition: all 0.2s ease;
+}
+
+.lg-remote-widget .header-pad {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 100px;
+  margin-bottom: 10px;
+}
+
+.lg-remote-widget .header-pad button {
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #333, #444);
+  font-size: 16px;
+  color: white;
+  box-shadow: 0 4px 10px rgba(250, 248, 248, 0.5);
+}
+
+.horizontal-buttons {
+  display: flex;                
+  flex-wrap: wrap;            
+  justify-content: center;     
+  gap: 12px;                   
+  margin: 5px auto;
+  padding: 5px;
+}
+
+.horizontal-buttons > * {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+}
+
+.horizontal-scroll {
+  display: flex !important;
+  gap: 5px;
+  padding: 3px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  white-space: nowrap;
+}
+.horizontal-scroll > * {
+  flex: 0 0 auto;
+  display: inline-flex !important;
+}
+
+
+.lg-remote-widget button:hover,
+.WebOStvLG button:hover {
+  background: linear-gradient(145deg, #444, #555);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.5);
+}
+
+.lg-remote-widget button:active,
+.WebOStvLG button:active {
+  transform: scale(0.93);
+  box-shadow: 0 3px 6px rgba(0,0,0,0.3);
+}
+
+/* =============================
+   PAVÉ DIRECTIONNEL
+   ============================= */
+.lg-remote-widget .nav-pad {
+  display: grid;
+  grid-template-columns: 60px 60px 60px;
+  grid-template-rows: 60px 60px 60px;
+  gap: 10px;
+  justify-content: center;
+  margin: 14px auto;
+}
+
+.lg-remote-widget .nav-pad button {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%; 
+  font-size: 16px;
+  background: linear-gradient(145deg, #333, #444);
+}
+
+.lg-remote-widget .nav-pad .ok {
+  background: linear-gradient(145deg, #0a84ff, #0066cc);
+  color: #fff;
+  font-size: 16px;
+  font-weight: bold;
+  
+}
+
+.lg-remote-widget .extra-keys {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-top: 20px;
+}
+
+.lg-remote-widget .group-volume,
+.lg-remote-widget .group-channel {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  
+}
+
+.lg-remote-widget .label-v::before {
+  content: "V";
+  color: #aaa;
+  font-weight: bold;
+  margin-bottom: -4px;
+}
+
+.lg-remote-widget .label-p::before {
+  content: "P";
+  color: #aaa;
+  font-weight: bold;
+  margin-bottom: -4px;
+}
+
+.lg-remote-widget .group-volume button {
+  width: 60px;
+  height: 45px;
+  border-radius: 10px;
+  font-size: 14px;
+}
+.lg-remote-widget .group-channel button {
+  width: 60px;
+  height: 45px;
+  border-radius: 10px;
+  font-size: 14px;
+}
+
+/* =============================
+   BOUTONS COULEURS
+   ============================= */
+.lg-remote-widget .colors {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.lg-remote-widget .colors button {
+  width: 60px;
+  height: 35px;
+  font-size: 13px;
+  font-weight: bold;
+  color: #fff;
+  
+}
+
+.lg-remote-widget .colors .bleu   { background: linear-gradient(145deg, #2f6bff, #1a4ad9); }
+.lg-remote-widget .colors .vert  { background: linear-gradient(145deg, #2bb673, #1e8a56); }
+.lg-remote-widget .colors .jaune { background: linear-gradient(145deg, #ffc54d, #e0a800); color: #222; }
+.lg-remote-widget .colors .rouge    { background: linear-gradient(145deg, #ff4b4b, #cc0000); }
+
+
+
+/* =============================
+   BOUTONS PERSONNALISÉS WEBOS
+   ============================= */
+.custom_base {
+  height: 50px;
+  width: 55px; 
+  font-size: 16px;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px !important;  
+  background: linear-gradient(145deg, #0e03a0, #e60000) !important;
+  color: #13b2ce !important;
+  cursor: pointer;
+  padding: 0;
+
+
+  box-shadow: 0 4px 10px rgba(0,0,0,0.6),
+              0 2px 5px rgba(0,0,0,0.4) !important;
+
+  transition: all 0.18s ease !important;
+  border: none;
+}
+
+.custom_base:hover {
+  transform: translateY(-3px);
+  background: linear-gradient(145deg, #c53e09, #3800d1) !important;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.7),
+              0 3px 8px rgba(0,0,0,0.5) !important;
+}
+
+.custom_entree {
+  height: 50px;
+  width: 55px; 
+  font-size: 16px;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px !important;   
+  background: linear-gradient(145deg, #cccbca, #29282e) !important;
+  color: #13b2ce !important;
+  cursor: pointer;
+  padding: 0;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.6),
+              0 2px 5px rgba(0,0,0,0.4) !important;
+
+  transition: all 0.18s ease !important;
+  border: none;
+}
+
+.custom_entree:hover {
+   transform: translateY(-3px);
+  background: linear-gradient(145deg, #29282e, #cccbca) !important;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.7),
+              0 3px 8px rgba(0,0,0,0.5) !important;
+}
+
+.custom_media {
+  height: 50px;
+  width: 55px;
+  font-size: 16px;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px !important;  
+  background: linear-gradient(145deg, #1f884b, #d0dd13) !important;
+  color: #010708 !important;
+  cursor: pointer;
+  padding: 0;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.6),
+              0 2px 5px rgba(0,0,0,0.4) !important;
+  transition: all 0.18s ease !important;
+  border: none;
+}
+
+.custom_media:hover {
+  transform: translateY(-3px);
+  background: linear-gradient(145deg, #d0dd13, #1f884b) !important;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.7),
+              0 3px 8px rgba(0,0,0,0.5) !important;
+}
+
+.channel_tnt {
+  border-radius: 16px !important;
+  font-size: 16px;    
+  overflow: hidden;      
+  padding: 0;            
+  width: 55px;            
+  height: 55px;          
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: none;     
+  box-shadow: 0 4px 10px rgba(0,0,0,0.6),
+              0 2px 5px rgba(0,0,0,0.4) !important;
+}
+
+.channel_tnt img {
+  width: 100%;
+  height: 100%;
+  object-fit: inherit;      
+  display: flex;
+}
+
+.channel_tnt:hover {
+  transform: translateY(-3px);
+}
+
+.application {
+  border-radius: 16px !important;
+  font-size: 16px;    
+  overflow: hidden;       
+  padding: 0;             
+  width: 55px;           
+  height: 55px;           
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: none;     
+  box-shadow: 0 4px 10px rgba(0,0,0,0.6),
+              0 2px 5px rgba(0,0,0,0.4) !important;
+}
+
+.application img {
+  width: 100%;
+  height: 100%;
+  object-fit: inherit;     
+  display: flex;
+  transition: transform 0.25s ease;
+}
+.application:hover {
+  transform: translateY(-3px) scale(1.1);
+  filter: brightness(1.2);
+}
+
+/* =============================
+   COULEURS AVEC EFFET NÉON (compatible WebOStvLG)
+   ============================= */
+button.Rouge, button.rouge {
+  background: radial-gradient(circle at top left, #ff7373, #b30000);
+  box-shadow: 0 0 10px #ff3b3b, 0 0 25px #ff3b3b, 0 0 40px #b30000;
+  color: white;
+  transition: all 0.25s ease;
+}
+
+button.Vert, button.vert {
+  background: radial-gradient(circle at top left, #4dff91, #00b35a);
+  box-shadow: 0 0 10px #00ff6a, 0 0 25px #00ff6a, 0 0 40px #009e4a;
+  color: white;
+  transition: all 0.25s ease;
+}
+
+button.Jaune, button.jaune {
+  background: radial-gradient(circle at top left, #fff071, #d4aa00);
+  box-shadow: 0 0 10px #ffdb4d, 0 0 25px #ffdb4d, 0 0 40px #d4aa00;
+  color: #222;
+  transition: all 0.25s ease;
+}
+
+button.Bleu, button.bleu {
+  background: radial-gradient(circle at top left, #4da6ff, #005ce6);
+  box-shadow: 0 0 10px #1e90ff, 0 0 25px #1e90ff, 0 0 40px #005ce6;
+  color: white;
+  transition: all 0.25s ease;
+}
+
+button.Rouge:hover, button.Vert:hover, button.Jaune:hover, button.Bleu:hover,
+button.rouge:hover, button.vert:hover, button.jaune:hover, button.bleu:hover {
+  transform: translateY(-3px) scale(1.1);
+  filter: brightness(1.2);
+}
+/* =============================
+   FIN DU CSS
+   ============================= */
