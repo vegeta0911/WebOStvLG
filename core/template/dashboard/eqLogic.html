@@ -121,6 +121,16 @@
       }
     });
     
+    const reorderGroup = (selector, positive, negative) => { 
+      const group = $(selector); 
+      const plus = group.find(`.${positive}`); 
+      const minus = group.find(`.${negative}`); 
+      if (plus.length && minus.length) { 
+        group.empty().append(plus).append(minus); 
+        console.log(`🔄 Réordonné ${selector} : ${positive} au-dessus de ${negative}`);
+      } 
+    }; 
+    reorderGroup('.group-volume', 'Volume\\+', 'Volume-'); reorderGroup('.group-channel', 'Channel\\+', 'Channel-');
     if (groupChannel.find('.label-p').length === 0) {
       const labelP = $('<div class="label-p"></div>');
       groupChannel.children().first().after(labelP);
