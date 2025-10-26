@@ -1,6 +1,62 @@
 {
     "commands": [
         {
+            "name": "Volume-",
+            "configuration": {
+                "modif": "--name ",
+                "modif1": " volumeDown",
+                "request": "--name \"TV_LG\" --ssl volumeDown",
+                "parameters": "connect_input home",
+                "dashicon": "<i class='icon fas fa-angle-down'><\/i>",
+                "description": "Volume-",
+                "group": "remote"
+            },
+            "type": "action",
+            "subtype": "other"
+        },
+        {
+            "name": "Volume+",
+            "configuration": {
+                "modif": "--name ",
+                "modif1": " volumeUp",
+                "request": "--name \"TV_LG\" --ssl volumeUp",
+                "parameters": "connect_input home",
+                "dashicon": "<i class='icon fas fa-angle-up'><\/i>",
+                "description": "Volume+",
+                "group": "remote"
+            },
+            "type": "action",
+            "subtype": "other"
+        },
+        {
+            "name": "Channel-",
+            "configuration": {
+                "modif": "--name ",
+                "modif1": " inputChannelDown",
+                "request": "--name \"TV_LG\" --ssl inputChannelDown",
+                "parameters": "connect_input home",
+                "dashicon": "<i class='icon fas fa-angle-down'><\/i>",
+                "description": "Channel -",
+                "group": "remote"
+            },
+            "type": "action",
+            "subtype": "other"
+        },
+        {
+            "name": "Channel+",
+            "configuration": {
+                "modif": "--name ",
+                "modif1": " inputChannelUp",
+                "request": "--name \"TV_LG\" --ssl inputChannelUp",
+                "parameters": "connect_input home",
+                "dashicon": "<i class='icon fas fa-angle-up'><\/i>",
+                "description": "Channel +",
+                "group": "remote"
+            },
+            "type": "action",
+            "subtype": "other"
+        },
+        {
             "name": "Accueil",
             "configuration": {
                 "modif": "--name ",
@@ -105,8 +161,8 @@
                 "modif1": " sendButton blue",
                 "request": "--name \"TV_LG\" --ssl sendButton blue",
                 "parameters": "connect_input info",
-                "description": "Info",
-                "dashicon": "<i class='fas fa-info'><\/i>",
+                "description": "",
+                "dashicon": "",
                 "group": "remote"
             },
             "type": "action",
@@ -119,8 +175,8 @@
                 "modif1": " sendButton green",
                 "request": "--name \"TV_LG\" --ssl sendButton green",
                 "parameters": "connect_input dash",
-                "description": "Dash",
-                "dashicon": "Dash",
+                "description": "",
+                "dashicon": "",
                 "group": "remote"
             },
             "type": "action",
@@ -133,8 +189,8 @@
                 "modif1": " sendButton yellow",
                 "request": "--name \"TV_LG\" --ssl sendButton yellow",
                 "parameters": "connect_input dash",
-                "description": "Dash",
-                "dashicon": "<i class='blue'><\/i>",
+                "description": "",
+                "dashicon": "",
                 "group": "remote"
             },
             "type": "action",
@@ -147,8 +203,8 @@
                 "modif1": " sendButton red",
                 "request": "--name \"TV_LG\" --ssl sendButton red",
                 "parameters": "connect_input dash",
-                "description": "Dash",
-                "dashicon": "Dash",
+                "description": "",
+                "dashicon": "",
                 "group": "remote"
             },
             "type": "action",
