@@ -27,20 +27,117 @@
       #group_channels#
     </div>      
       
-        <div style="display: inline-block">
+    <div class="horizontal-buttons">
 			#group_apps#
 		</div>
       
-         <div style="display: inline-block">
-            #group_remote#
-         </div>  
-      
-        <div style="display: inline-table"></div>        
+    <div >
+      #group_remote#
+    </div>  
+       
 	</div>	
 </div>
  
 
 <script>
+  (function() {
+  console.log('⏳ Attente du widget LG WebOS...');
+
+  const waitForWidget = setInterval(function() {
+    const widget = $('.lg-remote-widget, .WebOStvLG');
+    if (widget.length && widget.find('.cmd_webosTv').length) {
+      clearInterval(waitForWidget);
+      console.log('⚙️ WebOStvLG JS initialisé ✅');
+      initRemote(widget);
+    }
+  }, 500);
+
+  function initRemote(widget) {
+    
+    const ensureContainer = (cls, position) => {
+      let div = widget.find('.' + cls);
+      if (div.length === 0) {
+        div = $('<div class="' + cls + '"></div>');
+        if (position === 'top') widget.prepend(div);
+        else widget.append(div);
+        console.log(`✅ Conteneur .${cls} créé`);
+      }
+      return div;
+    };
+
+    const navPad    = ensureContainer('nav-pad');
+    const headerPad = ensureContainer('header-pad');
+    const extraKeys = ensureContainer('extra-keys');
+    const colorPad  = ensureContainer('colors');
+    const navNames = ['haut', 'bas', 'gauche', 'droite', 'ok'];
+    const colorNames = ['bleu', 'rouge', 'vert', 'jaune'];
+    const headerNames = ['accueil', 'retour'];
+    const extraNames = ['volume+', 'volume-', 'channel+', 'channel-'];
+    const groupVolume = $('<div class="group-volume"></div>');
+    const groupChannel = $('<div class="group-channel"></div>');
+
+    extraKeys.append(groupVolume, groupChannel);
+
+    widget.find('.cmd_webosTv').each(function() {
+      const $btn = $(this);
+      const classes = ($btn.attr('class') || '').split(' ');
+      const lname = classes.find(c =>
+        [...navNames, ...colorNames, ...headerNames, ...extraNames]
+          .includes(c.toLowerCase())
+      );
+      if (!lname) return;
+
+      const name = lname.toLowerCase();
+
+      if (navNames.includes(name)) {
+        $btn.appendTo(navPad);
+        switch (name) {
+          case 'haut':   $btn.css('grid-area', '1 / 2'); break;
+          case 'bas':    $btn.css('grid-area', '3 / 2'); break;
+          case 'gauche': $btn.css('grid-area', '2 / 1'); break;
+          case 'droite': $btn.css('grid-area', '2 / 3'); break;
+          case 'ok':     $btn.addClass('ok').css('grid-area', '2 / 2'); break;
+        }
+        console.log('🎯 Bouton nav déplacé :', name);
+      }
+      else if (colorNames.includes(name)) {
+        $btn.appendTo(colorPad).addClass(name);
+        console.log('🎨 Bouton couleur déplacé :', name);
+      }
+      else if (headerNames.includes(name)) {
+        $btn.appendTo(headerPad);
+        console.log('🔝 Bouton header déplacé :', name);
+      }
+      else if (extraNames.includes(name)) {
+        
+        if (name === 'volume+' || name === 'volume-') {
+          $btn.appendTo(groupVolume);
+        }
+        
+        if (name === 'channel+' || name === 'channel-') {
+          $btn.appendTo(groupChannel);
+        }
+        console.log('🔊 Bouton extra déplacé :', name);
+      }
+    });
+    
+    if (groupChannel.find('.label-p').length === 0) {
+      const labelP = $('<div class="label-p">P</div>');
+      groupChannel.children().first().after(labelP);
+    }
+
+    if (groupVolume.find('.label-v').length === 0) {
+      const labelP = $('<div class="label-v">V</div>');
+      groupVolume.children().first().after(labelP);
+    }
+    
+    console.log('✅ Réorganisation complète terminée');
+  }
+})();
+
+
+
+
       $(function() {
 			$('.WebOStvLG .cmd').on('click', function() {
 				var el = $('.WebOStvLG[data-eqLogic_uid=#uid#] .statusCmd');
