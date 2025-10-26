@@ -125,7 +125,7 @@
 .lg-remote-widget .group-volume,
 .lg-remote-widget .group-channel {
   display: flex;
-  flex-direction: column-reverse;
+  flex-direction: column;
   gap: 10px;
   
 }
